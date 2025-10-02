@@ -152,7 +152,7 @@ const Header: React.FC = () => {
 						{/* Subscribe Button */}
 						<Link
 							to="/subscribe"
-							className="border border-gray-300 text-gray-700 hover:border-gsp-navy hover:text-gsp-navy px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
+							className="border border-gray-300 text-gray-200 bg-black hover:border-gsp-navy px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
 						>
 							SUBSCRIBE
 						</Link>
