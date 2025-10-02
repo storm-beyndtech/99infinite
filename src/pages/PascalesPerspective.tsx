@@ -4,7 +4,7 @@ import ArticleGrid from '../components/insights/ArticleGrid';
 import InsightsPagination from '../components/insights/InsightsPagination';
 
 // Import the blog data
-import blogData from '../../../blog_posts_complete_data.json';
+import blogData from '../data/blog_posts_complete_data.json';
 
 interface BlogData {
   metadata: {

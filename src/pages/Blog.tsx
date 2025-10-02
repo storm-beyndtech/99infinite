@@ -6,7 +6,7 @@ import BlogGrid from '../components/blog/BlogGrid';
 import BlogPagination from '../components/blog/BlogPagination';
 
 // Import the compiled posts data
-import postsData from '../../../GSP/compiled-json/posts.json';
+import postsData from '../data/posts.json';
 
 interface BlogPost {
   id: number;

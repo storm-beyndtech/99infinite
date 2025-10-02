@@ -3,7 +3,7 @@ import FinancingsHeroSection from '../components/financings/FinancingsHeroSectio
 import FinancingsFilters from '../components/financings/FinancingsFilters';
 import FinancingsGrid from '../components/financings/FinancingsGrid';
 import FinancingsPagination from '../components/financings/FinancingsPagination';
-import financingsData from '../../../GSP/compiled-json/financings.json';
+import financingsData from '../data/financings.json';
 
 interface Financing {
   id: number;

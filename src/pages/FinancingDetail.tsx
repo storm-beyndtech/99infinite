@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, MapPin, Building, Calendar, DollarSign } from 'lucide-react';
 
 // Import the compiled financings data
-import financingsData from '../../../GSP/compiled-json/financings.json';
+import financingsData from '../data/financings.json';
 
 interface FinancingStats {
   list_title: string;
