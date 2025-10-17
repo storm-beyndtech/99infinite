@@ -1,6 +1,5 @@
 import React from 'react';
 import { RegistrationProvider, useRegistration } from '../../../contexts/RegistrationContext';
-import Step1Start from './Step1Start';
 import Step2PersonalData from './Step2PersonalData';
 import Step3Investment from './Step3Investment';
 import Step4Overview from './Step4Overview';
@@ -11,8 +10,6 @@ const RegistrationSteps: React.FC = () => {
 
   const renderStep = () => {
     switch (state.step) {
-      case 1:
-        return <Step1Start />;
       case 2:
         return <Step2PersonalData />;
       case 3:
@@ -22,7 +19,7 @@ const RegistrationSteps: React.FC = () => {
       case 5:
         return <Step5KYC />;
       default:
-        return <Step1Start />;
+        return <Step2PersonalData />;
     }
   };
 

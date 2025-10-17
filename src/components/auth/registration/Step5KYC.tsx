@@ -93,7 +93,7 @@ const Step5KYC: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Verification & Checkout</h1>
-              <p className="text-purple-100">Step 5 of 5 - Complete Your Registration</p>
+              <p className="text-purple-100">Step 4 of 4 - Complete Your Registration</p>
             </div>
             <div className="flex items-center space-x-2">
               <Shield className="w-8 h-8" />

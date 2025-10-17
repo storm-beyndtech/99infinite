@@ -98,7 +98,7 @@ const ExpertiseSection: React.FC = () => {
 
 				<div className="text-left lg:text-center mt-12">
 					<Link
-						to="/services"
+						to="/gold"
 						className="inline-flex items-center bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4 text-lg font-semibold tracking-wide transition-all duration-300 rounded-lg hover:scale-105 hover:shadow-xl"
 					>
 						View All Services

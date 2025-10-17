@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import {
-	TrendingUp,
-	BarChart,
-	DollarSign,
-	MapPin,
-	Users,
-	Award,
-	Building,
-	Globe2,
-} from "lucide-react";
+import { TrendingUp, MapPin, Users, Award, Building, Globe2 } from "lucide-react";
 import teambanner from "../assets/teambanner.png";
+import ExpertiseSection from "../components/home/ExpertiseSection";
 
 const About: React.FC = () => {
 	const [activeTimelineItem, setActiveTimelineItem] = useState(0);
@@ -140,7 +132,7 @@ const About: React.FC = () => {
 					<div className="relative">
 						{/* Timeline Line - Hidden on mobile, visible on desktop */}
 						<div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-cyan-200 via-blue-300 to-cyan-200 rounded-full"></div>
-						
+
 						{/* Mobile Timeline Line - Left aligned */}
 						<div className="lg:hidden absolute left-6 top-0 w-1 h-full bg-gradient-to-b from-cyan-200 via-blue-300 to-cyan-200 rounded-full"></div>
 
@@ -152,26 +144,28 @@ const About: React.FC = () => {
 									className={`relative ${
 										// Mobile: all items left-aligned
 										// Desktop: alternating layout
-										'lg:flex lg:items-center'
-									} ${
-										index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-									}`}
+										"lg:flex lg:items-center"
+									} ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"}`}
 									onMouseEnter={() => setActiveTimelineItem(index)}
 								>
 									{/* Content Card */}
-									<div className={`
+									<div
+										className={`
 										ml-16 lg:ml-0 lg:w-5/12 
 										${index % 2 === 0 ? "lg:pr-8 lg:text-right" : "lg:pl-8 lg:text-left"}
-									`}>
+									`}
+									>
 										<div
 											className={`group bg-white/80 backdrop-blur-sm p-6 lg:p-8 rounded-2xl border border-gray-100/50 hover:border-cyan-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${
 												activeTimelineItem === index ? "shadow-2xl -translate-y-2 border-cyan-200" : ""
 											}`}
 										>
 											{/* Mobile & Desktop Icon/Year Layout */}
-											<div className={`flex items-center gap-3 mb-4 
+											<div
+												className={`flex items-center gap-3 mb-4 
 												${index % 2 === 0 ? "lg:justify-end" : "lg:justify-start"}
-											`}>
+											`}
+											>
 												<div
 													className={`w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br ${item.color} rounded-[35%] flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300`}
 												>
@@ -185,12 +179,14 @@ const About: React.FC = () => {
 													{item.year}
 												</div>
 											</div>
-											
+
 											{/* Title and Description - Left aligned on mobile */}
 											<h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors duration-300 text-left lg:text-inherit">
 												{item.title}
 											</h3>
-											<p className="text-gray-600 leading-relaxed text-left lg:text-inherit">{item.description}</p>
+											<p className="text-gray-600 leading-relaxed text-left lg:text-inherit">
+												{item.description}
+											</p>
 										</div>
 									</div>
 
@@ -225,7 +221,9 @@ const About: React.FC = () => {
 			{/* Nationwide Presence Section */}
 			<section className="py-16 bg-white">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<h2 className="text-3xl font-bold text-gsp-navy text-left lg:text-center mb-12">Nationwide Presence</h2>
+					<h2 className="text-3xl font-bold text-gsp-navy text-left lg:text-center mb-12">
+						Nationwide Presence
+					</h2>
 					{/* GSP Nationwide Presence Map */}
 					<div className="rounded-lg overflow-hidden">
 						<img
@@ -355,49 +353,7 @@ const About: React.FC = () => {
 			</section>
 
 			{/* Service Feature Boxes */}
-			<section className="py-16 bg-gray-50">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="grid md:grid-cols-3 gap-8">
-						{/* Creative Financing Box */}
-						<div className="bg-white p-8 rounded-lg shadow-sm">
-							<div className="mb-4">
-								<TrendingUp className="h-12 w-12 text-cyanbg-cyan-600" />
-							</div>
-							<h3 className="text-xl font-bold text-gsp-navy mb-4">
-								Creative Financing for Complex Projects
-							</h3>
-							<p className="text-gray-600 text-sm leading-relaxed">
-								With integrity and transparency at our core, we structure flexible financing solutions for
-								complex projects, including construction, land, and bridge loans.
-							</p>
-						</div>
-
-						{/* Market Insights Box */}
-						<div className="bg-white p-8 rounded-lg shadow-sm">
-							<div className="mb-4">
-								<BarChart className="h-12 w-12 text-cyanbg-cyan-600" />
-							</div>
-							<h3 className="text-xl font-bold text-gsp-navy mb-4">Market Insights That Drive Results</h3>
-							<p className="text-gray-600 text-sm leading-relaxed">
-								Leveraging proprietary software, real-time data, and industry expertise, our team navigates
-								market shifts and optimizes capital strategies with confidence.
-							</p>
-						</div>
-
-						{/* Tailored Solutions Box */}
-						<div className="bg-white p-8 rounded-lg shadow-sm">
-							<div className="mb-4">
-								<DollarSign className="h-12 w-12 text-cyanbg-cyan-600" />
-							</div>
-							<h3 className="text-xl font-bold text-gsp-navy mb-4">Tailored Capital Solutions</h3>
-							<p className="text-gray-600 text-sm leading-relaxed">
-								From bridge and construction financing for acquisitions, refinance/recapitalizations,
-								development and historic adaptive reuse, we're committed to delivering the best result.
-							</p>
-						</div>
-					</div>
-				</div>
-			</section>
+			<ExpertiseSection />
 		</div>
 	);
 };

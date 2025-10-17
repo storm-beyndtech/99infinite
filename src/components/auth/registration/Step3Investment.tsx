@@ -137,11 +137,11 @@ const Step3Investment: React.FC = () => {
 		<div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-100 flex items-center justify-center p-4">
 			<div className="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
 				{/* Header */}
-				<div className="bg-gradient-to-r from-yellow-500 to-amber-600 text-white p-6">
+				<div className="bg-cyan-700 text-white p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Investment Selection</h1>
-							<p className="text-yellow-100">Step 3 of 5 - Choose Your Products</p>
+							<p className="text-yellow-100">Step 2 of 4 - Choose Your Products</p>
 						</div>
 						<div className="flex items-center space-x-2">
 							<ShoppingCart className="w-8 h-8" />

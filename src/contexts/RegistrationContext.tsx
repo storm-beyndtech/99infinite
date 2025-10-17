@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, type ReactNode } from 'react';
+import { createContext, useContext, useReducer, useCallback, type ReactNode } from 'react';
 import type { KYCData, PersonalInfo, Portfolio, RegistrationFormState, ValidationErrors } from '../types/auth.types';
 
 // Registration Actions
@@ -15,7 +15,7 @@ type RegistrationAction =
 
 // Initial State
 const initialState: RegistrationFormState = {
-  step: 1,
+  step: 2,
   personalInfo: {
     title: 'Mr',
     firstName: '',
@@ -152,58 +152,58 @@ interface RegistrationProviderProps {
 export function RegistrationProvider({ children }: RegistrationProviderProps) {
   const [state, dispatch] = useReducer(registrationReducer, initialState);
 
-  // Action creators
-  const setStep = (step: number) => {
+  // Action creators with useCallback to prevent infinite loops
+  const setStep = useCallback((step: number) => {
     dispatch({ type: 'SET_STEP', payload: step });
-  };
+  }, []);
 
-  const updatePersonalInfo = (data: Partial<PersonalInfo>) => {
+  const updatePersonalInfo = useCallback((data: Partial<PersonalInfo>) => {
     dispatch({ type: 'UPDATE_PERSONAL_INFO', payload: data });
-  };
+  }, []);
 
-  const updatePortfolio = (data: Partial<Portfolio>) => {
+  const updatePortfolio = useCallback((data: Partial<Portfolio>) => {
     dispatch({ type: 'UPDATE_PORTFOLIO', payload: data });
-  };
+  }, []);
 
-  const updateKYC = (data: Partial<KYCData>) => {
+  const updateKYC = useCallback((data: Partial<KYCData>) => {
     dispatch({ type: 'UPDATE_KYC', payload: data });
-  };
+  }, []);
 
-  const updatePassword = (password?: string, confirmPassword?: string) => {
+  const updatePassword = useCallback((password?: string, confirmPassword?: string) => {
     dispatch({ type: 'UPDATE_PASSWORD', payload: { password, confirmPassword } });
-  };
+  }, []);
 
-  const setStepValidity = (step: keyof RegistrationFormState['isValid'], isValid: boolean) => {
+  const setStepValidity = useCallback((step: keyof RegistrationFormState['isValid'], isValid: boolean) => {
     dispatch({ type: 'SET_STEP_VALIDITY', payload: { step, isValid } });
-  };
+  }, []);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     dispatch({ type: 'RESET_FORM' });
-  };
+  }, []);
 
-  const setErrors = (errors: ValidationErrors) => {
+  const setErrors = useCallback((errors: ValidationErrors) => {
     dispatch({ type: 'SET_ERRORS', payload: errors });
-  };
+  }, []);
 
-  const clearErrors = () => {
+  const clearErrors = useCallback(() => {
     dispatch({ type: 'CLEAR_ERRORS' });
-  };
+  }, []);
 
   // Navigation helpers
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     if (state.step < 5) {
       setStep(state.step + 1);
     }
-  };
+  }, [state.step, setStep]);
 
-  const prevStep = () => {
-    if (state.step > 1) {
+  const prevStep = useCallback(() => {
+    if (state.step > 2) {
       setStep(state.step - 1);
     }
-  };
+  }, [state.step, setStep]);
 
   // Validation helper
-  const canProceed = (step: number): boolean => {
+  const canProceed = useCallback((step: number): boolean => {
     switch (step) {
       case 1:
         return state.isValid.step1;
@@ -218,10 +218,10 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
       default:
         return false;
     }
-  };
+  }, [state.isValid]);
 
   // Get complete registration data
-  const getRegistrationData = () => {
+  const getRegistrationData = useCallback(() => {
     return {
       personalInfo: state.personalInfo,
       portfolio: state.portfolio,
@@ -229,7 +229,7 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
       password: state.password,
       confirmPassword: state.confirmPassword,
     };
-  };
+  }, [state.personalInfo, state.portfolio, state.kyc, state.password, state.confirmPassword]);
 
   const contextValue: RegistrationContextType = {
     state,
