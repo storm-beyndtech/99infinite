@@ -38,7 +38,7 @@ const HeroSection: React.FC = () => {
 								style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}
 							>
 								<p className="max-w-lg mx-auto text-base sm:text-lg mb-8 font-light tracking-wide text-white/90">
-									Helping real estate owners, operators, and investors finance and capitalize on their next
+									Helping Gold asset owners, operators, and investors finance and capitalize on their next
 									investment.
 								</p>
 							</div>

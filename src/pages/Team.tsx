@@ -5,6 +5,7 @@ import TeamFilterButton from "../components/team/TeamFilterButton";
 import TeamMemberGrid from "../components/team/TeamMemberGrid";
 import TeamMemberProfile from "../components/team/TeamMemberProfile";
 import FilterModal from "../components/team/FilterModal";
+import BoardOfDirectors from "../components/BoardOfDirectors";
 
 // Types
 interface TeamMember {
@@ -76,6 +77,7 @@ export default function GSPTeamPage() {
 	return (
 		<>
 			<TeamHeroSection />
+			<BoardOfDirectors showAll={true} showCTA={false} />
 			<TeamFilterButton onFilterClick={handleFilterClick} />
 			<TeamMemberGrid
 				members={paginatedMembers}

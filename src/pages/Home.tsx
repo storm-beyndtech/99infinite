@@ -2,8 +2,11 @@ import React from "react";
 import HeroSection from "../components/home/HeroSection";
 import MarketRatesSection from "../components/home/MarketRatesSection";
 import ExpertiseSection from "../components/home/ExpertiseSection";
-import StatisticsSection from "../components/home/StatisticsSection";
-import RecentFinancingsSection from "../components/home/RecentFinancingsSection";
+import StepsSection from "../components/home/StepsSection";
+import BoardOfDirectors from "../components/BoardOfDirectors";
+import gold from "../assets/Gold-2.png";
+import ReportSection from "../components/home/ReportSection";
+import GoldSection from "../components/home/GoldSection";
 
 const Home: React.FC = () => {
 	return (
@@ -11,8 +14,11 @@ const Home: React.FC = () => {
 			<HeroSection />
 			<MarketRatesSection />
 			<ExpertiseSection />
-			<StatisticsSection />
-			<RecentFinancingsSection />
+			<BoardOfDirectors showAll={false} showCTA={true} />
+			<ReportSection />
+			<StepsSection />
+			<img src={gold} alt="gold" />
+			<GoldSection />
 		</div>
 	);
 };

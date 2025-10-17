@@ -1,5 +1,19 @@
 import axios from 'axios';
-import type { BlogPost, TeamMember, Financing, Podcast, MarketRate } from '../types';
+import type { TeamMember, MarketRate } from '../types';
+import type { 
+  LoginRequest, 
+  RegistrationRequest,
+  User as AuthUser 
+} from '../types/auth.types';
+
+// Local interface to avoid import issues
+interface AuthResponse {
+  success: boolean;
+  message: string;
+  user?: AuthUser;
+  token?: string;
+  refreshToken?: string;
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -37,16 +51,6 @@ api.interceptors.response.use(
   }
 );
 
-// API functions
-export const blogApi = {
-  getAll: (params?: { page?: number; category?: string; search?: string }) => 
-    api.get<{ posts: BlogPost[]; total: number; pages: number }>('/blog', { params }),
-  getBySlug: (slug: string) => api.get<BlogPost>(`/blog/${slug}`),
-  create: (data: Partial<BlogPost>) => api.post<BlogPost>('/blog', data),
-  update: (id: string, data: Partial<BlogPost>) => api.put<BlogPost>(`/blog/${id}`, data),
-  delete: (id: string) => api.delete(`/blog/${id}`),
-};
-
 export const teamApi = {
   getAll: () => api.get<TeamMember[]>('/team'),
   getById: (id: string) => api.get<TeamMember>(`/team/${id}`),
@@ -55,42 +59,43 @@ export const teamApi = {
   delete: (id: string) => api.delete(`/team/${id}`),
 };
 
-export const financingApi = {
-  getAll: (params?: { page?: number; type?: string; featured?: boolean }) => 
-    api.get<{ financings: Financing[]; total: number; pages: number }>('/financings', { params }),
-  getBySlug: (slug: string) => api.get<Financing>(`/financings/${slug}`),
-  create: (data: Partial<Financing>) => api.post<Financing>('/financings', data),
-  update: (id: string, data: Partial<Financing>) => api.put<Financing>(`/financings/${id}`, data),
-  delete: (id: string) => api.delete(`/financings/${id}`),
-};
-
-export const podcastApi = {
-  getAll: (params?: { page?: number }) => 
-    api.get<{ podcasts: Podcast[]; total: number; pages: number }>('/podcasts', { params }),
-  getBySlug: (slug: string) => api.get<Podcast>(`/podcasts/${slug}`),
-  create: (data: Partial<Podcast>) => api.post<Podcast>('/podcasts', data),
-  update: (id: string, data: Partial<Podcast>) => api.put<Podcast>(`/podcasts/${id}`, data),
-  delete: (id: string) => api.delete(`/podcasts/${id}`),
-};
-
 export const marketRateApi = {
   getAll: () => api.get<MarketRate[]>('/market-rates'),
   update: (id: string, data: Partial<MarketRate>) => api.put<MarketRate>(`/market-rates/${id}`, data),
 };
 
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  role?: string;
-}
-
 export const authApi = {
-  login: (credentials: { email: string; password: string }) => 
-    api.post<{ token: string; user: User }>('/auth/login', credentials),
-  register: (userData: { email: string; password: string; name: string }) => 
-    api.post<{ token: string; user: User }>('/auth/register', userData),
-  getProfile: () => api.get<User>('/auth/profile'),
+  // Authentication endpoints
+  login: (credentials: LoginRequest) => 
+    api.post<AuthResponse>('/auth/login', credentials),
+  register: (userData: RegistrationRequest) => 
+    api.post<AuthResponse>('/auth/register', userData),
+  refresh: (refreshToken: string) => 
+    api.post<AuthResponse>('/auth/refresh', { refreshToken }),
+  logout: () => 
+    api.post<AuthResponse>('/auth/logout'),
+    
+  // Profile endpoints
+  getProfile: () => 
+    api.get<{ success: boolean; user: AuthUser }>('/auth/profile'),
+  updateProfile: (profileData: Partial<AuthUser['personalInfo']>) => 
+    api.put<AuthResponse>('/auth/profile', profileData),
+  changePassword: (passwordData: { currentPassword: string; newPassword: string; confirmPassword: string }) => 
+    api.post<AuthResponse>('/auth/change-password', passwordData),
+    
+  // Password reset endpoints
+  forgotPassword: (email: string) => 
+    api.post<AuthResponse>('/auth/forgot-password', { email }),
+  resetPassword: (token: string, password: string) => 
+    api.post<AuthResponse>(`/auth/reset-password/${token}`, { password }),
+    
+  // Email verification
+  verifyEmail: (token: string) => 
+    api.get<AuthResponse>(`/auth/verify-email/${token}`),
+    
+  // Health check
+  healthCheck: () => 
+    api.get<{ success: boolean; message: string; timestamp: string }>('/auth/health'),
 };
 
 export default api;

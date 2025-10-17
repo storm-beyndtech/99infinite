@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
+import logo from "../../assets/logo-2-dark.png";
 
 const Header: React.FC = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,17 +36,18 @@ const Header: React.FC = () => {
 	const navigation = [
 		{ name: "ABOUT", href: "/about", hasDropdown: false },
 		{ name: "TEAM", href: "/team", hasDropdown: false },
-		{ name: "FINANCINGS", href: "/financings" },
-		{ name: "SERVICES", href: "/services" },
+		{ name: "GOLD", href: "/gold", hasDropdown: false },
+		{ name: "ANNUAL REPORT", href: "/annual-report", hasDropdown: false },
 		{
-			name: "INSIGHTS",
-			href: "/blog",
+			name: "PROJECTS",
+			href: "/mining",
 			hasDropdown: true,
 			dropdownItems: [
-				{ name: "99infinite Insights", href: "/blog" },
-				{ name: "Hot Money", href: "/insights/hot-money" },
-				{ name: "Pascale's Perspective", href: "/insights/pascales-perspective" },
-				{ name: "The Landscape Podcast", href: "/podcast" },
+				{ name: "Mining", href: "/mining" },
+				{ name: "Agriculture", href: "/agriculture" },
+				{ name: "Oil And Gas", href: "/oil-and-gas" },
+				{ name: "Philanthropy", href: "/philanthropy" },
+				{ name: "Retirement", href: "/retirement" },
 			],
 		},
 		{ name: "CONTACT", href: "/contact" },
@@ -69,7 +71,7 @@ const Header: React.FC = () => {
 	const handleDropdownLeave = () => {
 		const timeout = setTimeout(() => {
 			setActiveDropdown(null);
-		}, 300);
+		}, 150);
 		setDropdownTimeout(timeout);
 	};
 
@@ -84,7 +86,7 @@ const Header: React.FC = () => {
 	const handleDropdownMenuLeave = () => {
 		const timeout = setTimeout(() => {
 			setActiveDropdown(null);
-		}, 300);
+		}, 150);
 		setDropdownTimeout(timeout);
 	};
 
@@ -93,18 +95,9 @@ const Header: React.FC = () => {
 			<nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-20">
 					{/* Logo */}
-					<div className="flex items-center">
-						<Link to="/" className="flex items-center">
-							<div className="text-3xl font-bold text-gsp-navy tracking-tight">
-								<span className="text-4xl">9</span>9
-							</div>
-							<div className="ml-2 text-xs text-gray-600 leading-tight">
-								INFINITE
-								<br />
-								CAPITAL
-							</div>
-						</Link>
-					</div>
+					<Link to="/">
+						<img src={logo} alt="logo" className="h-9" />
+					</Link>
 
 					{/* Desktop Navigation */}
 					<div className="hidden lg:flex items-center space-x-8">
@@ -130,20 +123,22 @@ const Header: React.FC = () => {
 								{/* Dropdown Menu */}
 								{item.hasDropdown && item.dropdownItems && activeDropdown === item.name && (
 									<div
-										className="absolute top-full left-0 mt-1 w-52 bg-white shadow-xl border border-gray-200 rounded-lg z-50"
+										className="absolute top-full left-0 pt-2 w-52 z-50"
 										onMouseEnter={() => handleDropdownMenuEnter(item.name)}
 										onMouseLeave={handleDropdownMenuLeave}
 									>
-										{item.dropdownItems.map((dropdownItem) => (
-											<Link
-												key={dropdownItem.name}
-												to={dropdownItem.href}
-												className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gsp-navy transition-colors"
-												onClick={() => setActiveDropdown(null)}
-											>
-												{dropdownItem.name}
-											</Link>
-										))}
+										<div className="bg-white shadow-xl border border-gray-200 rounded-lg">
+											{item.dropdownItems.map((dropdownItem) => (
+												<Link
+													key={dropdownItem.name}
+													to={dropdownItem.href}
+													className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gsp-navy transition-colors"
+													onClick={() => setActiveDropdown(null)}
+												>
+													{dropdownItem.name}
+												</Link>
+											))}
+										</div>
 									</div>
 								)}
 							</div>
@@ -151,10 +146,10 @@ const Header: React.FC = () => {
 
 						{/* Subscribe Button */}
 						<Link
-							to="/subscribe"
+							to="/register"
 							className="border border-gray-300 text-gray-200 bg-black hover:border-gsp-navy px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
 						>
-							SUBSCRIBE
+							GET STARTED
 						</Link>
 					</div>
 
@@ -259,11 +254,11 @@ const Header: React.FC = () => {
 
 								{/* Subscribe Button */}
 								<Link
-									to="/subscribe"
+									to="/register"
 									className="block mt-8 py-3 px-6 border-2 border-cyan-400 text-center text-cyan-400 hover:bg-cyan-400 hover:text-cyan-900 font-semibold tracking-wide transition-colors rounded-lg"
 									onClick={() => setIsMenuOpen(false)}
 								>
-									SUBSCRIBE
+									Get Started
 								</Link>
 							</div>
 						</div>

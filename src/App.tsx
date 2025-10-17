@@ -2,16 +2,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
-import Services from './pages/Services';
-import Financings from './pages/Financings';
-import FinancingDetail from './pages/FinancingDetail';
-import Blog from './pages/Blog';
-import Podcast from './pages/Podcast';
 import Contact from './pages/Contact';
-import HotMoney from './pages/HotMoney';
-import PascalesPerspective from './pages/PascalesPerspective';
-import Subscribe from './pages/Subscribe';
 import Team from './pages/Team';
+import Gold from './pages/Gold';
+import AnnualReport from './pages/AnnualReport';
+import Mining from './pages/projects/Mining';
+import Agriculture from './pages/projects/Agriculture';
+import OilAndGas from './pages/projects/OilAndGas';
+import Philanthropy from './pages/projects/Philanthropy';
+import Retirement from './pages/projects/Retirement';
+import Register from './pages/auth/Register';
+import RegistrationSuccess from './pages/auth/RegistrationSuccess';
 
 function App() {
   return (
@@ -21,16 +22,20 @@ function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="team" element={<Team />} />
-          <Route path="services" element={<Services />} />
-          <Route path="financings" element={<Financings />} />
-          <Route path="financings/:slug" element={<FinancingDetail />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="podcast" element={<Podcast />} />
+          <Route path="team/:slug" element={<Team />} />
+          <Route path="gold" element={<Gold />} />
+          <Route path="annual-report" element={<AnnualReport />} />
+          <Route path="mining" element={<Mining />} />
+          <Route path="agriculture" element={<Agriculture />} />
+          <Route path="oil-and-gas" element={<OilAndGas />} />
+          <Route path="philanthropy" element={<Philanthropy />} />
+          <Route path="retirement" element={<Retirement />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="insights/hot-money" element={<HotMoney />} />
-          <Route path="insights/pascales-perspective" element={<PascalesPerspective />} />
-          <Route path="subscribe" element={<Subscribe />} />
         </Route>
+        {/* Auth routes outside of Layout */}
+        <Route path="register" element={<Register />} />
+        <Route path="auth/register" element={<Register />} />
+        <Route path="auth/success" element={<RegistrationSuccess />} />
       </Routes>
     </Router>
   );
