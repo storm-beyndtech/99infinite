@@ -4,7 +4,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { ChevronLeft, Shield, CreditCard, FileText, CheckCircle, AlertTriangle, Loader } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const Step5KYC: React.FC = () => {
+const Step4KYC: React.FC = () => {
   const { state, updateKYC, updatePassword, prevStep, setStepValidity, getRegistrationData, resetForm } = useRegistration();
   const { register, state: authState } = useAuth();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const Step5KYC: React.FC = () => {
 
     setErrors(newErrors);
     const isValid = Object.keys(newErrors).length === 0;
-    setStepValidity('step5', isValid);
+    setStepValidity('step4', isValid);
     return isValid;
   };
 
@@ -387,4 +387,4 @@ const Step5KYC: React.FC = () => {
   );
 };
 
-export default Step5KYC;
+export default Step4KYC;

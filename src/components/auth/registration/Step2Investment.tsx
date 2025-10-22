@@ -3,7 +3,7 @@ import { useRegistration } from "../../../contexts/RegistrationContext";
 import { ChevronLeft, ChevronRight, Plus, Minus, ShoppingCart, TrendingUp } from "lucide-react";
 import type { InvestmentProduct, InvestmentProductType } from "../../../types/auth.types";
 
-const Step3Investment: React.FC = () => {
+const Step2Investment: React.FC = () => {
 	const { state, updatePortfolio, nextStep, prevStep, setStepValidity } = useRegistration();
 	const [selectedProducts, setSelectedProducts] = useState<InvestmentProduct[]>(
 		state.portfolio.products || [],
@@ -76,7 +76,7 @@ const Step3Investment: React.FC = () => {
 		});
 
 		// Validate step (minimum one product)
-		setStepValidity("step3", selectedProducts.length > 0 && total >= 100);
+		setStepValidity("step2", selectedProducts.length > 0 && total >= 100);
 	}, [selectedProducts, updatePortfolio, setStepValidity]);
 
 	const addProduct = (productType: InvestmentProductType) => {
@@ -357,4 +357,4 @@ const Step3Investment: React.FC = () => {
 	);
 };
 
-export default Step3Investment;
+export default Step2Investment;

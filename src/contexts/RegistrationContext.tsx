@@ -15,7 +15,7 @@ type RegistrationAction =
 
 // Initial State
 const initialState: RegistrationFormState = {
-  step: 2,
+  step: 1,
   personalInfo: {
     title: 'Mr',
     firstName: '',
@@ -191,13 +191,13 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
 
   // Navigation helpers
   const nextStep = useCallback(() => {
-    if (state.step < 5) {
+    if (state.step < 4) {
       setStep(state.step + 1);
     }
   }, [state.step, setStep]);
 
   const prevStep = useCallback(() => {
-    if (state.step > 2) {
+    if (state.step > 1) {
       setStep(state.step - 1);
     }
   }, [state.step, setStep]);
@@ -213,8 +213,6 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
         return state.isValid.step3;
       case 4:
         return state.isValid.step4;
-      case 5:
-        return state.isValid.step5;
       default:
         return false;
     }

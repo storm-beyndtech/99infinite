@@ -1,25 +1,25 @@
 import React from 'react';
 import { RegistrationProvider, useRegistration } from '../../../contexts/RegistrationContext';
-import Step2PersonalData from './Step2PersonalData';
-import Step3Investment from './Step3Investment';
-import Step4Overview from './Step4Overview';
-import Step5KYC from './Step5KYC';
+import Step1PersonalData from './Step1PersonalData';
+import Step2Investment from './Step2Investment';
+import Step3Overview from './Step3Overview';
+import Step4KYC from './Step4KYC';
 
 const RegistrationSteps: React.FC = () => {
   const { state } = useRegistration();
 
   const renderStep = () => {
     switch (state.step) {
+      case 1:
+        return <Step1PersonalData />;
       case 2:
-        return <Step2PersonalData />;
+        return <Step2Investment />;
       case 3:
-        return <Step3Investment />;
+        return <Step3Overview />;
       case 4:
-        return <Step4Overview />;
-      case 5:
-        return <Step5KYC />;
+        return <Step4KYC />;
       default:
-        return <Step2PersonalData />;
+        return <Step1PersonalData />;
     }
   };
 

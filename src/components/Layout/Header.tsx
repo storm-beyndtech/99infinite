@@ -40,7 +40,7 @@ const Header: React.FC = () => {
 		{ name: "ANNUAL REPORT", href: "/annual-report", hasDropdown: false },
 		{
 			name: "PROJECTS",
-			href: "/mining",
+			href: "#",
 			hasDropdown: true,
 			dropdownItems: [
 				{ name: "Mining", href: "/mining" },
@@ -108,17 +108,30 @@ const Header: React.FC = () => {
 								onMouseEnter={() => item.hasDropdown && handleDropdownEnter(item.name)}
 								onMouseLeave={handleDropdownLeave}
 							>
-								<Link
-									to={item.href}
-									className={`flex items-center px-1 py-2 text-sm font-semibold tracking-wide transition-colors ${
-										isActive(item.href)
-											? "text-gsp-navy border-b-2 border-gsp-teal"
-											: "text-gray-700 hover:text-gsp-navy"
-									}`}
-								>
-									{item.name}
-									{item.hasDropdown && <ChevronDown className="ml-1 h-4 w-4" />}
-								</Link>
+								{item.hasDropdown ? (
+									<button
+										onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+										className={`flex items-center px-1 py-2 text-sm font-semibold tracking-wide transition-colors ${
+											activeDropdown === item.name
+												? "text-gsp-navy border-b-2 border-gsp-teal"
+												: "text-gray-700 hover:text-gsp-navy"
+										}`}
+									>
+										{item.name}
+										<ChevronDown className="ml-1 h-4 w-4" />
+									</button>
+								) : (
+									<Link
+										to={item.href}
+										className={`flex items-center px-1 py-2 text-sm font-semibold tracking-wide transition-colors ${
+											isActive(item.href)
+												? "text-gsp-navy border-b-2 border-gsp-teal"
+												: "text-gray-700 hover:text-gsp-navy"
+										}`}
+									>
+										{item.name}
+									</Link>
+								)}
 
 								{/* Dropdown Menu */}
 								{item.hasDropdown && item.dropdownItems && activeDropdown === item.name && (
@@ -209,28 +222,28 @@ const Header: React.FC = () => {
 									<div key={item.name}>
 										{/* Main Menu Item */}
 										<div className="flex items-center justify-between">
-											<Link
-												to={item.href}
-												className={`flex-1 block py-3 text-base font-semibold tracking-wide transition-colors ${
-													isActive(item.href) ? "text-cyan-400" : "text-white hover:text-cyan-400"
-												}`}
-												onClick={() => !item.hasDropdown && setIsMenuOpen(false)}
-											>
-												{item.name}
-											</Link>
-
-											{/* Dropdown Toggle */}
-											{item.hasDropdown && (
+											{item.hasDropdown ? (
 												<button
 													onClick={() => setMobileDropdown(mobileDropdown === item.name ? null : item.name)}
-													className="p-2 text-white hover:text-cyan-400 transition-colors"
+													className="flex-1 flex items-center justify-between py-3 text-base font-semibold tracking-wide transition-colors text-white hover:text-cyan-400"
 												>
+													<span>{item.name}</span>
 													{mobileDropdown === item.name ? (
 														<ChevronUp className="h-4 w-4" />
 													) : (
 														<ChevronDown className="h-4 w-4" />
 													)}
 												</button>
+											) : (
+												<Link
+													to={item.href}
+													className={`flex-1 block py-3 text-base font-semibold tracking-wide transition-colors ${
+														isActive(item.href) ? "text-cyan-400" : "text-white hover:text-cyan-400"
+													}`}
+													onClick={() => setIsMenuOpen(false)}
+												>
+													{item.name}
+												</Link>
 											)}
 										</div>
 

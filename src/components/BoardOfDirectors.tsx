@@ -13,7 +13,7 @@ const BoardOfDirectors: React.FC<BoardOfDirectorsProps> = ({ showAll = true, sho
 	return (
 		<section className="py-16 bg-gray-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<h2 className="text-lg font-family-sans italic text-gray-600 sm:text-[1.8rem] mb-10">
+				<h2 className="text-lg font-medium italic text-gray-800 sm:text-[1.8rem] mb-10">
 					Our distinguished board brings together decades of expertise across gold assets, mining,
 					agriculture, finance, and sustainable development to guide 99Infinite's strategic vision.
 				</h2>
@@ -24,7 +24,11 @@ const BoardOfDirectors: React.FC<BoardOfDirectorsProps> = ({ showAll = true, sho
 							key={member.id}
 							className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
 						>
-							<img src={member.image} alt={member.title} className="w-full h-80 object-cover" />
+							<img
+								src={member.image}
+								alt={member.title}
+								className="w-full h-80 object-cover"
+							/>
 							<div className="p-6">
 								<h3 className="text-xl font-semibold text-gray-900 mb-2">{member.title}</h3>
 								<p className="text-blue-600 font-medium mb-3">{member.department}</p>

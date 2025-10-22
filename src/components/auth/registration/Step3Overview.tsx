@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useRegistration } from "../../../contexts/RegistrationContext";
 import { ChevronLeft, ChevronRight, User, ShoppingCart, FileText, Edit3, CheckCircle } from "lucide-react";
 
-const Step4Overview: React.FC = () => {
+const Step3Overview: React.FC = () => {
 	const { state, nextStep, prevStep, setStep, setStepValidity } = useRegistration();
 
 	useEffect(() => {
-		// Step 4 is always valid (review only)
-		setStepValidity("step4", true);
+		// Step 3 is always valid (review only)
+		setStepValidity("step3", true);
 	}, [setStepValidity]);
 
 	const productNames = {
@@ -267,4 +267,4 @@ const Step4Overview: React.FC = () => {
 	);
 };
 
-export default Step4Overview;
+export default Step3Overview;

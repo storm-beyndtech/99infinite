@@ -139,24 +139,6 @@ const Gold: React.FC = () => {
 					</div>
 
 					<img src={gold2} alt="gold" className="mb-30" />
-
-					<div className="bg-gradient-to-r from-stone-900 to-stone-950 p-8 text-white shadow-2xl">
-						<h3 className="text-2xl lg:text-3xl font-bold mb-8 text-left lg:text-center">Key Milestones</h3>
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-							<div className="text-left lg:text-center">
-								<div className="text-3xl lg:text-4xl font-bold mb-3">2022</div>
-								<p className="text-yellow-100 text-base lg:text-lg">Jewellery Line Launch</p>
-							</div>
-							<div className="text-left lg:text-center">
-								<div className="text-3xl lg:text-4xl font-bold mb-3">2023</div>
-								<p className="text-yellow-100 text-base lg:text-lg">Bullion Hallmark Introduction</p>
-							</div>
-							<div className="text-left lg:text-center">
-								<div className="text-3xl lg:text-4xl font-bold mb-3">Future</div>
-								<p className="text-yellow-100 text-base lg:text-lg">LBMA Certification Target</p>
-							</div>
-						</div>
-					</div>
 				</div>
 			</section>
 

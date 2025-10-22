@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ChevronRight, User, Mail, MapPin, Phone, Calendar } from "lucide-react";
 import logo2 from "../../../assets/logo-2.png";
 
-const Step2PersonalData: React.FC = () => {
+const Step1PersonalData: React.FC = () => {
 	const { state, updatePersonalInfo, nextStep, setStepValidity } = useRegistration();
 	const [errors, setErrors] = useState<Record<string, string>>({
 		sponsorCode: "Sponsor code is required",
@@ -74,7 +74,7 @@ const Step2PersonalData: React.FC = () => {
 
 		setErrors(newErrors);
 		const isValid = Object.keys(newErrors).length === 0;
-		setStepValidity("step2", isValid);
+		setStepValidity("step1", isValid);
 		return isValid;
 	};
 
@@ -398,4 +398,4 @@ const Step2PersonalData: React.FC = () => {
 	);
 };
 
-export default Step2PersonalData;
+export default Step1PersonalData;

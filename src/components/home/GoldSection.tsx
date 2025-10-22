@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import report from "../../assets/Team-Discussion.png";
+import elevator from "../../assets/Luxurious-Elevator.png";
 
 const GoldSection: React.FC = () => {
 	return (
@@ -15,13 +15,13 @@ const GoldSection: React.FC = () => {
 						</h2>
 						<Link
 							to="/annual-report"
-							className="inline-block bg-stone-800 border border-orange-200 hover:bg-stone-600 text-white px-8 py-3 font-semibold tracking-wide transition-colors duration-200 rounded-lg"
+							className="inline-block bg-cyan-950 border border-cyan-200 hover:bg-stone-600 text-white px-8 py-3 font-semibold tracking-wide transition-colors duration-200 rounded-lg"
 						>
 							View Gold Info
 						</Link>
 					</div>
-					<div className="bg-stone-900 rounded-xl p-6 w-50 h-50">
-						<img src={report} alt="The Report" className=" rounded-lg object-cover" />
+					<div className="bg-cyan-900 rounded-xl p-6 w-70 h-70">
+						<img src={elevator} alt="The Report" className=" rounded-lg object-cover" />
 					</div>
 				</div>
 			</div>

@@ -9,7 +9,7 @@ const ReportSection: React.FC = () => {
 				<div className="grid md:grid-cols-2 gap-12 items-center">
 					<div>
 						<h2 className="text-3xl font-medium mb-6">
-							Since 1992, 99Infinite on average, has closed $5 billion in capital placements annually.
+							Since 2010, 99Infinite on average, has closed $5 billion in capital placements annually.
 						</h2>
 						<Link
 							to="/annual-report"

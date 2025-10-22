@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, Building, DollarSign, CheckCircle } from 'lucide-react';
+import { Mail, MapPin, CheckCircle } from 'lucide-react';
 
 const ContactInfo: React.FC = () => {
   return (
@@ -9,48 +9,31 @@ const ContactInfo: React.FC = () => {
           Get in Touch
         </h2>
         <p className="text-lg text-gray-600">
-          Prefer to speak with someone directly? Reach out to our team using the contact information below.
+          Reach out to our team using the contact information below.
         </p>
       </div>
 
-      {/* Quick Contact */}
+      {/* Contact Information */}
       <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Contact</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-6">Contact Information</h3>
         <div className="space-y-4">
-          <div className="flex items-center">
-            <Phone className="h-5 w-5 text-blue-600 mr-3" />
-            <div>
-              <div className="font-semibold text-gray-900">Main Line</div>
-              <a href="tel:+15551234567" className="text-blue-600 hover:underline">
-                (555) 123-4567
-              </a>
-            </div>
-          </div>
           <div className="flex items-center">
             <Mail className="h-5 w-5 text-blue-600 mr-3" />
             <div>
-              <div className="font-semibold text-gray-900">General Inquiries</div>
-              <a href="mailto:info@99infinite.com" className="text-blue-600 hover:underline">
-                info@99infinite.com
+              <div className="font-semibold text-gray-900">Email</div>
+              <a href="mailto:support@99infinite.com" className="text-blue-600 hover:underline">
+                support@99infinite.com
               </a>
             </div>
           </div>
-          <div className="flex items-center">
-            <Building className="h-5 w-5 text-blue-600 mr-3" />
+          <div className="flex items-start">
+            <MapPin className="h-5 w-5 text-blue-600 mr-3 mt-0.5" />
             <div>
-              <div className="font-semibold text-gray-900">New Transactions</div>
-              <a href="mailto:transactions@99infinite.com" className="text-blue-600 hover:underline">
-                transactions@99infinite.com
-              </a>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <DollarSign className="h-5 w-5 text-blue-600 mr-3" />
-            <div>
-              <div className="font-semibold text-gray-900">Capital Markets</div>
-              <a href="mailto:capital@99infinite.com" className="text-blue-600 hover:underline">
-                capital@99infinite.com
-              </a>
+              <div className="font-semibold text-gray-900">Address</div>
+              <div className="text-gray-600">
+                <div>GOLDEN BEACH QLD 4551</div>
+                <div>Australia</div>
+              </div>
             </div>
           </div>
         </div>
@@ -63,7 +46,7 @@ const ContactInfo: React.FC = () => {
           <div>
             <h4 className="font-semibold text-green-900">24-Hour Response Guarantee</h4>
             <p className="text-green-700 text-sm">
-              We respond to all financing inquiries within 24 hours during business days.
+              We respond to all inquiries within 24 hours during business days.
             </p>
           </div>
         </div>
