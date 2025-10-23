@@ -1,7 +1,7 @@
 import type React from "react";
 import { useState, useEffect } from "react";
 import { Check, X, Shield } from "lucide-react";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "../../contexts/SafeAuthContext";
 import { useToastUtils } from "@/services/toast";
 
 // TypeScript interfaces
@@ -21,7 +21,8 @@ const InvestmentPlan: React.FC = () => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [investmentAmount, setInvestmentAmount] = useState<string>("");
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const { user } = contextData();
+	// User is guaranteed to exist by DashboardLayoutWrapper
+	const { user } = useSafeAuth();
 	const { showSuccessToast, showErrorToast } = useToastUtils();
 
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -239,7 +240,7 @@ const InvestmentPlan: React.FC = () => {
 										placeholder={`Min ${selectedPlan.minAmount.toLocaleString()}`}
 										className="w-full pl-8 pr-4 py-4 border border-white/30 dark:border-slate-600/30 rounded-xl bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent outline-none backdrop-blur-sm transition-all"
 										min={selectedPlan.minAmount}
-										max={user.deposit}
+										max={user?.deposit || 0}
 										step="1"
 										required
 									/>

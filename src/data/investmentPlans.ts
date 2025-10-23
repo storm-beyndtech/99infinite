@@ -1,8 +1,8 @@
-import { GoldInvestmentPlan } from '@/types/investment';
+import type { GoldInvestmentPlan } from '../types/investment';
 
 export const goldInvestmentPlans: GoldInvestmentPlan[] = [
   {
-    id: 'gold-starter',
+    _id: 'gold-starter',
     name: 'Gold Starter',
     tier: 'starter',
     minInvestment: 100,
@@ -24,10 +24,13 @@ export const goldInvestmentPlans: GoldInvestmentPlan[] = [
       primary: 'from-amber-400 to-yellow-500',
       secondary: 'from-amber-50 to-yellow-100',
       accent: 'amber-500'
-    }
+    },
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
-    id: 'gold-standard',
+    _id: 'gold-standard',
     name: 'Gold Standard',
     tier: 'standard',
     minInvestment: 1000,
@@ -50,10 +53,13 @@ export const goldInvestmentPlans: GoldInvestmentPlan[] = [
       primary: 'from-yellow-500 to-amber-600',
       secondary: 'from-yellow-50 to-amber-100',
       accent: 'yellow-600'
-    }
+    },
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
-    id: 'gold-elite',
+    _id: 'gold-elite',
     name: 'Gold Elite',
     tier: 'elite',
     minInvestment: 5000,
@@ -77,10 +83,13 @@ export const goldInvestmentPlans: GoldInvestmentPlan[] = [
       primary: 'from-amber-600 to-orange-600',
       secondary: 'from-amber-100 to-orange-100',
       accent: 'amber-700'
-    }
+    },
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
-    id: 'gold-empire',
+    _id: 'gold-empire',
     name: 'Gold Empire',
     tier: 'empire',
     minInvestment: 20000,
@@ -106,7 +115,10 @@ export const goldInvestmentPlans: GoldInvestmentPlan[] = [
       primary: 'from-orange-600 to-red-600',
       secondary: 'from-orange-100 to-red-100',
       accent: 'orange-700'
-    }
+    },
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ];
 

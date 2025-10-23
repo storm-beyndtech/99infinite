@@ -1,6 +1,6 @@
-import Header from "@/components/Layouts/KycLayout/Header";
+import Header from "@/components/Layout/KycLayout/Header";
 import ProofOfIdentificationForm from "@/components/ProofOfIdentificationForm";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { CheckCircle, Clock, XCircle, FileText, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -188,7 +188,7 @@ const KYCStatusMessage = ({
 };
 
 export default function KYC() {
-	const { user, login } = contextData();
+	const { user, updateUser } = useSafeAuth();
 	const navigate = useNavigate();
 	const [showForm, setShowForm] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
@@ -213,7 +213,7 @@ export default function KYC() {
 
 			if (res.ok) {
 				const data = await res.json();
-				login(data.user);
+				updateUser(data.user);
 			} else {
 				console.error("Failed to refresh user status");
 			}

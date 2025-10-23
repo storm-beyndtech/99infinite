@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Search, Plus, Eye, Loader2 } from "lucide-react";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import DepositSheet from "@/components/deposit-sheet";
 import { useToastUtils } from "@/services/toast";
 import { Link } from "react-router-dom";
@@ -26,7 +26,7 @@ const DepositLog: React.FC = () => {
 	const [selectedDeposit, setSelectedDeposit] = useState<Deposit | null>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-	const { user } = contextData();
+	const { user } = useSafeAuth();
 	const { showErrorToast } = useToastUtils();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const depositsPerPage = 10;

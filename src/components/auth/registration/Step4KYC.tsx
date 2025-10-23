@@ -11,6 +11,7 @@ const Step4KYC: React.FC = () => {
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Form validation
   const validateForm = () => {
@@ -71,8 +72,13 @@ const Step4KYC: React.FC = () => {
       
       if (success) {
         // Registration successful
+        setShowSuccess(true);
         resetForm();
-        navigate('/auth/success'); // Redirect to success page
+        
+        // Redirect to dashboard after 2 seconds
+        setTimeout(() => {
+          navigate('/'); // Redirect to home/dashboard
+        }, 2000);
       } else {
         // Handle registration error
         setErrors({ submit: authState.error || 'Registration failed. Please try again.' });
@@ -86,23 +92,33 @@ const Step4KYC: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      {/* Success Overlay */}
+      {showSuccess && (
+        <div className="fixed inset-0 bg-green-600 bg-opacity-95 flex items-center justify-center z-50">
+          <div className="text-center text-white">
+            <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-full flex items-center justify-center">
+              <CheckCircle className="w-10 h-10 text-green-600" />
+            </div>
+            <h2 className="text-3xl font-bold mb-2">Registration Successful!</h2>
+            <p className="text-lg mb-4">Welcome to 99infinite</p>
+            <p className="text-sm opacity-80">Redirecting to dashboard...</p>
+          </div>
+        </div>
+      )}
+      <div className="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
+        <div className="bg-gray-800 text-white p-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Verification & Checkout</h1>
-              <p className="text-purple-100">Step 4 of 4 - Complete Your Registration</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Shield className="w-8 h-8" />
+              <p className="text-gray-300">Step 4 of 4 - Complete Your Registration</p>
             </div>
           </div>
           
           {/* Progress Bar */}
           <div className="mt-4">
-            <div className="w-full bg-purple-500 rounded-full h-2">
+            <div className="w-full bg-gray-600 rounded-full h-2">
               <div className="bg-white h-2 rounded-full transition-all duration-300" style={{ width: '100%' }}></div>
             </div>
           </div>
@@ -241,7 +257,7 @@ const Step4KYC: React.FC = () => {
                   </label>
                   <input
                     type="password"
-                    value={state.password}
+                    defaultValue={state.password}
                     onChange={(e) => handlePasswordChange('password', e.target.value)}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       errors.password ? 'border-red-500' : 'border-gray-300'
@@ -260,7 +276,7 @@ const Step4KYC: React.FC = () => {
                   </label>
                   <input
                     type="password"
-                    value={state.confirmPassword}
+                    defaultValue={state.confirmPassword}
                     onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
@@ -316,20 +332,20 @@ const Step4KYC: React.FC = () => {
             </div>
 
             {/* Final Investment Summary */}
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl p-6">
-              <h3 className="text-lg font-bold mb-4">Final Investment Summary</h3>
+            <div className="bg-gray-100 rounded-lg p-6">
+              <h3 className="text-lg font-bold mb-4 text-gray-900">Final Investment Summary</h3>
               <div className="grid md:grid-cols-3 gap-4 text-sm">
                 <div>
-                  <p className="text-green-100">Total Investment</p>
-                  <p className="font-bold text-xl">€{state.portfolio.finalSum?.toFixed(2) || '0.00'}</p>
+                  <p className="text-gray-600">Total Investment</p>
+                  <p className="font-bold text-xl text-gray-900">€{state.portfolio.finalSum?.toFixed(2) || '0.00'}</p>
                 </div>
                 <div>
-                  <p className="text-green-100">Products</p>
-                  <p className="font-semibold">{state.portfolio.products?.length || 0} items selected</p>
+                  <p className="text-gray-600">Products</p>
+                  <p className="font-semibold text-gray-900">{state.portfolio.products?.length || 0} items selected</p>
                 </div>
                 <div>
-                  <p className="text-green-100">Payment Method</p>
-                  <p className="font-semibold capitalize">{state.kyc.paymentMethod?.replace('_', ' ')}</p>
+                  <p className="text-gray-600">Payment Method</p>
+                  <p className="font-semibold capitalize text-gray-900">{state.kyc.paymentMethod?.replace('_', ' ')}</p>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { useEffect, useState } from "react";
 import {
 	ArrowDownLeft,
@@ -32,7 +32,7 @@ export default function Withdraw() {
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState<string>("");
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
-	const { user } = contextData();
+	const { user } = useSafeAuth();
 	const { showErrorToast, showSuccessToast } = useToastUtils();
 
 	const fetchCoins = async () => {

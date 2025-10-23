@@ -1,4 +1,4 @@
-import { contextData } from '@/context/AuthContext';
+import { useSafeAuth } from '@/contexts/SafeAuthContext';
 import { RefreshCw, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
@@ -26,7 +26,8 @@ export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [serverError, setServerError] = useState('');
-  const { user } = contextData();
+  // User is guaranteed to exist when this component is used in protected routes
+  const { user } = useSafeAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

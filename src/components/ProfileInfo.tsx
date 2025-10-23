@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { User, Upload, RefreshCw, AlertCircle } from 'lucide-react';
-import { contextData } from '@/context/AuthContext';
+import { useSafeAuth } from '@/contexts/SafeAuthContext';
 
 interface FormData {
   profileImage: File | null;
@@ -54,7 +54,7 @@ const updateProfile = async (data: FormData): Promise<void> => {
 };
 
 export default function ProfileInfo() {
-  const { user } = contextData();
+  const { user } = useSafeAuth();
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -263,7 +263,7 @@ export default function ProfileInfo() {
             {/* User Info Display */}
             <div className="space-y-3 text-sm">
               <div className="text-gray-600 dark:text-gray-400">
-                <p className="font-medium">{user.username}</p>
+                <p className="font-medium">{user?.username || user?.personalInfo?.firstName || 'User'}</p>
                 <p className="text-xs">Username</p>
               </div>
               <div className="text-gray-600 dark:text-gray-400">

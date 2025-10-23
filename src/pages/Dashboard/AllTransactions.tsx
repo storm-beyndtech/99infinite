@@ -10,7 +10,7 @@ import {
 	Wallet,
 	DollarSign,
 } from "lucide-react";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import TransactionSheet from "@/components/transaction-sheet";
 import { useToastUtils } from "@/services/toast";
 
@@ -52,7 +52,7 @@ const AllTransactions: React.FC = () => {
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
 	const { showErrorToast } = useToastUtils();
-	const { user } = contextData();
+	const { user } = useSafeAuth();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const transactionsPerPage = 10;
 

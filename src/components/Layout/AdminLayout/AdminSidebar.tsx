@@ -16,7 +16,7 @@ import {
 	ArrowDownFromLine,
   Coins,
 } from "lucide-react";
-import { contextData } from "@/context/AuthContext";
+import { contextData } from "@/contexts/AuthContext";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
 
 interface SidebarProps {

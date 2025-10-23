@@ -1,13 +1,13 @@
 import EditUserModal from "@/components/EditUserModal";
 import PageLoader from "@/components/PageLoader";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { useEffect, useState } from "react";
 import { TfiSearch } from "react-icons/tfi";
 
 const tableTitles = ["User", "Phone", "Country", "Balance", "Action"]
 
 export default function ActiveUsers() {
-  const { user:admin } = contextData()
+  const { user:admin } = useSafeAuth()
   const [users, setUsers] = useState<any>(null)
   const [filteredUsers, setFilteredUsers] = useState<any>(null)
   const [userData, setUserData] = useState(null)
@@ -104,8 +104,8 @@ export default function ActiveUsers() {
 
                 <td>
                   <div className="min-w-[150px] ps-4 text-xs font-semibold">
-                    <div>deposit: ${user.deposit}</div>
-                    <div>Interest: ${user.interest}</div>
+                    <div>deposit: ${user.deposit || 0}</div>
+                    <div>Interest: ${user.interest || 0}</div>
                   </div>
                 </td>
 

@@ -1,4 +1,4 @@
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { useEffect, useState } from "react";
 import PageLoader from "@/components/PageLoader";
 import { GoInfo } from "react-icons/go";
@@ -24,7 +24,7 @@ export default function Deposit() {
 	const [copySuccess, setCopySuccess] = useState(false);
 	const { showSuccessToast, showErrorToast } = useToastUtils();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
-	const { user } = contextData();
+	const { user } = useSafeAuth();
 	const navigate = useNavigate();
 
 	const fetchCoins = async () => {
@@ -94,7 +94,7 @@ export default function Deposit() {
 			const errorMsg = error.message || "An error occurred while creating the deposit";
 			if (errorMsg === "You have a pending deposit. Please wait for approval.") {
 				setTimeout(() => {
-					navigate("/dashboard/deposits");
+					navigate("/dashboard/deposit-log");
 				}, 2000);
 			}
 			showErrorToast(errorMsg);

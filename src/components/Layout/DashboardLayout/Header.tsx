@@ -1,10 +1,11 @@
 import type React from "react";
-import { LayoutDashboard, LogOut, Menu, User } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, User, User as UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../UI/avatar";
 import { Popover, PopoverTrigger, PopoverContent } from "../../UI/popover";
 import { useEffect, useState } from "react";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
-import { contextData } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
@@ -14,7 +15,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
 	const [mounted, setMounted] = useState(false);
-	const { user, logout } = contextData();
+	const { logout } = useAuth();
+	const { user } = useSafeAuth();
 
 	useEffect(() => {
 		setMounted(true);
@@ -50,14 +52,14 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
 								<Avatar className="w-8 h-8">
 									<AvatarImage src={user.profileImage} alt="User avatar" />
 									<AvatarFallback className="bg-blue-500 text-primary-foreground text-sm">
-										<User />
+										<UserIcon />
 									</AvatarFallback>
 								</Avatar>
 								{/* Active green dot */}
 								<span className="absolute -bottom-0.5 -right-0.5 block w-3 h-3 rounded-full ring-2 ring-background bg-green-500" />
 							</div>
 							<div className="hidden md:flex flex-col items-start">
-								<span className="text-sm font-medium text-foreground dark:text-white">{user.username}</span>
+								<span className="text-sm font-medium text-foreground dark:text-white">{user.username || user.personalInfo?.firstName || 'User'}</span>
 								<span className="text-xs text-muted-foreground">{user.email}</span>
 							</div>
 						</button>
@@ -72,11 +74,11 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
 								<Avatar className="w-8 h-8">
 									<AvatarImage src={user.profileImage} alt="User avatar" />
 									<AvatarFallback className="bg-blue-500 text-primary-foreground text-sm">
-										<User />
+										<UserIcon />
 									</AvatarFallback>
 								</Avatar>
 								<div className="flex flex-col">
-									<span className="text-sm font-medium text-gray-500 dark:text-white">{user.username}</span>
+									<span className="text-sm font-medium text-gray-500 dark:text-white">{user.username || user.personalInfo?.firstName || 'User'}</span>
 									<span className="text-xs text-muted-foreground">{user.email}</span>
 								</div>
 							</div>

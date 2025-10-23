@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Plus, Eye, Loader2, TrendingUp, Shield, Users } from "lucide-react";
 import InvestmentSheet from "@/components/investment-sheet";
 import { Link } from "react-router-dom";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { useToastUtils } from "@/services/toast";
 
 export interface Transaction {
@@ -34,7 +34,7 @@ const InvestmentLog: React.FC = () => {
 	const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 	const { showErrorToast } = useToastUtils();
-	const { user } = contextData();
+	const { user } = useSafeAuth();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const transactionsPerPage = 10;
 
@@ -243,7 +243,7 @@ const InvestmentLog: React.FC = () => {
 								</select>
 
 								<Link
-									to="/dashboard/investment-plan"
+									to="/dashboard/investment-plans"
 									className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-blue-500/25 flex items-center gap-2"
 								>
 									<Plus className="w-4 h-4" />
@@ -275,7 +275,7 @@ const InvestmentLog: React.FC = () => {
 										: "You haven't made any investments yet."}
 								</p>
 								<Link
-									to="/dashboard/investment-plan"
+									to="/dashboard/investment-plans"
 									className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-blue-500/25"
 								>
 									Start Investing

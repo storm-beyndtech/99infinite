@@ -1,33 +1,62 @@
 import { useState, useEffect } from "react";
 import { Coins, TrendingUp, DollarSign, BarChart3, Gem, Shield, ArrowUpRight, Plus } from "lucide-react";
-import { contextData } from "@/context/AuthContext";
-import GoldInvestmentCard from "@/components/dashboard/GoldInvestmentCard";
-import WithdrawalForm from "@/components/dashboard/WithdrawalForm";
-import { goldInvestmentPlans, getCurrentGoldPrice, calculateGoldOunces } from "@/data/investmentPlans";
-import { DashboardStats } from "@/types/investment";
-
-interface User {
-	id: string;
-	username: string;
-	email: string;
-	balance: number;
-	deposit: number;
-	interest: number;
-	totalInvested?: number;
-	goldOunces?: number;
-	activeInvestments?: number;
-}
+import { useSafeAuth } from "../../contexts/SafeAuthContext";
+import GoldInvestmentCard from "../../components/dashboard/GoldInvestmentCard";
+import WithdrawalForm from "../../components/dashboard/WithdrawalForm";
+import { goldInvestmentPlans, getCurrentGoldPrice, calculateGoldOunces } from "../../data/investmentPlans";
+import type { DashboardStats } from "../../types/investment";
 
 const Dashboard = () => {
 	const [goldPrice, setGoldPrice] = useState(0);
 	const [showInvestmentPlans, setShowInvestmentPlans] = useState(false);
 	const [showWithdrawalForm, setShowWithdrawalForm] = useState(false);
+	const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
+	const [loading, setLoading] = useState(true);
 
-	const { user } = contextData() as { user: User };
+	// User is guaranteed to exist by DashboardLayoutWrapper
+	const { user } = useSafeAuth();
+	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	useEffect(() => {
 		setGoldPrice(getCurrentGoldPrice());
+		fetchDashboardStats();
 	}, []);
+
+	const fetchDashboardStats = async () => {
+		try {
+			setLoading(true);
+			const res = await fetch(`${url}/api/users/dashboard/${user._id}`);
+			const data = await res.json();
+			
+			if (res.ok) {
+				setDashboardStats(data);
+			} else {
+				console.error('Failed to fetch dashboard stats:', data.message);
+				// Fallback to mock data
+				setDashboardStats({
+					totalInvested: user.deposit || 0,
+					totalEarnings: user.interest || 0,
+					dailyEarnings: (user.interest || 0) * 0.035,
+					activeInvestments: 0,
+					goldOunces: calculateGoldOunces(user.deposit || 0, goldPrice),
+					portfolioValue: (user.deposit || 0) + (user.interest || 0)
+				});
+			}
+		} catch (error) {
+			console.error('Error fetching dashboard stats:', error);
+			// Fallback to user data
+			setDashboardStats({
+				totalInvested: user.deposit || 0,
+				totalEarnings: user.interest || 0,
+				dailyEarnings: (user.interest || 0) * 0.035,
+				activeInvestments: 0,
+				goldOunces: calculateGoldOunces(user.deposit || 0, goldPrice),
+				portfolioValue: (user.deposit || 0) + (user.interest || 0)
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const handleSelectPlan = (planId: string) => {
 		console.log('Selected plan:', planId);
@@ -47,15 +76,14 @@ const Dashboard = () => {
 		console.log('Withdrawal submitted successfully');
 	};
 
-	// Mock dashboard stats - in real app, fetch from API
-	const dashboardStats: DashboardStats = {
-		totalInvested: user.deposit || 0,
-		totalEarnings: user.interest || 0,
-		dailyEarnings: (user.interest || 0) * 0.035, // Mock daily earnings
-		activeInvestments: user.activeInvestments || 2,
-		goldOunces: user.goldOunces || calculateGoldOunces(user.deposit || 0, 25),
-		portfolioValue: (user.deposit || 0) + (user.interest || 0)
-	};
+	// Show loading spinner while fetching data
+	if (loading || !dashboardStats) {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+			</div>
+		);
+	}
 
 	const today = new Date();
 	const dateString = today.toLocaleDateString(undefined, {
@@ -106,7 +134,7 @@ const Dashboard = () => {
 					<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
 						{goldInvestmentPlans.map((plan, index) => (
 							<GoldInvestmentCard
-								key={plan.id}
+								key={plan._id}
 								plan={plan}
 								onSelect={handleSelectPlan}
 								isPopular={index === 1} // Gold Standard is most popular
@@ -128,7 +156,7 @@ const Dashboard = () => {
 							<h1 className="text-2xl md:text-4xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-3">
 								Welcome back,{" "}
 								<span className="bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-400 dark:to-yellow-400 bg-clip-text text-transparent">
-									{user.username}
+									{user.personalInfo?.firstName || user.firstName || 'User'}
 								</span>
 							</h1>
 							<p className="text-sm text-gray-500 dark:text-gray-400 font-normal tracking-wide">{dateString}</p>

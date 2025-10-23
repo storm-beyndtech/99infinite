@@ -1,8 +1,8 @@
-import { countries } from "@/lib/countries";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { contextData } from "@/context/AuthContext";
 import Alert from "./UI/Alert";
+import { countries } from "@/utils/countries";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function EditUserModal({ userData, handleUserData }: any) {
 	const [fullName, setFullName] = useState("");
@@ -20,7 +20,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState<string | null>(null);
-	const { login } = contextData();
+	const { login } = useAuth();
 	const navigate = useNavigate();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
@@ -33,10 +33,10 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 		setCity(userData.city);
 		setState(userData.state);
 		setZipCode(userData.zipCode);
-		setDeposit(userData.deposit);
-		setInterest(userData.interest);
-		setTrade(userData.trade);
-		setBonus(userData.bonus);
+		setDeposit(userData.deposit || 0);
+		setInterest(userData.interest || 0);
+		setTrade(userData.trade || 0);
+		setBonus(userData.bonus || 0);
 	}, []);
 
 	const handleSubmit = async (e: any) => {
@@ -81,9 +81,8 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	};
 
 	const loginAsUser = () => {
-		login(userData);
-		localStorage.setItem("user", JSON.stringify(userData));
-		navigate("/dashboard/");
+		login(userData.email, userData.password);
+		navigate("/dashboard");
 	};
 
 	const deleteUser = async () => {
@@ -270,7 +269,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 									type="number"
 									id="deposit"
 									className="editUserInput"
-									placeholder={userData.deposit}
+									placeholder={userData.deposit || 0}
 									required
 									min={0}
 								/>

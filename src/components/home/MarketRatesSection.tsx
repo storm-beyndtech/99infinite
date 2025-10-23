@@ -25,6 +25,8 @@ const MarketRatesSection: React.FC = () => {
           order: 1,
           isActive: true,
           historicalData: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
         {
           _id: "2",
@@ -40,6 +42,8 @@ const MarketRatesSection: React.FC = () => {
           order: 2,
           isActive: true,
           historicalData: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
         {
           _id: "3",
@@ -55,6 +59,8 @@ const MarketRatesSection: React.FC = () => {
           order: 3,
           isActive: true,
           historicalData: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
         {
           _id: "4",
@@ -70,6 +76,8 @@ const MarketRatesSection: React.FC = () => {
           order: 4,
           isActive: true,
           historicalData: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
       ]);
       setLoading(false);

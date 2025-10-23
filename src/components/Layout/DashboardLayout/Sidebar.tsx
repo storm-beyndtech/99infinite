@@ -13,7 +13,7 @@ import {
 	X,
   Calendar,
 } from "lucide-react";
-import Logo from "../../../components/Logo";
+import Logo from "@/components/Logo";
 import { ScrollArea } from "../../UI/scroll-area";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
 import fav from "../../../assets/fav.svg";
@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 		{
 			title: "INVESTMENTS",
 			items: [
-				{ icon: Target, label: "Investment Plans", to: "/dashboard/investment-plan" },
+				{ icon: Target, label: "Investment Plans", to: "/dashboard/investment-plans" },
 				{ icon: TrendingUp, label: "My Investments", to: "/dashboard/investments" },
 			],
 		},
@@ -61,10 +61,10 @@ const Sidebar: React.FC<SidebarProps> = ({
 			title: "TRANSACTIONS",
 			items: [
 				{ icon: ArrowUpRight, label: "Deposit", to: "/dashboard/deposit", isButton: true },
-				{ icon: ArrowUpRight, label: "Deposit History", to: "/dashboard/deposits" },
+				{ icon: ArrowUpRight, label: "Deposit History", to: "/dashboard/deposit-log" },
 				{ icon: ArrowDownLeft, label: "Withdraw", to: "/dashboard/withdraw", isButton: true },
-				{ icon: ArrowDownLeft, label: "Withdrawal History", to: "/dashboard/withdrawals" },
-				{ icon: History, label: "All Transactions", to: "/dashboard/all-transactions" },
+				{ icon: ArrowDownLeft, label: "Withdrawal History", to: "/dashboard/withdraw-log" },
+				{ icon: History, label: "All Transactions", to: "/dashboard/transactions" },
 			],
 		},
 		{

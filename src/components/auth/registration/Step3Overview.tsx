@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRegistration } from "../../../contexts/RegistrationContext";
-import { ChevronLeft, ChevronRight, User, ShoppingCart, FileText, Edit3, CheckCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, User, ShoppingCart, FileText, Edit3 } from "lucide-react";
 
 const Step3Overview: React.FC = () => {
 	const { state, nextStep, prevStep, setStep, setStepValidity } = useRegistration();
@@ -35,14 +35,14 @@ const Step3Overview: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
-			<div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+			<div className="max-w-5xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-cyan-700 text-white p-6">
+				<div className="bg-gray-700 text-white p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Review Your Information</h1>
-							<p className="text-green-100">Step 3 of 4 - Please verify all details</p>
+							<p className="text-gray-300">Step 3 of 4 - Please verify all details</p>
 						</div>
 						<div className="flex items-center space-x-2">
 							<FileText className="w-8 h-8" />
@@ -51,7 +51,7 @@ const Step3Overview: React.FC = () => {
 
 					{/* Progress Bar */}
 					<div className="mt-4">
-						<div className="w-full bg-green-500 rounded-full h-2">
+						<div className="w-full bg-gray-500 rounded-full h-2">
 							<div
 								className="bg-white h-2 rounded-full transition-all duration-300"
 								style={{ width: "80%" }}
@@ -164,10 +164,10 @@ const Step3Overview: React.FC = () => {
 										</div>
 									))}
 
-									<div className="bg-green-100 border border-green-200 rounded-lg p-4">
+									<div className="bg-gray-100 border border-gray-200 rounded-lg p-4">
 										<div className="flex justify-between items-center">
-											<span className="font-semibold text-green-800">Total Investment:</span>
-											<span className="font-bold text-xl text-green-800">
+											<span className="font-semibold text-gray-800">Total Investment:</span>
+											<span className="font-bold text-xl text-gray-800">
 												€{state.portfolio.finalSum?.toFixed(2)}
 											</span>
 										</div>
@@ -181,52 +181,23 @@ const Step3Overview: React.FC = () => {
 							)}
 						</div>
 
-						{/* Security & Verification Section */}
-						<div className="bg-blue-50 rounded-xl p-6">
-							<h2 className="text-xl font-bold text-gray-900 flex items-center mb-4">
-								<CheckCircle className="w-5 h-5 mr-2 text-green-600" />
-								Next Steps
-							</h2>
-
-							<div className="grid md:grid-cols-2 gap-6">
-								<div>
-									<h3 className="font-medium text-gray-700 mb-2">Verification Process</h3>
-									<div className="space-y-2 text-sm text-gray-600">
-										<p>✓ Identity verification (KYC)</p>
-										<p>✓ Terms and conditions acceptance</p>
-										<p>✓ Payment method setup</p>
-										<p>✓ Account activation</p>
-									</div>
-								</div>
-
-								<div>
-									<h3 className="font-medium text-gray-700 mb-2">What Happens Next</h3>
-									<div className="space-y-2 text-sm text-gray-600">
-										<p>1. Complete KYC verification</p>
-										<p>2. Account review (24-48 hours)</p>
-										<p>3. Email confirmation</p>
-										<p>4. Start investing!</p>
-									</div>
-								</div>
-							</div>
-						</div>
 
 						{/* Summary Box */}
-						<div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl p-6">
+						<div className="bg-gray-600 text-white rounded-xl p-6">
 							<h3 className="text-lg font-bold mb-4">Registration Summary</h3>
 							<div className="grid md:grid-cols-3 gap-4 text-sm">
 								<div>
-									<p className="text-blue-100">Account Holder</p>
+									<p className="text-gray-300">Account Holder</p>
 									<p className="font-semibold">
 										{state.personalInfo.firstName} {state.personalInfo.lastName}
 									</p>
 								</div>
 								<div>
-									<p className="text-blue-100">Initial Investment</p>
+									<p className="text-gray-300">Initial Investment</p>
 									<p className="font-semibold">€{state.portfolio.finalSum?.toFixed(2) || "0.00"}</p>
 								</div>
 								<div>
-									<p className="text-blue-100">Products Selected</p>
+									<p className="text-gray-300">Products Selected</p>
 									<p className="font-semibold">{state.portfolio.products?.length || 0} items</p>
 								</div>
 							</div>
@@ -255,7 +226,7 @@ const Step3Overview: React.FC = () => {
 
 						<button
 							onClick={handleContinue}
-							className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors duration-200"
+							className="inline-flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors duration-200"
 						>
 							Proceed to Verification
 							<ChevronRight className="w-5 h-5 ml-2" />

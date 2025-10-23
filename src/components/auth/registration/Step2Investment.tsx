@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRegistration } from "../../../contexts/RegistrationContext";
-import { ChevronLeft, ChevronRight, Plus, Minus, ShoppingCart, TrendingUp } from "lucide-react";
+import { ChevronLeft, ChevronRight, Minus, TrendingUp } from "lucide-react";
 import type { InvestmentProduct, InvestmentProductType } from "../../../types/auth.types";
 
 const Step2Investment: React.FC = () => {
@@ -134,26 +134,23 @@ const Step2Investment: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-100 flex items-center justify-center p-4">
-			<div className="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+			<div className="max-w-6xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-cyan-700 text-white p-6">
+				<div className="bg-gray-800 text-white p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Investment Selection</h1>
-							<p className="text-yellow-100">Step 2 of 4 - Choose Your Products</p>
-						</div>
-						<div className="flex items-center space-x-2">
-							<ShoppingCart className="w-8 h-8" />
+							<p className="text-gray-300">Step 2 of 4 - Choose Your Products</p>
 						</div>
 					</div>
 
 					{/* Progress Bar */}
 					<div className="mt-4">
-						<div className="w-full bg-yellow-500 rounded-full h-2">
+						<div className="w-full bg-gray-600 rounded-full h-2">
 							<div
 								className="bg-white h-2 rounded-full transition-all duration-300"
-								style={{ width: "60%" }}
+								style={{ width: "50%" }}
 							></div>
 						</div>
 					</div>
@@ -163,30 +160,26 @@ const Step2Investment: React.FC = () => {
 					<div className="grid lg:grid-cols-3 gap-8">
 						{/* Product Selection */}
 						<div className="lg:col-span-2">
-							<h2 className="text-xl font-bold text-gray-900 mb-6">Available Products</h2>
+							<h2 className="text-xl font-bold text-gray-900 mb-6">Add Products</h2>
 
-							<div className="grid md:grid-cols-2 gap-4 mb-8">
-								{Object.entries(productConfigs).map(([type, config]) => (
-									<div
-										key={type}
-										className="border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow duration-200"
+							<div className="bg-gray-50 rounded-lg p-6 mb-8">
+								<label className="block text-sm font-medium text-gray-700 mb-3">
+									Select Product Type
+								</label>
+								<div className="flex gap-4">
+									<select 
+										className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+										onChange={(e) => e.target.value && addProduct(e.target.value as InvestmentProductType)}
+										defaultValue=""
 									>
-										<div
-											className={`w-full h-32 bg-gradient-to-br ${config.color} rounded-lg flex items-center justify-center text-4xl mb-4`}
-										>
-											{config.icon}
-										</div>
-										<h3 className="font-bold text-gray-900 mb-2">{config.name}</h3>
-										<p className="text-sm text-gray-600 mb-3">From €{config.basePrice}</p>
-										<button
-											onClick={() => addProduct(type as InvestmentProductType)}
-											className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
-										>
-											<Plus className="w-4 h-4 inline mr-2" />
-											Add to Portfolio
-										</button>
-									</div>
-								))}
+										<option value="">Choose a product...</option>
+										{Object.entries(productConfigs).map(([type, config]) => (
+											<option key={type} value={type}>
+												{config.name} - From €{config.basePrice}
+											</option>
+										))}
+									</select>
+								</div>
 							</div>
 
 							{/* Selected Products */}
@@ -345,7 +338,7 @@ const Step2Investment: React.FC = () => {
 						<button
 							onClick={handleContinue}
 							disabled={selectedProducts.length === 0 || tempSum < 100}
-							className="inline-flex items-center px-6 py-3 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors duration-200"
+							className="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors duration-200"
 						>
 							Continue to Review
 							<ChevronRight className="w-5 h-5 ml-2" />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import dummyQr from '../assets/dummyQr.png';
 import authImg from '../assets/authMFA.png';
-import { contextData } from '@/context/AuthContext';
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import Alert from './UI/Alert';
 
 export default function TwoFactorAuth() {
@@ -12,7 +12,7 @@ export default function TwoFactorAuth() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
-  const { user } = contextData();
+  const { user } = useSafeAuth();
 
   const fetchQrCode = async () => {
     try {

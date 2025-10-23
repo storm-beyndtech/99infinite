@@ -1,10 +1,13 @@
 import type React from "react";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-const DashboardLayout: React.FC = () => {
+interface DashboardLayoutProps {
+	children: React.ReactNode;
+}
+
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
@@ -25,7 +28,7 @@ const DashboardLayout: React.FC = () => {
 
 				{/* Main content */}
 				<main className="flex-1 overflow-y-auto md:p-6">
-					<Outlet />
+					{children}
 				</main>
 			</div>
 		</div>

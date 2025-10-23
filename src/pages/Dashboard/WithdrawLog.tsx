@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Search, Eye, Loader2, ArrowDownLeft } from "lucide-react";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import WithdrawalSheet from "@/components/withdrawal-sheet";
 import { useToastUtils } from "@/services/toast";
 import { Link } from "react-router-dom";
@@ -28,7 +28,7 @@ const WithdrawalLog: React.FC = () => {
 	const [selectedWithdrawal, setSelectedWithdrawal] = useState<Withdrawal | null>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-	const { user } = contextData();
+	const { user } = useSafeAuth();
 	const { showErrorToast } = useToastUtils();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const withdrawalsPerPage = 10;

@@ -1,9 +1,9 @@
-import { contextData } from '@/context/AuthContext';
+import { useSafeAuth } from '@/contexts/SafeAuthContext';
 import { CheckSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function UserReferrals() {
-  const { user } = contextData();
+  const { user } = useSafeAuth();
   const [referrals, setReferrals] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -11,7 +11,7 @@ export default function UserReferrals() {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(
-        `${window.location.origin}/?ref=${user.username}`,
+        `${window.location.origin}/?ref=${user?.username || user?._id}`,
       );
       alert('Text copied to clipboard');
     } catch (err) {
@@ -23,7 +23,7 @@ export default function UserReferrals() {
     const fetchReferrals = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${url}/users/referrals/${user.username}`);
+        const response = await fetch(`${url}/users/referrals/${user?.username || user?._id}`);
 
         const data = await response.json();
         if (response.ok) {
@@ -56,7 +56,7 @@ export default function UserReferrals() {
         <div className="flex items-center gap-2">
           <input
             type="text"
-            value={`${window.location.origin}/?ref=${user.username}`}
+            value={`${window.location.origin}/?ref=${user?.username || user?._id}`}
             readOnly
             className="flex-1 p-3 dark:bg-gray-700 bg-gray-50 border dark:border-gray-600 border-gray-300 rounded-md dark:text-white text-gray-900"
           />

@@ -1,4 +1,4 @@
-import { contextData } from '@/context/AuthContext';
+import { contextData } from '@/contexts/AuthContext';
 import { Bell, Search, User, LogOut, LayoutDashboard } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';

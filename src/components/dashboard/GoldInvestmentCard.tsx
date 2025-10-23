@@ -1,6 +1,6 @@
 import React from 'react';
 import { Coins, TrendingUp, Calendar, Shield } from 'lucide-react';
-import { GoldInvestmentPlan } from '@/types/investment';
+import type { GoldInvestmentPlan } from '../../types/investment';
 
 interface GoldInvestmentCardProps {
   plan: GoldInvestmentPlan;
@@ -100,7 +100,7 @@ const GoldInvestmentCard: React.FC<GoldInvestmentCardProps> = ({ plan, onSelect,
 
         {/* CTA Button */}
         <button
-          onClick={() => onSelect(plan.id)}
+          onClick={() => onSelect(plan._id)}
           className={`w-full bg-gradient-to-r ${plan.color.primary} hover:shadow-lg hover:shadow-amber-500/25 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105`}
         >
           Invest in {plan.name}

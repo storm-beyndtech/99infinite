@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
-import { contextData } from "@/context/AuthContext";
+import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import SendMailModal from "@/components/SendMailModal";
 
 type User = {
@@ -17,7 +17,7 @@ type Admin = {
 };
 
 export default function SendMail() {
-	const { user: admin } = contextData() as { user: Admin };
+	const { user: admin } = useSafeAuth() as { user: Admin };
 	const [users, setUsers] = useState<User[] | null>(null);
 	const [filteredUsers, setFilteredUsers] = useState<User[] | null>(null);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]); // Using email instead of _id
@@ -32,7 +32,7 @@ export default function SendMail() {
 			const data = await res.json();
 
 			if (res.ok) {
-				const filteredData = data.filter((user: User) => user._id !== admin._id);
+				const filteredData = data.filter((user: User) => user._id !== admin?._id);
 				setUsers(filteredData);
 				setFilteredUsers(filteredData);
 			} else {
@@ -72,16 +72,16 @@ export default function SendMail() {
 
 		switch (type) {
 			case "deposited":
-				filtered = users?.filter((user) => user.deposit > 0) || [];
+				filtered = users?.filter((user) => (user.deposit || 0) > 0) || [];
 				break;
 			case "no-deposits":
-				filtered = users?.filter((user) => user.deposit === 0) || [];
+				filtered = users?.filter((user) => (user.deposit || 0) === 0) || [];
 				break;
 			case "with-trades":
-				filtered = users?.filter((user) => user.interest > 0) || [];
+				filtered = users?.filter((user) => (user.interest || 0) > 0) || [];
 				break;
 			case "with-withdrawals":
-				filtered = users?.filter((user) => user.withdraw > 0) || [];
+				filtered = users?.filter((user) => (user.withdraw || 0) > 0) || [];
 				break;
 			default:
 				filtered = users || [];
@@ -194,8 +194,8 @@ export default function SendMail() {
 								</td>
 								<td className="px-6 py-4">
 									<div className="text-sm">
-										<div>Deposit: ${user.deposit}</div>
-										<div>Interest: ${user.interest}</div>
+										<div>Deposit: ${user.deposit || 0}</div>
+										<div>Interest: ${user.interest || 0}</div>
 									</div>
 								</td>
 								<td className="px-6 py-4">

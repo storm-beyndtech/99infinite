@@ -121,21 +121,14 @@ const Step1PersonalData: React.FC = () => {
 	const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-			<div className="max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+			<div className="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-cyan-700 text-white p-6">
+				<div className="bg-gray-800 text-white p-6">
 					<div className="flex items-center justify-between">
 						<div>
-							<div className="flex items-center space-x-3 mb-2">
-								<div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-									<User className="w-6 h-6" />
-								</div>
-								<div>
-									<h1 className="text-2xl font-bold">Personal Data</h1>
-									<p className="text-cyan-100">Step 1 of 4</p>
-								</div>
-							</div>
+							<h1 className="text-2xl font-bold">Personal Data</h1>
+							<p className="text-gray-300">Step 1 of 4</p>
 						</div>
 						<div className="flex items-center">
 							<Link to="/" className="hover:opacity-80 transition-opacity duration-200">
@@ -150,9 +143,9 @@ const Step1PersonalData: React.FC = () => {
 							<span>Progress</span>
 							<span>25%</span>
 						</div>
-						<div className="w-full bg-blue-500/30 rounded-full h-3">
+						<div className="w-full bg-gray-600 rounded-full h-2">
 							<div
-								className="bg-gradient-to-r from-white to-cyan-200 h-3 rounded-full transition-all duration-500 shadow-sm"
+								className="bg-white h-2 rounded-full transition-all duration-300"
 								style={{ width: "25%" }}
 							></div>
 						</div>
@@ -391,6 +384,16 @@ const Step1PersonalData: React.FC = () => {
 							Continue
 							<ChevronRight className="w-5 h-5 ml-2" />
 						</button>
+					</div>
+
+					{/* Login Link */}
+					<div className="text-center mt-6">
+						<p className="text-sm text-gray-600">
+							Already have an account?{' '}
+							<Link to="/login" className="text-blue-600 hover:text-blue-500 font-medium">
+								Sign in
+							</Link>
+						</p>
 					</div>
 				</div>
 			</div>
