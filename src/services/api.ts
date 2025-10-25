@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { TeamMember, MarketRate } from '../types';
+import type { MarketRate } from '../types';
 import type { 
   LoginRequest, 
   RegistrationRequest,
@@ -51,14 +51,6 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export const teamApi = {
-  getAll: () => api.get<TeamMember[]>('/team'),
-  getById: (id: string) => api.get<TeamMember>(`/team/${id}`),
-  create: (data: Partial<TeamMember>) => api.post<TeamMember>('/team', data),
-  update: (id: string, data: Partial<TeamMember>) => api.put<TeamMember>(`/team/${id}`, data),
-  delete: (id: string) => api.delete(`/team/${id}`),
-};
 
 export const marketRateApi = {
   getAll: () => api.get<MarketRate[]>('/market-rates'),
