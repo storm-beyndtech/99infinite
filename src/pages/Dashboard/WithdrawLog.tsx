@@ -45,7 +45,7 @@ const WithdrawalLog: React.FC = () => {
 				...(status !== "all" && { status }),
 			});
 
-			const response = await fetch(`${url}/withdrawals?${queryParams}`);
+			const response = await fetch(`${url}/api/withdrawals?${queryParams}`);
 			const data = await response.json();
 
 			if (response.ok) {

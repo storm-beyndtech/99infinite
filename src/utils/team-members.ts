@@ -4,7 +4,17 @@ import team3 from "../assets/team-3.jpg";
 import team4 from "../assets/team-4.jpg";
 import team5 from "../assets/team-5.jpg";
 import team6 from "../assets/team-6.jpg";
-import type { TeamMember } from "../types/auth.types";
+
+interface TeamMember {
+  id: number;
+  title: string;
+  content: string;
+  slug: string;
+  image: string;
+  location: string;
+  department: string;
+}
+
 
 export const boardOfDirectors: TeamMember[] = [
 	{
@@ -69,4 +79,3 @@ export const boardOfDirectors: TeamMember[] = [
 		department: "Director of Legal Affairs",
 	},
 ];
-

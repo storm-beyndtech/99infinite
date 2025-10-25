@@ -43,7 +43,7 @@ const DepositLog: React.FC = () => {
 				...(status !== "all" && { status }),
 			});
 
-			const response = await fetch(`${url}/deposits?${queryParams}`);
+			const response = await fetch(`${url}/api/deposits?${queryParams}`);
 			const data = await response.json();
 
 			if (response.ok) {

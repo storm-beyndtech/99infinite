@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Coins, TrendingUp, DollarSign, BarChart3, Gem, Shield, ArrowUpRight, Plus, Activity, Clock, ExternalLink } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import WithdrawalForm from "../../components/dashboard/WithdrawalForm";
+import ChartTwo from "../../components/UI/ChartTwo";
+import ChartThree from "../../components/UI/ChartThree";
 import { 
   productConfigs, 
   getCurrentGoldPrice, 
@@ -67,7 +69,7 @@ const Dashboard = () => {
 				return;
 			}
 
-			const res = await fetch(`${url}/transactions/user/${user._id}?limit=5`);
+			const res = await fetch(`${url}/api/transactions/user/${user._id}?limit=5`);
 			
 			// If fetch fails (network error, server down, etc.), handle gracefully
 			if (!res.ok) {
@@ -386,48 +388,15 @@ const Dashboard = () => {
 				</div>
 
 				{/* Charts and Recent Transactions */}
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* Performance Chart */}
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 shadow-xl">
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						<div className="relative z-10">
-							<div className="flex items-center justify-between mb-6">
-								<div>
-									<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Portfolio Performance</h3>
-									<p className="text-sm text-gray-600 dark:text-gray-400">Last 7 days growth trend</p>
-								</div>
-								<Activity className="w-6 h-6 text-emerald-500" />
-							</div>
-							<div className="h-48 flex items-center justify-center bg-gradient-to-br from-emerald-50/50 to-green-50/50 dark:from-emerald-950/30 dark:to-green-950/30 rounded-2xl">
-								<div className="text-center">
-									<TrendingUp className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-									<p className="text-sm text-gray-600 dark:text-gray-400">Chart visualization coming soon</p>
-									<p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">+{portfolioGrowth}%</p>
-								</div>
-							</div>
-						</div>
+					<div className="lg:col-span-2">
+						<ChartTwo />
 					</div>
 
-					{/* Activity Chart */}
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 shadow-xl">
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						<div className="relative z-10">
-							<div className="flex items-center justify-between mb-6">
-								<div>
-									<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Investment Activity</h3>
-									<p className="text-sm text-gray-600 dark:text-gray-400">Monthly investment flow</p>
-								</div>
-								<BarChart3 className="w-6 h-6 text-blue-500" />
-							</div>
-							<div className="h-48 flex items-center justify-center bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-950/30 dark:to-cyan-950/30 rounded-2xl">
-								<div className="text-center">
-									<BarChart3 className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-									<p className="text-sm text-gray-600 dark:text-gray-400">Activity chart coming soon</p>
-									<p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-2">{activeProducts}</p>
-									<p className="text-sm text-gray-600 dark:text-gray-400">Active Products</p>
-								</div>
-							</div>
-						</div>
+					{/* Asset Distribution Chart */}
+					<div>
+						<ChartThree />
 					</div>
 				</div>
 

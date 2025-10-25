@@ -30,7 +30,7 @@ export default function Profile() {
 		<div className={`min-h-screen transition-colors duration-200 pt-10 p-3`}>
 			<div className="grid grid-cols-1 gap-6">
 				{/* Tabs */}
-				<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
 					<Tab
 						label="Profile"
 						icon={<User size={18} />}

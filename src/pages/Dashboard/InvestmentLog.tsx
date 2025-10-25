@@ -42,7 +42,7 @@ const InvestmentLog: React.FC = () => {
 	const fetchTransactions = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`${url}/transactions`);
+			const response = await fetch(`${url}/api/transactions`);
 			const data = await response.json();
 
 			if (response.ok) {

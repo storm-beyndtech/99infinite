@@ -2,26 +2,6 @@
 // CLIENT COMMON TYPES
 // =============================================================================
 
-// Team Member Interface
-export interface TeamMember {
-  _id: string;
-  name: string;
-  position: string;
-  department: string;
-  email?: string;
-  phone?: string;
-  bio: string;
-  image?: string;
-  linkedIn?: string;
-  twitter?: string;
-  expertise: string[];
-  yearsExperience: number;
-  isActive: boolean;
-  order: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
 // Market Rate Interface
 export interface MarketRate {
   _id: string;

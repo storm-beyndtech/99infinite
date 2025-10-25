@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart3, TrendingUp, DollarSign, Target, Download, FileText, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { BarChart3, TrendingUp, DollarSign, Target, Download, FileText, ArrowUpRight } from "lucide-react";
 import teambanner from "../assets/teambanner.png";
 
 const AnnualReport: React.FC = () => {

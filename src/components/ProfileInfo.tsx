@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { User, Upload, RefreshCw, AlertCircle } from "lucide-react";
 import { contextData } from "@/contexts/AuthContext";
+import PageLoader from "./PageLoader";
 
 interface ProfileFormData {
 	profileImage: File | null;
@@ -214,17 +215,11 @@ export default function ProfileInfo() {
 	};
 
 	if (loading) {
-		return (
-			<div className="flex justify-center items-center h-64">
-				<div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
-			</div>
-		);
+		return <PageLoader />;
 	}
 
 	return (
-		<div className="bg-white dark:bg-gray-900 p-4 sm:p-6 rounded-lg">
-			<h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Update Profile</h2>
-
+		<>
 			{/* Success Message */}
 			{successMessage && (
 				<div className="mb-4 p-4 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-xl">
@@ -473,6 +468,6 @@ export default function ProfileInfo() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
