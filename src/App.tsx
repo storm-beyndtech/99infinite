@@ -105,7 +105,6 @@ const AuthRoute = ({ children }: { children: React.ReactNode }) => {
 const AppRoutes = () => {
 	return (
 		<Routes>
-			<ScrollToTop />
 			{/* Public routes */}
 			<Route path="/" element={<Layout />}>
 				<Route index element={<Home />} />
@@ -213,6 +212,7 @@ function App() {
 	return (
 		<AuthProvider>
 			<Router>
+				<ScrollToTop />
 				<AppRoutes />
 			</Router>
 		</AuthProvider>
