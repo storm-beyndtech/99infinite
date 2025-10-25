@@ -163,7 +163,7 @@ const Dashboard = () => {
 			<div className="max-w-7xl mx-auto space-y-8">
 				{/* Header */}
 				<div className="mb-10">
-					<div className="flex items-center justify-between">
+					<div className="flex items-center justify-between flex-wrap gap-4">
 						<div>
 							<h1 className="text-2xl md:text-4xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-3">
 								Welcome back,{" "}

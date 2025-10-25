@@ -29,9 +29,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 					</div>
 
 					{/* Main content area */}
-					<div className="flex-1 flex flex-col min-w-0 relative ml-4">
+					<div className="flex-1 flex flex-col min-w-0 relative sm:ml-4">
 						{/* Main content */}
-						<main className="flex-1 mt-2 rounded-2xl bg-white/40 dark:bg-slate-900/20 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 shadow-xl p-6">
+						<main className="flex-1 mt-2 rounded-2xl bg-white/40 dark:bg-slate-900/20 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 shadow-xl p-6 max-sm:px-3">
 							{children}
 						</main>
 					</div>
