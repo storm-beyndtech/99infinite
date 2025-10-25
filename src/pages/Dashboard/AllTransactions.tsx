@@ -60,7 +60,7 @@ const AllTransactions: React.FC = () => {
 	const fetchTransactions = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`${url}/api/transactions`);
+			const response = await fetch(`${url}/transactions`);
 			const data = await response.json();
 
 			if (response.ok) {
@@ -78,7 +78,7 @@ const AllTransactions: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (user?._id) {
+		if (user?.id) {
 			fetchTransactions();
 		}
 	}, [user?._id]);
@@ -94,7 +94,7 @@ const AllTransactions: React.FC = () => {
 
 		let filtered = allTransactions.filter((transaction) => {
 			// Filter by user
-			if (transaction.user?.id !== user._id) return false;
+			if (transaction.user?.id !== user.id) return false;
 
 			// Filter by status
 			if (statusFilter !== "all" && transaction.status !== statusFilter) return false;
@@ -137,7 +137,7 @@ const AllTransactions: React.FC = () => {
 		const paginatedTransactions = filtered.slice(startIndex, endIndex);
 
 		setFilteredTransactions(paginatedTransactions);
-	}, [allTransactions, searchTerm, statusFilter, typeFilter, currentPage, user._id]);
+	}, [allTransactions, searchTerm, statusFilter, typeFilter, currentPage, user.id]);
 
 	// Handle search
 	const handleSearch = (value: string) => {

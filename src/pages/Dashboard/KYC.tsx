@@ -204,13 +204,13 @@ export default function KYC() {
 		setIsRefreshing(true);
 		try {
 			// Validate user ID exists
-			if (!user || !user._id) {
+			if (!user || !user.id) {
 				console.error("User ID is required");
 				setIsRefreshing(false);
 				return;
 			}
 
-			const res = await fetch(`${url}/api/users/${user._id}`, {
+			const res = await fetch(`${url}/users/${user.id}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

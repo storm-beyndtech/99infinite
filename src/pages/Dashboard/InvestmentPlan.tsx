@@ -58,7 +58,7 @@ const InvestmentPlan: React.FC = () => {
 		if (!selectedPlan) return;
 
 		// Validate user exists
-		if (!user || !user._id) {
+		if (!user || !user.id) {
 			showErrorToast("User session invalid. Please refresh and try again.");
 			return;
 		}
@@ -96,7 +96,7 @@ const InvestmentPlan: React.FC = () => {
 					planId: selectedPlan._id,
 					amount: amount,
 					interest: (parseFloat(investmentAmount) * selectedPlan.roi) / 100,
-					userId: user._id,
+					userId: user.id,
 				}),
 			});
 

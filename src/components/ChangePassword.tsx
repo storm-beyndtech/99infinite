@@ -93,7 +93,7 @@ export default function ChangePassword() {
 				body: JSON.stringify({
 					currentPassword: formData.currentPassword,
 					newPassword: formData.newPassword,
-					id: user._id,
+					id: user.id,
 				}),
 			});
 

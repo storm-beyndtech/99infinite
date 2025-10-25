@@ -1,12 +1,12 @@
 import { createContext, useContext, useReducer, useCallback, type ReactNode } from 'react';
-import type { KYCData, PersonalInfo, Portfolio, RegistrationFormState, ValidationErrors } from '../types/auth.types';
+import type { PrivacyData, PersonalInfo, Portfolio, RegistrationFormState, ValidationErrors } from '../types/auth.types';
 
 // Registration Actions
 type RegistrationAction =
   | { type: 'SET_STEP'; payload: number }
   | { type: 'UPDATE_PERSONAL_INFO'; payload: Partial<PersonalInfo> }
   | { type: 'UPDATE_PORTFOLIO'; payload: Partial<Portfolio> }
-  | { type: 'UPDATE_KYC'; payload: Partial<KYCData> }
+  | { type: 'UPDATE_Privacy'; payload: Partial<PrivacyData> }
   | { type: 'UPDATE_PASSWORD'; payload: { password?: string; confirmPassword?: string } }
   | { type: 'SET_STEP_VALIDITY'; payload: { step: keyof RegistrationFormState['isValid']; isValid: boolean } }
   | { type: 'RESET_FORM' }
@@ -43,7 +43,7 @@ const initialState: RegistrationFormState = {
     finalSum: 0,
     minimumOrderAmount: 100,
   },
-  kyc: {
+  privacy: {
     buyingForSelf: true,
     politicallyExposed: false,
     termsAndConditions: false,
@@ -86,11 +86,11 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
           ...action.payload,
         },
       };
-    case 'UPDATE_KYC':
+    case 'UPDATE_Privacy':
       return {
         ...state,
-        kyc: {
-          ...state.kyc,
+        privacy: {
+          ...state.privacy,
           ...action.payload,
         },
       };
@@ -131,7 +131,7 @@ interface RegistrationContextType {
   setStep: (step: number) => void;
   updatePersonalInfo: (data: Partial<PersonalInfo>) => void;
   updatePortfolio: (data: Partial<Portfolio>) => void;
-  updateKYC: (data: Partial<KYCData>) => void;
+  updatePrivacy: (data: Partial<PrivacyData>) => void;
   updatePassword: (password?: string, confirmPassword?: string) => void;
   setStepValidity: (step: keyof RegistrationFormState['isValid'], isValid: boolean) => void;
   resetForm: () => void;
@@ -167,8 +167,8 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
     dispatch({ type: 'UPDATE_PORTFOLIO', payload: data });
   }, []);
 
-  const updateKYC = useCallback((data: Partial<KYCData>) => {
-    dispatch({ type: 'UPDATE_KYC', payload: data });
+  const updatePrivacy = useCallback((data: Partial<PrivacyData>) => {
+    dispatch({ type: 'UPDATE_Privacy', payload: data });
   }, []);
 
   const updatePassword = useCallback((password?: string, confirmPassword?: string) => {
@@ -225,18 +225,18 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
     return {
       personalInfo: state.personalInfo,
       portfolio: state.portfolio,
-      kyc: state.kyc,
+      privacy: state.privacy,
       password: state.password,
       confirmPassword: state.confirmPassword,
     };
-  }, [state.personalInfo, state.portfolio, state.kyc, state.password, state.confirmPassword]);
+  }, [state.personalInfo, state.portfolio, state.privacy, state.password, state.confirmPassword]);
 
   const contextValue: RegistrationContextType = {
     state,
     setStep,
     updatePersonalInfo,
     updatePortfolio,
-    updateKYC,
+    updatePrivacy,
     updatePassword,
     setStepValidity,
     resetForm,

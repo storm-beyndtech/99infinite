@@ -26,11 +26,11 @@ const fetchProfile = async (user: any) => {
 	// let profileData: FormData;
 	try {
 		// Validate user ID exists
-		if (!user || !user._id) {
+		if (!user || !user.id) {
 			throw new Error("User ID is required");
 		}
 
-		const res = await fetch(`${url}/api/users/${user._id}`);
+		const res = await fetch(`${url}/users/${user.id}`);
 		const resData = await res.json();
 
 		if (!res.ok) {
@@ -48,7 +48,7 @@ const updateProfile = async (data: globalThis.FormData, userId: string): Promise
 		// Add userId to FormData
 		data.append("userId", userId);
 
-		const response = await fetch(`${url}/api/users/update-profile`, {
+		const response = await fetch(`${url}/users/update-profile`, {
 			method: "PUT",
 			body: data,
 		});
@@ -83,7 +83,7 @@ export default function ProfileInfo() {
 	useEffect(() => {
 		console.log(user);
 		const loadProfile = async () => {
-			if (!user || !user._id) {
+			if (!user || !user.id) {
 				return; // Wait for user to be loaded
 			}
 
@@ -204,7 +204,7 @@ export default function ProfileInfo() {
 			}
 
 			// Call your API
-			await updateProfile(formPayload, user._id);
+			await updateProfile(formPayload, user.id);
 
 			setSuccessMessage("Profile updated successfully");
 		} catch (error: any) {

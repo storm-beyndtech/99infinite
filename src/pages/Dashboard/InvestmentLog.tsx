@@ -42,7 +42,7 @@ const InvestmentLog: React.FC = () => {
 	const fetchTransactions = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`${url}/api/transactions`);
+			const response = await fetch(`${url}/transactions`);
 			const data = await response.json();
 
 			if (response.ok) {
@@ -75,7 +75,7 @@ const InvestmentLog: React.FC = () => {
 			if (transaction.type !== "investment") return false;
 
 			// Filter by user
-			if (transaction.user?.id !== user?._id) return false;
+			if (transaction.user?.id !== user?.id) return false;
 
 			// Filter by status
 			if (statusFilter !== "all" && transaction.status !== statusFilter) return false;

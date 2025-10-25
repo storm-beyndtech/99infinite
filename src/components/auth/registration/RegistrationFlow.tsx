@@ -3,7 +3,7 @@ import { RegistrationProvider, useRegistration } from '../../../contexts/Registr
 import Step1PersonalData from './Step1PersonalData';
 import Step2Investment from './Step2Investment';
 import Step3Overview from './Step3Overview';
-import Step4KYC from './Step4KYC';
+import Step4KYC from './Step4Privacy';
 
 const RegistrationSteps: React.FC = () => {
   const { state } = useRegistration();

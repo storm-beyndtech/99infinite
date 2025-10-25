@@ -16,7 +16,7 @@ export default function TwoFactorAuth() {
 
 	const fetchQrCode = async () => {
 		try {
-			const res = await fetch(`${url}/api/users/getQrCode`);
+			const res = await fetch(`${url}/users/getQrCode`);
 			const data = await res.json();
 
 			if (res.ok) {
@@ -37,7 +37,7 @@ export default function TwoFactorAuth() {
 		setSuccess(false);
 
 		try {
-			const res = await fetch(`${url}/api/users/verifyToken`, {
+			const res = await fetch(`${url}/users/verifyToken`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: user.email, token, secret }),

@@ -6,8 +6,8 @@ import Alert from "../../UI/Alert";
 import { useToastUtils } from "../../../services/toast";
 import { contextData } from "@/contexts/AuthContext";
 
-const Step4KYC: React.FC = () => {
-	const { state, updateKYC, updatePassword, prevStep, setStepValidity, getRegistrationData, resetForm } =
+const Step4Privacy: React.FC = () => {
+	const { state, updatePrivacy, updatePassword, prevStep, setStepValidity, getRegistrationData, resetForm } =
 		useRegistration();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const { login } = contextData();
@@ -20,12 +20,12 @@ const Step4KYC: React.FC = () => {
 	// Form validation
 	const validateForm = () => {
 		const newErrors: Record<string, string> = {};
-		const { kyc } = state;
+		const { privacy } = state;
 
-		if (!kyc.termsAndConditions) {
+		if (!privacy.termsAndConditions) {
 			newErrors.termsAndConditions = "You must accept the terms and conditions";
 		}
-		if (!kyc.privacyStatement) {
+		if (!privacy.privacyStatement) {
 			newErrors.privacyStatement = "You must accept the privacy statement";
 		}
 		if (!state.password.trim()) {
@@ -45,10 +45,10 @@ const Step4KYC: React.FC = () => {
 
 	useEffect(() => {
 		validateForm();
-	}, [state.kyc, state.password, state.confirmPassword]);
+	}, [state.privacy, state.password, state.confirmPassword]);
 
-	const handleKYCChange = (field: string, value: any) => {
-		updateKYC({ [field]: value });
+	const handlePrivacyChange = (field: string, value: any) => {
+		updatePrivacy({ [field]: value });
 	};
 
 	const handlePasswordChange = (field: "password" | "confirmPassword", value: string) => {
@@ -124,11 +124,11 @@ const Step4KYC: React.FC = () => {
 
 				<div className="p-8">
 					<div className="space-y-8">
-						{/* KYC Questions */}
+						{/* Privacy Questions */}
 						<div className="bg-gray-50 rounded-xl p-6">
 							<h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
 								<FileText className="w-5 h-5 mr-2 text-blue-600" />
-								Know Your Customer (KYC) Information
+								Know Your Customer (Privacy) Information
 							</h2>
 
 							<div className="space-y-6">
@@ -142,8 +142,8 @@ const Step4KYC: React.FC = () => {
 											<input
 												type="radio"
 												name="buyingForSelf"
-												checked={state.kyc.buyingForSelf === true}
-												onChange={() => handleKYCChange("buyingForSelf", true)}
+												checked={state.privacy.buyingForSelf === true}
+												onChange={() => handlePrivacyChange("buyingForSelf", true)}
 												className="mr-3 text-blue-600 focus:ring-blue-500"
 											/>
 											<span className="text-gray-700">Yes, I am buying for myself</span>
@@ -152,8 +152,8 @@ const Step4KYC: React.FC = () => {
 											<input
 												type="radio"
 												name="buyingForSelf"
-												checked={state.kyc.buyingForSelf === false}
-												onChange={() => handleKYCChange("buyingForSelf", false)}
+												checked={state.privacy.buyingForSelf === false}
+												onChange={() => handlePrivacyChange("buyingForSelf", false)}
 												className="mr-3 text-blue-600 focus:ring-blue-500"
 											/>
 											<span className="text-gray-700">No, I am buying for someone else</span>
@@ -171,8 +171,8 @@ const Step4KYC: React.FC = () => {
 											<input
 												type="radio"
 												name="politicallyExposed"
-												checked={state.kyc.politicallyExposed === false}
-												onChange={() => handleKYCChange("politicallyExposed", false)}
+												checked={state.privacy.politicallyExposed === false}
+												onChange={() => handlePrivacyChange("politicallyExposed", false)}
 												className="mr-3 text-blue-600 focus:ring-blue-500"
 											/>
 											<span className="text-gray-700">No</span>
@@ -181,8 +181,8 @@ const Step4KYC: React.FC = () => {
 											<input
 												type="radio"
 												name="politicallyExposed"
-												checked={state.kyc.politicallyExposed === true}
-												onChange={() => handleKYCChange("politicallyExposed", true)}
+												checked={state.privacy.politicallyExposed === true}
+												onChange={() => handlePrivacyChange("politicallyExposed", true)}
 												className="mr-3 text-blue-600 focus:ring-blue-500"
 											/>
 											<span className="text-gray-700">Yes</span>
@@ -208,8 +208,8 @@ const Step4KYC: React.FC = () => {
 									<input
 										type="radio"
 										name="paymentMethod"
-										checked={state.kyc.paymentMethod === "bank_transfer"}
-										onChange={() => handleKYCChange("paymentMethod", "bank_transfer")}
+										checked={state.privacy.paymentMethod === "bank_transfer"}
+										onChange={() => handlePrivacyChange("paymentMethod", "bank_transfer")}
 										className="mr-3 text-blue-600 focus:ring-blue-500"
 									/>
 									<span className="font-medium">Bank Transfer (Recommended)</span>
@@ -220,8 +220,8 @@ const Step4KYC: React.FC = () => {
 									<input
 										type="radio"
 										name="paymentMethod"
-										checked={state.kyc.paymentMethod === "credit_card"}
-										onChange={() => handleKYCChange("paymentMethod", "credit_card")}
+										checked={state.privacy.paymentMethod === "credit_card"}
+										onChange={() => handlePrivacyChange("paymentMethod", "credit_card")}
 										className="mr-3 text-blue-600 focus:ring-blue-500"
 									/>
 									<span className="font-medium">Credit Card</span>
@@ -234,8 +234,8 @@ const Step4KYC: React.FC = () => {
 									<input
 										type="radio"
 										name="paymentMethod"
-										checked={state.kyc.paymentMethod === "paypal"}
-										onChange={() => handleKYCChange("paymentMethod", "paypal")}
+										checked={state.privacy.paymentMethod === "paypal"}
+										onChange={() => handlePrivacyChange("paymentMethod", "paypal")}
 										className="mr-3 text-blue-600 focus:ring-blue-500"
 									/>
 									<span className="font-medium">PayPal</span>
@@ -296,8 +296,8 @@ const Step4KYC: React.FC = () => {
 								<label className="flex items-start">
 									<input
 										type="checkbox"
-										checked={state.kyc.termsAndConditions || false}
-										onChange={(e) => handleKYCChange("termsAndConditions", e.target.checked)}
+										checked={state.privacy.termsAndConditions || false}
+										onChange={(e) => handlePrivacyChange("termsAndConditions", e.target.checked)}
 										className="mr-3 mt-1 text-blue-600 focus:ring-blue-500"
 									/>
 									<span className="text-sm text-gray-700">
@@ -319,8 +319,8 @@ const Step4KYC: React.FC = () => {
 								<label className="flex items-start">
 									<input
 										type="checkbox"
-										checked={state.kyc.privacyStatement || false}
-										onChange={(e) => handleKYCChange("privacyStatement", e.target.checked)}
+										checked={state.privacy.privacyStatement || false}
+										onChange={(e) => handlePrivacyChange("privacyStatement", e.target.checked)}
 										className="mr-3 mt-1 text-blue-600 focus:ring-blue-500"
 									/>
 									<span className="text-sm text-gray-700">
@@ -355,7 +355,7 @@ const Step4KYC: React.FC = () => {
 								<div>
 									<p className="text-gray-600">Payment Method</p>
 									<p className="font-semibold capitalize text-gray-900">
-										{state.kyc.paymentMethod?.replace("_", " ")}
+										{state.privacy.paymentMethod?.replace("_", " ")}
 									</p>
 								</div>
 							</div>
@@ -398,7 +398,7 @@ const Step4KYC: React.FC = () => {
 					<div className="text-center mt-4">
 						<p className="text-xs text-gray-500">
 							By completing registration, you authorize 99infinite to process your investment and begin the
-							KYC verification process.
+							Privacy verification process.
 						</p>
 					</div>
 				</div>
@@ -407,4 +407,4 @@ const Step4KYC: React.FC = () => {
 	);
 };
 
-export default Step4KYC;
+export default Step4Privacy;

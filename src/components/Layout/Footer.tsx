@@ -32,7 +32,8 @@ const Footer: React.FC = () => {
 							<img src={logo} alt="logo" className="h-16 mb-4" />
 						</Link>
 						<p className="text-sm text-gray-300">
-							Building sustainable value through strategic investments in gold, mining, agriculture, and energy sectors.
+							Building sustainable value through strategic investments in gold, mining, agriculture, and
+							energy sectors.
 						</p>
 					</div>
 
@@ -42,10 +43,7 @@ const Footer: React.FC = () => {
 						<ul className="space-y-2">
 							{quickLinks.map((link) => (
 								<li key={link.name}>
-									<Link
-										to={link.href}
-										className="text-sm text-gray-300 hover:text-white transition-colors"
-									>
+									<Link to={link.href} className="text-sm text-gray-300 hover:text-white transition-colors">
 										{link.name}
 									</Link>
 								</li>

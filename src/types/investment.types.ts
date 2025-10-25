@@ -59,8 +59,8 @@ export interface InvestmentPlan {
   updatedAt: string;
 }
 
-// KYC Data Interface
-export interface KYCData {
+// Privacy Data Interface
+export interface PrivacyData {
   buyingForSelf: boolean;
   politicallyExposed: boolean;
   termsAndConditions: boolean;

@@ -40,12 +40,12 @@ const WithdrawalLog: React.FC = () => {
 			const queryParams = new URLSearchParams({
 				page: page.toString(),
 				limit: withdrawalsPerPage.toString(),
-				userId: user._id,
+				userId: user.id,
 				...(search && { search }),
 				...(status !== "all" && { status }),
 			});
 
-			const response = await fetch(`${url}/api/withdrawals?${queryParams}`);
+			const response = await fetch(`${url}/withdrawals?${queryParams}`);
 			const data = await response.json();
 
 			if (response.ok) {

@@ -5,13 +5,13 @@
 // Re-export types from local files
 export * from './user.types';
 export * from './investment.types';
-import type { PersonalInfo, Portfolio, KYCData } from './index';
+import type { PersonalInfo, Portfolio, PrivacyData } from './index';
 
 // Registration Request Interface (client-specific)
 export interface RegistrationRequest {
 	personalInfo: PersonalInfo;
 	portfolio?: Portfolio;
-	kyc?: KYCData;
+	privacy?: PrivacyData;
 	password: string;
 	confirmPassword: string;
 }
@@ -21,7 +21,7 @@ export interface RegistrationFormState {
 	step: number;
 	personalInfo: Partial<PersonalInfo>;
 	portfolio: Partial<Portfolio>;
-	kyc: Partial<KYCData>;
+	privacy: Partial<PrivacyData>;
 	password: string;
 	confirmPassword: string;
 	isValid: {

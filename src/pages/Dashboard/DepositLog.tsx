@@ -38,12 +38,12 @@ const DepositLog: React.FC = () => {
 			const queryParams = new URLSearchParams({
 				page: page.toString(),
 				limit: depositsPerPage.toString(),
-				userId: user._id,
+				userId: user.id,
 				...(search && { search }),
 				...(status !== "all" && { status }),
 			});
 
-			const response = await fetch(`${url}/api/deposits?${queryParams}`);
+			const response = await fetch(`${url}/deposits?${queryParams}`);
 			const data = await response.json();
 
 			if (response.ok) {

@@ -15,6 +15,7 @@ import {
 	Shield,
 	Settings,
 	DollarSign,
+  LayoutPanelLeft,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -42,6 +43,12 @@ const Sidebar: React.FC<SidebarProps> = ({
 	setSidebarCollapsed,
 }) => {
 	const menuGroups: MenuGroup[] = [
+		{
+			title: "DASHBOARD",
+			items: [
+				{ icon: LayoutPanelLeft, label: "Wallet", to: "/dashboard" },
+			],
+		},
 		{
 			title: "INVESTMENTS",
 			items: [
