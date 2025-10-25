@@ -51,6 +51,7 @@ import RejectedDeposits from "./pages/Admin/RejectedDeposits";
 import RejectedWithdrawals from "./pages/Admin/RejectedWithdrawals";
 import SendMail from "./pages/Admin/SendMail";
 import PageLoader from "./components/PageLoader";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Protected route wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -104,6 +105,7 @@ const AuthRoute = ({ children }: { children: React.ReactNode }) => {
 const AppRoutes = () => {
 	return (
 		<Routes>
+			<ScrollToTop />
 			{/* Public routes */}
 			<Route path="/" element={<Layout />}>
 				<Route index element={<Home />} />
