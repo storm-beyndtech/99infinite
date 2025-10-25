@@ -89,11 +89,11 @@ const Step4Privacy: React.FC = () => {
 				}, 2000);
 			} else {
 				// Handle registration error
-				setErrors({ submit: "Registration failed. Please try again." });
+				setErrors({ submit: data.message || "Registration failed. Please try again." });
 			}
 		} catch (error: any) {
-			console.error("Registration error:", error);
-			setErrors({ submit: "Registration failed. Please try again." });
+			console.error("Registration error:", error.message);
+			setErrors({ submit: error.message || "Registration failed. Please try again." });
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -103,7 +103,7 @@ const Step4Privacy: React.FC = () => {
 		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
 			<div className="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-gray-800 text-white p-6">
+				<div className="bg-gray-800 text-white p-4 md:p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Verification & Checkout</h1>
@@ -122,7 +122,7 @@ const Step4Privacy: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="p-8">
+				<div className="p-4 md:p-8">
 					<div className="space-y-8">
 						{/* Privacy Questions */}
 						<div className="bg-gray-50 rounded-xl p-6">
@@ -373,7 +373,7 @@ const Step4Privacy: React.FC = () => {
 							className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors duration-200"
 						>
 							<ChevronLeft className="w-5 h-5 mr-2" />
-							Back to Overview
+							Back
 						</button>
 
 						<button
@@ -384,11 +384,11 @@ const Step4Privacy: React.FC = () => {
 							{isSubmitting ? (
 								<>
 									<Loader className="w-5 h-5 mr-2 animate-spin" />
-									Creating Account...
+									Submitting...
 								</>
 							) : (
 								<>
-									Complete Registration
+									Submit
 									<CheckCircle className="w-5 h-5 ml-2" />
 								</>
 							)}

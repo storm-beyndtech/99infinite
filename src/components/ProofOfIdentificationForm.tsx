@@ -183,19 +183,19 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 	};
 
 	return (
-		<div className="p-6 mt-10 rounded-lg max-w-5xl mx-auto dark:bg-gray-950 dark:text-white bg-white text-gray-900">
+		<div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
 			<div className="flex justify-between items-start mb-6">
-				<h2 className="text-2xl font-semibold dark:text-white text-gray-900">Proof of Identification</h2>
+				<h2 className="text-2xl font-bold text-gray-900 dark:text-white">Proof of Identification</h2>
 			</div>
 
-			<div className="mb-6 w-full text-xs">
-				<p className="mb-2 dark:text-gray-300 text-gray-700 max-w-[600px]">
+			<div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-200 dark:border-blue-800">
+				<p className="mb-2 text-gray-700 dark:text-gray-300 text-sm">
 					To verify your identification, please upload one of the following proof of identification documents:
-					ID Card, passport or driver's license. All sides containing your personal details are required.
+					<span className="font-semibold text-blue-600 dark:text-blue-400"> ID Card, Passport, or Driver's License</span>. 
+					All sides containing your personal details are required.
 				</p>
-				<p className="dark:text-gray-300 text-gray-700 max-w-[620px]">
-					The documents must include: full name, ID number, photograph, date of birth, place of birth,
-					nationality
+				<p className="text-gray-600 dark:text-gray-400 text-xs">
+					<span className="font-medium">Required information:</span> Full name, ID number, photograph, date of birth, place of birth, and nationality
 				</p>
 			</div>
 
@@ -206,14 +206,14 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 						<button
 							key={type}
 							type="button"
-							className={`p-3 text-center rounded-md transition-all font-semibold ${
+							className={`p-3 text-center rounded-lg transition-colors font-medium border-2 ${
 								formData.documentType === type
-									? "dark:bg-blue-600 bg-blue-500 text-white"
-									: "dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 bg-gray-200 text-gray-700 hover:bg-gray-300"
+									? "bg-blue-600 text-white border-blue-600"
+									: "bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500"
 							}`}
 							onClick={() => handleDocumentTypeChange(type)}
 						>
-							{type === "id" ? "ID" : type === "passport" ? "Passport" : "Driver's License"}
+							{type === "id" ? "ID Card" : type === "passport" ? "Passport" : "Driver's License"}
 						</button>
 					))}
 				</div>
@@ -221,12 +221,14 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 					{/* Front Side Upload */}
 					<div>
-						<label className="block mb-2 dark:text-gray-300 text-gray-700">Front Side</label>
+						<label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">Front Side</label>
 						<div
-							className={`border border-dashed rounded-md p-8 text-center ${
+							className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
 								errors.frontImage
-									? "border-red-500"
-									: "dark:border-gray-600 dark:text-gray-400 border-gray-300 text-gray-600"
+									? "border-red-400 bg-red-50 dark:bg-red-900"
+									: formData.frontImage
+									? "border-green-400 bg-green-50 dark:bg-green-900"
+									: "border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 bg-gray-50 dark:bg-gray-700"
 							}`}
 						>
 							<input
@@ -241,28 +243,36 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 								htmlFor="front-image"
 								className="flex flex-col items-center justify-center h-32 cursor-pointer"
 							>
-								<Camera size={32} className="mb-2 dark:text-gray-400 text-gray-500" />
+								<Camera size={32} className={`mb-2 ${formData.frontImage ? "text-green-500" : "text-gray-400"}`} />
 								{formData.frontImage ? (
-									<span className="text-blue-400">{formData.frontImage.name}</span>
+									<div className="text-center">
+										<span className="text-green-600 dark:text-green-400 text-sm">{formData.frontImage.name}</span>
+										<p className="text-xs text-gray-500 mt-1">Click to change</p>
+									</div>
 								) : (
-									<div className="flex items-center">
-										<Upload size={16} className="mr-1" />
-										<span>Upload</span>
+									<div className="text-center">
+										<div className="flex items-center justify-center mb-1">
+											<Upload size={16} className="mr-1" />
+											<span className="text-sm">Upload Front Side</span>
+										</div>
+										<p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
 									</div>
 								)}
 							</label>
 						</div>
-						{errors.frontImage && <p className="mt-1 text-red-500 text-sm">{errors.frontImage}</p>}
+						{errors.frontImage && <p className="mt-2 text-red-500 text-sm font-medium">{errors.frontImage}</p>}
 					</div>
 
 					{/* Back Side Upload */}
 					<div>
-						<label className="block mb-2 dark:text-gray-300 text-gray-700">Back Side</label>
+						<label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">Back Side</label>
 						<div
-							className={`border border-dashed rounded-md p-8 text-center ${
+							className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
 								errors.backImage
-									? "border-red-500"
-									: "dark:border-gray-600 dark:text-gray-400 border-gray-300 text-gray-600"
+									? "border-red-400 bg-red-50 dark:bg-red-900"
+									: formData.backImage
+									? "border-green-400 bg-green-50 dark:bg-green-900"
+									: "border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 bg-gray-50 dark:bg-gray-700"
 							}`}
 						>
 							<input
@@ -277,25 +287,31 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 								htmlFor="back-image"
 								className="flex flex-col items-center justify-center h-32 cursor-pointer"
 							>
-								<Camera size={32} className="mb-2 dark:text-gray-400 text-gray-500" />
+								<Camera size={32} className={`mb-2 ${formData.backImage ? "text-green-500" : "text-gray-400"}`} />
 								{formData.backImage ? (
-									<span className="text-blue-400">{formData.backImage.name}</span>
+									<div className="text-center">
+										<span className="text-green-600 dark:text-green-400 text-sm">{formData.backImage.name}</span>
+										<p className="text-xs text-gray-500 mt-1">Click to change</p>
+									</div>
 								) : (
-									<div className="flex items-center">
-										<Upload size={16} className="mr-1" />
-										<span>Upload</span>
+									<div className="text-center">
+										<div className="flex items-center justify-center mb-1">
+											<Upload size={16} className="mr-1" />
+											<span className="text-sm">Upload Back Side</span>
+										</div>
+										<p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
 									</div>
 								)}
 							</label>
 						</div>
-						{errors.backImage && <p className="mt-1 text-red-500 text-sm">{errors.backImage}</p>}
+						{errors.backImage && <p className="mt-2 text-red-500 text-sm font-medium">{errors.backImage}</p>}
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 					{/* Document Number */}
 					<div>
-						<label htmlFor="document-number" className="block mb-2 dark:text-gray-300 text-gray-700">
+						<label htmlFor="document-number" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
 							Document Number
 						</label>
 						<input
@@ -304,19 +320,19 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 							name="documentNumber"
 							value={formData.documentNumber}
 							onChange={handleInputChange}
-							className={`w-full border rounded-md py-3 px-4 ${
+							className={`w-full border rounded-lg py-3 px-4 transition-colors bg-white dark:bg-gray-800 ${
 								errors.documentNumber
-									? "border-red-500"
-									: "dark:bg-gray-900 dark:border-gray-700 dark:text-white bg-white border-gray-300 text-gray-900"
-							}`}
+									? "border-red-400 focus:border-red-500"
+									: "border-gray-300 dark:border-gray-600 focus:border-blue-500"
+							} focus:outline-none`}
 							placeholder="Enter document number"
 						/>
-						{errors.documentNumber && <p className="mt-1 text-red-500 text-sm">{errors.documentNumber}</p>}
+						{errors.documentNumber && <p className="mt-2 text-red-500 text-sm">{errors.documentNumber}</p>}
 					</div>
 
 					{/* Expiry Date */}
 					<div className="relative">
-						<label htmlFor="expiry-date" className="block mb-2 dark:text-gray-300 text-gray-700">
+						<label htmlFor="expiry-date" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
 							Expiry Date
 						</label>
 						<div className="relative">
@@ -326,35 +342,38 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 								name="expiryDate"
 								value={formData.expiryDate}
 								onChange={handleInputChange}
-								className={`w-full border rounded-md py-3 px-4 pr-10
-              [&::-webkit-calendar-picker-indicator]:opacity-0 
-              [&::-webkit-calendar-picker-indicator]:absolute 
-              [&::-webkit-calendar-picker-indicator]:right-0 
-              [&::-webkit-calendar-picker-indicator]:w-10 
-              [&::-webkit-calendar-picker-indicator]:h-full 
-              [&::-webkit-calendar-picker-indicator]:cursor-pointer
-              ${
-								errors.expiryDate
-									? "border-red-500"
-									: "dark:bg-gray-900 dark:border-gray-700 dark:text-white bg-white border-gray-300 text-gray-900"
-							}`}
+								className={`w-full border rounded-lg py-3 px-4 pr-12 transition-colors bg-white dark:bg-gray-800 ${
+									errors.expiryDate
+										? "border-red-400 focus:border-red-500"
+										: "border-gray-300 dark:border-gray-600 focus:border-blue-500"
+								} focus:outline-none`}
 							/>
-							<Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300 pointer-events-none" />
+							<Calendar className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300 pointer-events-none" />
 						</div>
-						{errors.expiryDate && <p className="mt-1 text-red-500 text-sm">{errors.expiryDate}</p>}
+						{errors.expiryDate && <p className="mt-2 text-red-500 text-sm">{errors.expiryDate}</p>}
 					</div>
 				</div>
 
 				{alert && <Alert type={alert.type} message={alert.message} />}
 
 				{/* Submit Button */}
-				<div className="flex justify-center">
+				<div className="flex justify-center mt-8">
 					<button
 						type="submit"
 						disabled={loading}
-						className="dark:bg-blue-600 dark:hover:bg-blue-700 bg-blue-500 hover:bg-blue-600 text-white py-2 font-semibold px-6 rounded-md transition-all disabled:opacity-60 disabled:cursor-not-allowed w-full md:w-auto md:min-w-64"
+						className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto min-w-64"
 					>
-						{loading ? "Submitting..." : "Submit Proof of Identification"}
+						{loading ? (
+							<div className="flex items-center justify-center">
+								<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+								Submitting...
+							</div>
+						) : (
+							<div className="flex items-center justify-center">
+								<Upload className="mr-2" size={16} />
+								Submit Documents
+							</div>
+						)}
 					</button>
 				</div>
 			</form>

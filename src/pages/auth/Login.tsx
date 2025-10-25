@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock, Loader } from "lucide-react";
+import { Eye, EyeOff, Lock, Loader, User } from "lucide-react";
 import logo from "../../assets/logo-2-dark.png";
 import Alert from "../../components/UI/Alert";
 import { useToastUtils } from "../../services/toast";
@@ -13,7 +13,7 @@ const LoginForm: React.FC = () => {
 	const { showSuccessToast } = useToastUtils();
 
 	const [formData, setFormData] = useState({
-		email: "",
+		identifier: "",
 		password: "",
 	});
 
@@ -41,13 +41,13 @@ const LoginForm: React.FC = () => {
 		setError(null);
 
 		// Validate form
-		if (!formData.email || !formData.password) {
+		if (!formData.identifier || !formData.password) {
 			setError("Please fill in all fields");
 			return;
 		}
 
-		if (!formData.email.includes("@")) {
-			setError("Please enter a valid email address");
+		if (formData.identifier.length < 1) {
+			setError("Please enter a valid username or email address");
 			return;
 		}
 
@@ -82,7 +82,7 @@ const LoginForm: React.FC = () => {
 		}
 	};
 
-	const isFormValid = formData.email && formData.password;
+	const isFormValid = formData.identifier && formData.password;
 
 	return (
 		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -102,20 +102,20 @@ const LoginForm: React.FC = () => {
 
 					{/* Login Form */}
 					<form onSubmit={handleSubmit} className="space-y-6">
-						{/* Email Field */}
+						{/* Identifier Field */}
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+							<label className="block text-sm font-medium text-gray-700 mb-2">Username or Email Address</label>
 							<div className="relative">
 								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-									<Mail className="h-5 w-5 text-gray-400" />
+									<User className="h-5 w-5 text-gray-400" />
 								</div>
 								<input
-									type="email"
-									name="email"
-									value={formData.email}
+									type="text"
+									name="identifier"
+									value={formData.identifier}
 									onChange={handleInputChange}
 									className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-									placeholder="Enter your email"
+									placeholder="Enter your username or email"
 									required
 								/>
 							</div>

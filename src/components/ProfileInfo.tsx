@@ -4,7 +4,7 @@ import { contextData } from "@/contexts/AuthContext";
 import PageLoader from "./PageLoader";
 
 interface ProfileFormData {
-	profileImage: File | null;
+	profileImage: File | string | null;
 	email: string;
 	firstName: string;
 	lastName: string;
@@ -117,8 +117,8 @@ export default function ProfileInfo() {
 			newErrors.zipCode = "Please enter a valid zip code (at least 4 characters)";
 		}
 
-		// Only validate image size if an image is selected
-		if (formData.profileImage && formData.profileImage.size > 5 * 1024 * 1024) {
+		// Only validate image size if an image file is selected
+		if (formData.profileImage instanceof File && formData.profileImage.size > 5 * 1024 * 1024) {
 			newErrors.profileImage = "Image size must be less than 5MB";
 		}
 
@@ -248,11 +248,15 @@ export default function ProfileInfo() {
 									alt="Profile Preview"
 									className="w-full h-full object-cover"
 								/>
-							) : formData.profileImage ? (
+							) : formData.profileImage && typeof formData.profileImage === 'string' ? (
 								<img
-									src={formData.profileImage}
-									alt="Profile from URL"
+									src={formData.profileImage.startsWith('/') ? `${url}${formData.profileImage}` : formData.profileImage}
+									alt="Current Profile"
 									className="w-full h-full object-cover"
+									onError={(e) => {
+										console.error('Failed to load profile image:', formData.profileImage);
+										e.currentTarget.style.display = 'none';
+									}}
 								/>
 							) : (
 								<User size={80} className="text-gray-400 dark:text-gray-500" />
@@ -439,7 +443,7 @@ export default function ProfileInfo() {
 								onChange={handleImageChange}
 							/>
 							<span className="text-gray-600 dark:text-gray-400 text-sm">
-								{formData.profileImage ? formData.profileImage.name : "No file chosen"}
+								{formData.profileImage instanceof File ? formData.profileImage.name : "No file chosen"}
 							</span>
 						</div>
 						{errors.profileImage && (

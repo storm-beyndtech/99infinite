@@ -132,21 +132,21 @@ const Step1PersonalData: React.FC = () => {
 		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
 			<div className="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-gray-800 text-white p-6">
+				<div className="bg-gray-800 text-white p-4 md:p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Personal Data</h1>
 							<p className="text-gray-300">Step 1 of 4</p>
 						</div>
-						<div className="flex items-center space-x-4">
-							<Link 
-								to="/login" 
-								className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+						<div className="flex flex-col items-center space-y-2">
+							<Link
+								to="/login"
+								className="text-cyan-200 hover:text-white transition-colors duration-200 text-sm font-medium"
 							>
-								Already have an account? Login
+								Login?
 							</Link>
 							<Link to="/" className="hover:opacity-80 transition-opacity duration-200">
-								<img src={logo2} alt="99infinite" className="h-8 w-auto" />
+								<img src={logo2} alt="99infinite" className="h-7 w-auto" />
 							</Link>
 						</div>
 					</div>
@@ -167,8 +167,8 @@ const Step1PersonalData: React.FC = () => {
 				</div>
 
 				{/* Form Content */}
-				<div className="p-8">
-					<div className="grid md:grid-cols-2 gap-6">
+				<div className="p-4 md:p-8">
+					<div className="grid md:grid-cols-2 gap-4 md:gap-6">
 						{/* Username */}
 						<div className="md:col-span-2">
 							<label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
@@ -408,7 +408,7 @@ const Step1PersonalData: React.FC = () => {
 						<button
 							onClick={handleContinue}
 							disabled={Object.keys(errors).length > 0}
-							className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none"
+							className="inline-flex items-center px-8 py-3 bg-stone-950 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none"
 						>
 							Continue
 							<ChevronRight className="w-5 h-5 ml-2" />
@@ -418,7 +418,7 @@ const Step1PersonalData: React.FC = () => {
 					{/* Login Link */}
 					<div className="text-center mt-6">
 						<p className="text-sm text-gray-600">
-							Already have an account?{' '}
+							Already have an account?{" "}
 							<Link to="/login" className="text-blue-600 hover:text-blue-500 font-medium">
 								Sign in
 							</Link>

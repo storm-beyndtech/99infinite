@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { boardOfDirectors } from "../utils/team-members";
+import TeamMemberModal from "./team/TeamMemberModal";
 
 interface BoardOfDirectorsProps {
 	showAll?: boolean;
@@ -8,39 +9,47 @@ interface BoardOfDirectorsProps {
 }
 
 const BoardOfDirectors: React.FC<BoardOfDirectorsProps> = ({ showAll = true, showCTA = false }) => {
-	const displayMembers = showAll ? boardOfDirectors : boardOfDirectors.slice(0, 3);
+	const displayMembers = showAll ? boardOfDirectors : boardOfDirectors.slice(0, 4);
+	const [selectedMember, setSelectedMember] = useState<typeof boardOfDirectors[0] | null>(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const handleReadMore = (member: typeof boardOfDirectors[0]) => {
+		setSelectedMember(member);
+		setIsModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setSelectedMember(null);
+	};
 
 	return (
 		<section className="py-16 bg-gray-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<h2 className="text-lg font-medium italic text-gray-800 sm:text-[1.8rem] mb-10">
+				<h2 className="leading-9 font-light italic text-cyan-950 sm:text-[1.8rem] mb-10">
 					Our distinguished board brings together decades of expertise across gold assets, mining,
-					agriculture, finance, and sustainable development to guide 99Infinite's strategic vision.
+					agriculture, finance, and sustainable development to guide 99Infinite's strategic vision...
 				</h2>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 					{displayMembers.map((member) => (
 						<div
 							key={member.id}
 							className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
 						>
-							<img
-								src={member.image}
-								alt={member.title}
-								className="w-full h-80 object-cover"
-							/>
+							<img src={member.image} alt={member.title} className="w-full h-80 object-cover" />
 							<div className="p-6">
-								<h3 className="text-xl font-semibold text-gray-900 mb-2">{member.title}</h3>
-								<p className="text-blue-600 font-medium mb-3">{member.department}</p>
-								<p className="text-gray-600 text-sm mb-4 line-clamp-3">{member.content.slice(0, 150)}...</p>
+								<p className="text-blue-600 font-medium mb-3 text-sm line-clamp-1">{member.department}</p>
+								<h3 className="text-lg font-semibold text-gray-900 mb-2">{member.title}</h3>
+								<p className="text-gray-600 text-xs mb-4 line-clamp-2">{member.content.slice(0, 150)}...</p>
 								<div className="flex items-center justify-between">
 									<span className="text-sm text-gray-500">{member.location}</span>
-									<Link
-										to={`/team/${member.slug}`}
-										className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+									<button
+										onClick={() => handleReadMore(member)}
+										className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors cursor-pointer"
 									>
 										Read More →
-									</Link>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -70,6 +79,13 @@ const BoardOfDirectors: React.FC<BoardOfDirectorsProps> = ({ showAll = true, sho
 					</div>
 				)}
 			</div>
+
+			{/* Team Member Modal */}
+			<TeamMemberModal
+				member={selectedMember}
+				isOpen={isModalOpen}
+				onClose={handleCloseModal}
+			/>
 		</section>
 	);
 };

@@ -38,7 +38,7 @@ const Step3Overview: React.FC = () => {
 		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
 			<div className="max-w-5xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-gray-700 text-white p-6">
+				<div className="bg-gray-700 text-white p-4 md:p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Review Your Information</h1>
@@ -60,14 +60,14 @@ const Step3Overview: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="p-8">
+				<div className="p-4 md:p-8">
 					<div className="space-y-8">
 						{/* Personal Information Section */}
 						<div className="bg-gray-50 rounded-xl p-6">
 							<div className="flex items-center justify-between mb-4">
 								<h2 className="text-xl font-bold text-gray-900 flex items-center">
 									<User className="w-5 h-5 mr-2 text-blue-600" />
-									Personal Information
+									Personal Info
 								</h2>
 								<button
 									onClick={() => editSection(2)}
@@ -221,14 +221,14 @@ const Step3Overview: React.FC = () => {
 							className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-lg font-medium transition-colors duration-200"
 						>
 							<ChevronLeft className="w-5 h-5 mr-2" />
-							Back to Investment
+							Back
 						</button>
 
 						<button
 							onClick={handleContinue}
 							className="inline-flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors duration-200"
 						>
-							Proceed to Verification
+							Proceed
 							<ChevronRight className="w-5 h-5 ml-2" />
 						</button>
 					</div>

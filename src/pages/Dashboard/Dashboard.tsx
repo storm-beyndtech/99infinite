@@ -50,7 +50,7 @@ const Dashboard = () => {
 			setTransactionsLoading(false);
 			setRecentTransactions([]);
 		}
-		
+
 		// Fetch metal prices
 		fetchMetalPrices();
 	}, [user?.id]);
@@ -101,7 +101,6 @@ const Dashboard = () => {
 		}
 	};
 
-
 	const today = new Date();
 	const dateString = today.toLocaleDateString(undefined, {
 		weekday: "long",
@@ -140,11 +139,11 @@ const Dashboard = () => {
 							</p>
 						</div>
 						<Link
-							to="dashboard/investment-plans"
-							className="bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-amber-500/25"
+							to="/dashboard/investment-plans"
+							className="border-2 border-violet-600 bg-purple-700/10 hover:bg-purple-600/20 dark:text-white text-gray-700 font-semibold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 shadow-lg"
 						>
 							<Plus className="w-5 h-5" />
-							New Investment
+							Purchase
 						</Link>
 					</div>
 				</div>
@@ -152,7 +151,7 @@ const Dashboard = () => {
 				{/* Portfolio Overview Cards */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 					{/* Portfolio Value */}
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
 						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
 						<div className="relative z-10">
 							<div className="flex items-center justify-between mb-4">
@@ -176,7 +175,7 @@ const Dashboard = () => {
 					</div>
 
 					{/* Total Invested */}
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
 						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
 						<div className="relative z-10">
 							<div className="flex items-center justify-between mb-4">
@@ -200,7 +199,7 @@ const Dashboard = () => {
 					</div>
 
 					{/* Total Earnings */}
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
 						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
 						<div className="relative z-10">
 							<div className="flex items-center justify-between mb-4">
@@ -224,7 +223,7 @@ const Dashboard = () => {
 					</div>
 
 					{/* Gold Holdings */}
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
 						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
 						<div className="relative z-10">
 							<div className="flex items-center justify-between mb-4">
@@ -249,14 +248,14 @@ const Dashboard = () => {
 				</div>
 
 				{/* Charts and Recent Transactions */}
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+				<div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 					{/* Performance Chart */}
-					<div className="lg:col-span-2">
+					<div className="lg:col-span-3 flex">
 						<ChartTwo />
 					</div>
 
 					{/* Asset Distribution Chart */}
-					<div>
+					<div className="flex lg:col-span-2">
 						<ChartThree />
 					</div>
 				</div>
@@ -369,7 +368,6 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-
 		</>
 	);
 };

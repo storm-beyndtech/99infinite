@@ -1,5 +1,7 @@
 import React from "react";
 import teambanner from "../../assets/teambanner.png";
+import oil1 from "../../assets/oil-1.png";
+import oil2 from "../../assets/oil-2.png";
 
 const OilAndGas: React.FC = () => {
 	return (
@@ -50,24 +52,49 @@ const OilAndGas: React.FC = () => {
 								</div>
 							</div>
 						</div>
-						<div className="bg-gray-100 rounded-lg p-8">
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Key Statistics 2024-2025</h3>
-							<div className="space-y-4">
-								<div className="flex justify-between items-center border-b border-gray-200 pb-2">
-									<span className="text-gray-600">Taxes & Royalties</span>
-									<span className="font-semibold text-gray-900">A$23.2B</span>
-								</div>
-								<div className="flex justify-between items-center border-b border-gray-200 pb-2">
-									<span className="text-gray-600">Gas Production</span>
-									<span className="font-semibold text-gray-900">2,460 PJ</span>
-								</div>
-								<div className="flex justify-between items-center border-b border-gray-200 pb-2">
-									<span className="text-gray-600">LNG Export Share</span>
-									<span className="font-semibold text-gray-900">50%</span>
-								</div>
-								<div className="flex justify-between items-center">
-									<span className="text-gray-600">Global LNG Rank</span>
-									<span className="font-semibold text-gray-900">#3 Exporter</span>
+						<div>
+							<img
+								src={oil1}
+								alt="Oil and Gas Infrastructure"
+								className="rounded-lg shadow-lg w-full h-96 object-cover"
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* LNG Leadership Section */}
+			<section className="py-16 bg-gray-50">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div>
+							<img src={oil2} alt="LNG Export Operations" className="rounded-lg shadow-lg w-full" />
+						</div>
+						<div>
+							<h2 className="text-3xl font-bold text-gray-900 mb-6">Infrastructure & Export Excellence</h2>
+							<p className="text-lg text-gray-600 mb-6">
+								Australia's LNG infrastructure represents world-class capabilities in liquefaction technology
+								and export facilities, supporting the country's position as a global energy leader.
+							</p>
+							<div className="bg-gray-100 rounded-lg p-8">
+								<h3 className="text-2xl font-semibold text-gray-900 mb-6">Key Statistics 2024-2025</h3>
+								<div className="space-y-4">
+									<div className="flex justify-between items-center border-b border-gray-200 pb-2">
+										<span className="text-gray-600">Taxes & Royalties</span>
+										<span className="font-semibold text-gray-900">A$23.2B</span>
+									</div>
+									<div className="flex justify-between items-center border-b border-gray-200 pb-2">
+										<span className="text-gray-600">Gas Production</span>
+										<span className="font-semibold text-gray-900">2,460 PJ</span>
+									</div>
+									<div className="flex justify-between items-center border-b border-gray-200 pb-2">
+										<span className="text-gray-600">LNG Export Share</span>
+										<span className="font-semibold text-gray-900">50%</span>
+									</div>
+									<div className="flex justify-between items-center">
+										<span className="text-gray-600">Global LNG Rank</span>
+										<span className="font-semibold text-gray-900">#3 Exporter</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -75,7 +102,7 @@ const OilAndGas: React.FC = () => {
 				</div>
 			</section>
 
-			{/* LNG Leadership Section */}
+			{/* LNG Export Growth Section */}
 			<section className="py-16 bg-gray-50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-left lg:text-center mb-12">

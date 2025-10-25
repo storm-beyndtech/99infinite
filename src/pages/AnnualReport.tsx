@@ -1,8 +1,8 @@
-import React from "react";
-import { BarChart3, TrendingUp, DollarSign, Target, Download, FileText, ArrowUpRight } from "lucide-react";
+import { BarChart3, TrendingUp, DollarSign, Target, ArrowUpRight, Truck, Package } from "lucide-react";
 import teambanner from "../assets/teambanner.png";
+import report from "../assets/Professional-Discussion.png";
 
-const AnnualReport: React.FC = () => {
+const AtlasFinancialReport = () => {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
 			{/* Hero Section */}
@@ -11,28 +11,24 @@ const AnnualReport: React.FC = () => {
 					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl overflow-hidden shadow-2xl">
 						{/* Glassmorphism overlay */}
 						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						
+
 						<div
 							className="relative text-white py-20 bg-cover bg-center"
 							style={{
-								backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(${teambanner})`,
+								backgroundImage: `url(${teambanner})`,
 							}}
 						>
 							<div className="relative z-10 max-w-6xl mx-auto px-8 sm:px-12">
 								<div className="flex items-center space-x-4 mb-6">
-									<div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/30">
-										<BarChart3 className="w-8 h-8 text-white" />
-									</div>
 									<div>
-										<h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white">
-											Annual Report
-										</h1>
-										<p className="text-lg text-white/80 mt-2">2024 Financial Performance</p>
+										<h1 className="text-4xl sm:text-5xl font-medium text-white">Atlas Energy</h1>
+										<p className="text-lg text-white/80 mt-2">Q3 2025 Financial Performance</p>
 									</div>
 								</div>
 								<p className="text-lg sm:text-xl text-white/90 mt-6 max-w-4xl font-light leading-relaxed">
-									Comprehensive financial performance and strategic insights from 99Infinite's operations across
-									mining, agriculture, gold refining, and global investment sectors.
+									Comprehensive financial performance report for the third quarter of 2025, highlighting
+									strong operational results with net income of $86.4 million and continued growth across all
+									business segments.
 								</p>
 							</div>
 						</div>
@@ -40,7 +36,7 @@ const AnnualReport: React.FC = () => {
 				</div>
 			</section>
 
-			{/* Executive Summary Section */}
+			{/* Key Metrics Section */}
 			<section className="py-20">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-16">
@@ -49,31 +45,54 @@ const AnnualReport: React.FC = () => {
 								<TrendingUp className="w-6 h-6 text-white" />
 							</div>
 							<h2 className="text-3xl lg:text-4xl font-light text-slate-900 dark:text-white">
-								Executive Summary
+								Financial Highlights
 							</h2>
 						</div>
 						<p className="text-lg text-slate-600 dark:text-slate-400 max-w-4xl mx-auto font-light leading-relaxed">
-							99Infinite delivered exceptional financial performance in Q1 2025, with net income of $86.4 million 
-							and Adjusted EBITDA of $97.1 million, demonstrating strong growth across our diversified portfolio 
-							while maintaining our commitment to sustainable operations.
+							Net income for the third quarter of 2025 was $86.4 million, and Adjusted EBITDA for the third
+							quarter of 2025 was $97.1 million.
 						</p>
 					</div>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 						{[
-							{ value: "$170.6M", label: "Total Sales Q1 2025", change: "+5.6% from Q4 2024", changeType: "positive", icon: DollarSign },
-							{ value: "$86.4M", label: "Net Income Q1 2025", change: "Exceptional Performance", changeType: "positive", icon: TrendingUp },
-							{ value: "$97.1M", label: "Adjusted EBITDA Q1", change: "Operational Excellence", changeType: "positive", icon: Target },
-							{ value: "$838.4M", label: "Total Liquidity", change: "Record High Position", changeType: "positive", icon: BarChart3 }
+							{
+								value: "$86.4M",
+								label: "Net Income Q3 2025",
+								change: "Strong Performance",
+								changeType: "positive",
+								icon: DollarSign,
+							},
+							{
+								value: "$97.1M",
+								label: "Adjusted EBITDA Q3",
+								change: "Operational Excellence",
+								changeType: "positive",
+								icon: TrendingUp,
+							},
+							{
+								value: "$170.6M",
+								label: "Total Sales Q3 2025",
+								change: "+5.6% from Q2 2025",
+								changeType: "positive",
+								icon: Target,
+							},
+							{
+								value: "$838.4M",
+								label: "Total Liquidity",
+								change: "As of August 31, 2025",
+								changeType: "positive",
+								icon: BarChart3,
+							},
 						].map((metric, index) => {
 							const Icon = metric.icon;
 							return (
 								<div
 									key={index}
-									className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
+									className="relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
 								>
 									{/* Glassmorphism overlay */}
 									<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-2xl"></div>
-									
+
 									<div className="relative z-10">
 										<div className="flex items-center justify-between mb-4">
 											<div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-xl flex items-center justify-center shadow-inner">
@@ -88,9 +107,7 @@ const AnnualReport: React.FC = () => {
 											<p className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
 												{metric.label}
 											</p>
-											<p className="text-xs text-emerald-600 dark:text-emerald-400">
-												{metric.change}
-											</p>
+											<p className="text-xs text-emerald-600 dark:text-emerald-400">{metric.change}</p>
 										</div>
 									</div>
 								</div>
@@ -100,179 +117,257 @@ const AnnualReport: React.FC = () => {
 				</div>
 			</section>
 
-			{/* Financial Performance Section */}
-			<section className="py-16 bg-gray-50">
+			{/* Sales Overview Section */}
+			<section className="py-16 bg-white/50 dark:bg-slate-900/50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-left lg:text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 mb-4">Financial Performance Q1 2025</h2>
-						<p className="text-lg text-gray-600 max-w-3xl mx-auto">
-							Detailed breakdown of our first quarter 2025 financial results, demonstrating exceptional growth
-							with total sales reaching $170.6 million and strong operational efficiency across all business segments.
+					<div className="text-center mb-12">
+						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Sales Overview</h2>
+						<p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+							Third quarter 2025 sales performance across product and service segments
 						</p>
 					</div>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-						<div>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Revenue Analysis</h3>
-							<div className="space-y-6">
-								<div className="bg-white rounded-lg p-6 shadow-md">
-									<h4 className="font-semibold text-gray-900 mb-4">Total Sales Growth</h4>
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Q1 2025 Total Sales</span>
-										<span className="font-semibold text-gray-900">$170.6M</span>
-									</div>
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Q4 2024 Comparison</span>
-										<span className="font-semibold text-green-600">+$9.6M (+5.6%)</span>
-									</div>
-									<p className="text-sm text-gray-600 mt-4">
-										Strong growth driven by increased product sales and expanded service offerings, with 
-										consistent increases in sales prices across our diversified portfolio.
-									</p>
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+						{/* Image Card */}
+						<div className="relative rounded-2xl overflow-hidden shadow-xl h-96">
+							<img
+								src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=80"
+								alt="Business Growth"
+								className="w-full h-full object-cover"
+							/>
+							<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+							<div className="absolute bottom-6 left-6 right-6 text-white">
+								<h3 className="text-2xl font-bold mb-2">Growth Across All Segments</h3>
+								<p className="text-white/90">Q3 2025 demonstrated strong sales performance</p>
+							</div>
+						</div>
+
+						{/* Total Sales Card */}
+						<div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 shadow-xl text-white">
+							<h3 className="text-2xl font-semibold mb-6">Total Sales Growth</h3>
+							<p className="text-white/90 mb-6 leading-relaxed">
+								In the third quarter of 2025, Atlas Energy saw total sales increase by $9.6 million, or 5.6%,
+								compared to the second quarter, reaching $170.6 million.
+							</p>
+							<div className="space-y-3">
+								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg p-4">
+									<span className="text-white/80">Q3 2025 Total Sales</span>
+									<span className="text-2xl font-bold">$170.6M</span>
 								</div>
-								<div className="bg-white rounded-lg p-6 shadow-md">
-									<h4 className="font-semibold text-gray-900 mb-4">Product Sales Performance</h4>
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Q1 2025 Product Sales</span>
-										<span className="font-semibold text-gray-900">$120.8M</span>
-									</div>
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Quarter-over-Quarter</span>
-										<span className="font-semibold text-green-600">+$10.4M (+9.3%)</span>
-									</div>
-									<p className="text-sm text-gray-600 mt-4">
-										Strong performance driven by an increase in sales price across mining, agriculture, and
-										energy sectors.
-									</p>
+								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg p-4">
+									<span className="text-white/80">Growth from Q2</span>
+									<span className="text-2xl font-bold text-green-300">+$9.6M</span>
 								</div>
-								<div className="bg-white rounded-lg p-6 shadow-md">
-									<h4 className="font-semibold text-gray-900 mb-4">Service Revenue Growth</h4>
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Service Sales Increase</span>
-										<span className="font-semibold text-green-600">+$4.3M (+13.1%)</span>
+								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg p-4">
+									<span className="text-white/80">Percentage Increase</span>
+									<span className="text-2xl font-bold text-green-300">+5.6%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Product and Service Sales */}
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						{/* Product Sales */}
+						<div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+							<div className="flex items-center space-x-3 mb-6">
+								<div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center">
+									<Package className="w-6 h-6 text-green-600 dark:text-green-400" />
+								</div>
+								<h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Product Sales</h3>
+							</div>
+							<p className="text-gray-600 dark:text-gray-400 mb-6">
+								Product sales rose by $10.4 million, or 9.3%, to $120.8 million, driven by a consistent
+								increase in sales prices.
+							</p>
+							<div className="space-y-4">
+								<div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Q3 2025 Product Sales</span>
+										<span className="text-xl font-bold text-gray-900 dark:text-white">$120.8M</span>
 									</div>
-									<p className="text-sm text-gray-600 mt-4">
-										Significant growth in service sales due to increased active jobs, expanded fleet of trucks,
-										and continued customer adoption of single and multi-trailer logistics offerings.
+								</div>
+								<div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Growth Rate</span>
+										<span className="text-xl font-bold text-green-600 dark:text-green-400">+9.3%</span>
+									</div>
+								</div>
+								<div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Increase from Q2</span>
+										<span className="text-xl font-bold text-green-600 dark:text-green-400">+$10.4M</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Service Sales */}
+						<div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+							<div className="flex items-center space-x-3 mb-6">
+								<div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
+									<Truck className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+								</div>
+								<h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Service Sales</h3>
+							</div>
+							<p className="text-gray-600 dark:text-gray-400 mb-6">
+								Service sales increased by $4.3 million, or 13.1%, compared to the second quarter of 2025,
+								resulting from an increase in active jobs, facilitated by a larger fleet of trucks.
+							</p>
+							<div className="space-y-4">
+								<div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Service Sales Growth</span>
+										<span className="text-xl font-bold text-purple-600 dark:text-purple-400">+13.1%</span>
+									</div>
+								</div>
+								<div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Increase Amount</span>
+										<span className="text-xl font-bold text-purple-600 dark:text-purple-400">+$4.3M</span>
+									</div>
+								</div>
+								<div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+									<p className="text-sm text-gray-700 dark:text-gray-300">
+										Growth driven by expanded fleet and customer adoption of single and multi-trailer
+										logistics offerings
 									</p>
 								</div>
 							</div>
 						</div>
-						<div>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Cost Management</h3>
-							<div className="space-y-6">
-								<div className="bg-white rounded-lg p-6 shadow-md">
-									<h4 className="font-semibold text-gray-900 mb-4">Cost of Sales</h4>
+					</div>
+
+					{/* Market Dynamics Note */}
+					<div className="mt-8 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 rounded-lg p-6">
+						<h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Market Dynamics</h4>
+						<p className="text-gray-700 dark:text-gray-300 mb-3">
+							Despite our optimistic outlook, the sequential price decline was attributed to higher-priced,
+							shorter-duration contracts rolling off and being replaced by new contracts at lower rates, along
+							with quarterly pricing resets on certain contracts.
+						</p>
+						<p className="text-gray-700 dark:text-gray-300">
+							Service growth was partially offset by shorter haul distances, as customer activity was
+							concentrated closer to our mines during the quarter.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			{/* Cost Analysis Section */}
+			<section className="py-16 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					<div className="text-center mb-12">
+						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Cost Analysis</h2>
+						<p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+							Detailed breakdown of operational costs and expenses for Q3 2025
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						{/* Cost of Sales */}
+						<div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
+							<h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Cost of Sales</h3>
+							<p className="text-gray-600 dark:text-gray-400 mb-6">
+								In the third quarter of 2025, the cost of sales (excluding depreciation, depletion, and
+								accretion expense) increased by $7.3 million, or 7.3%, compared to the second quarter of 2025,
+								totaling $77.8 million.
+							</p>
+							<div className="space-y-4 mb-6">
+								<div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Q1 2025 Cost of Sales</span>
-										<span className="font-semibold text-gray-900">$77.8M</span>
+										<span className="text-gray-700 dark:text-gray-300">Q3 2025 Cost of Sales</span>
+										<span className="text-2xl font-bold text-gray-900 dark:text-white">$77.8M</span>
 									</div>
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Quarter-over-Quarter</span>
-										<span className="font-semibold text-orange-600">+$7.3M (+7.3%)</span>
-									</div>
-									<p className="text-sm text-gray-600 mt-4">
-										Increase primarily driven by higher trucking and last-mile logistics costs resulting from
-										expansion of our fleet to support growing operations.
-									</p>
 								</div>
-								<div className="bg-white rounded-lg p-6 shadow-md">
-									<h4 className="font-semibold text-gray-900 mb-4">SG&A Expenses</h4>
+								<div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Q1 2025 SG&A</span>
-										<span className="font-semibold text-gray-900">$14.3M</span>
+										<span className="text-gray-700 dark:text-gray-300">Increase from Q2</span>
+										<span className="text-xl font-semibold text-red-600 dark:text-red-400">+$7.3M</span>
 									</div>
+								</div>
+								<div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Percentage Increase</span>
+										<span className="text-xl font-semibold text-red-600 dark:text-red-400">+7.3%</span>
+									</div>
+								</div>
+							</div>
+							<div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+								<p className="text-sm text-gray-700 dark:text-gray-300">
+									<span className="font-semibold">Primary Driver:</span> This increase was primarily driven by
+									higher trucking and last-mile logistics costs, resulting from the expansion of our fleet.
+								</p>
+							</div>
+						</div>
+
+						{/* SG&A Expenses */}
+						<div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
+							<h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">SG&A Expenses</h3>
+							<p className="text-gray-600 dark:text-gray-400 mb-6">
+								Selling, general, and administrative expenses (SG&A) for the third quarter of 2025 rose by
+								$3.1 million, or 17.4%, compared to the second quarter of 2025, amounting to $14.3 million.
+							</p>
+							<div className="space-y-4 mb-6">
+								<div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-600">Quarter-over-Quarter</span>
-										<span className="font-semibold text-orange-600">+$3.1M (+17.4%)</span>
+										<span className="text-gray-700 dark:text-gray-300">Q3 2025 SG&A</span>
+										<span className="text-2xl font-bold text-gray-900 dark:text-white">$14.3M</span>
 									</div>
-									<p className="text-sm text-gray-600 mt-4">
-										Increase largely due to $3.7M in non-recurring transaction costs related to the Up-C
-										Simplification and refinancing of the 2024 Term Loan Credit Facility.
-									</p>
 								</div>
-								<div className="bg-white rounded-lg p-6 shadow-md">
-									<h4 className="font-semibold text-gray-900 mb-4">Operational Efficiency</h4>
-									<div className="space-y-2">
-										<div className="flex justify-between items-center">
-											<span className="text-gray-600">Gross Margin</span>
-											<span className="font-semibold text-green-600">Strong</span>
-										</div>
-										<div className="flex justify-between items-center">
-											<span className="text-gray-600">Cost Management</span>
-											<span className="font-semibold text-blue-600">Disciplined</span>
-										</div>
+								<div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center mb-2">
+										<span className="text-gray-700 dark:text-gray-300">Increase from Q2</span>
+										<span className="text-xl font-semibold text-orange-600 dark:text-orange-400">+$3.1M</span>
 									</div>
-									<p className="text-sm text-gray-600 mt-4">
-										Maintained operational discipline while investing in growth initiatives and infrastructure
-										expansion across business segments.
-									</p>
 								</div>
+								<div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
+									<div className="flex justify-between items-center">
+										<span className="text-gray-700 dark:text-gray-300">Percentage Increase</span>
+										<span className="text-xl font-semibold text-orange-600 dark:text-orange-400">+17.4%</span>
+									</div>
+								</div>
+							</div>
+							<div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+								<p className="text-sm text-gray-700 dark:text-gray-300">
+									<span className="font-semibold">Primary Driver:</span> This increase was largely due to $3.7
+									million in non-recurring transaction costs related to the Up-C Simplification and the
+									refinancing of the 2024 Term Loan Credit Facility.
+								</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			{/* Capital Position Section */}
-			<section className="py-16 bg-white">
+			{/* Liquidity Section */}
+			<section className="py-20 bg-gradient-to-br from-blue-600 to-indigo-700">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-left lg:text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 mb-4">Capital Position & Liquidity</h2>
-						<p className="text-lg text-gray-600 max-w-3xl mx-auto">
-							Strong financial position with substantial liquidity and strategic capital allocation supporting
-							continued growth and investment opportunities.
-						</p>
-					</div>
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-						<div>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Liquidity Position</h3>
-							<div className="bg-blue-50 rounded-lg p-8 mb-6">
-								<h4 className="font-semibold text-gray-900 mb-4">Total Liquidity as of April 30, 2025</h4>
-								<div className="text-4xl font-bold text-blue-600 mb-4">$838.4M</div>
-								<div className="space-y-3">
-									<div className="flex justify-between items-center">
-										<span className="text-gray-600">Cash & Cash Equivalents</span>
-										<span className="font-semibold text-gray-900">$664.5M</span>
-									</div>
-									<div className="flex justify-between items-center">
-										<span className="text-gray-600">Available Credit Facilities</span>
-										<span className="font-semibold text-gray-900">$173.9M</span>
-									</div>
-								</div>
-							</div>
-							<p className="text-gray-600">
-								Our strong liquidity position provides flexibility for strategic investments, operational
-								expansion, and capitalizing on growth opportunities across our diversified business portfolio.
-							</p>
+						{/* Image */}
+						<div className="relative rounded-2xl overflow-hidden shadow-2xl">
+							<img src={report} alt="Financial Strength" className="w-full object-cover" />
 						</div>
-						<div>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Capital Allocation Strategy</h3>
+
+						{/* Content */}
+						<div className="text-white">
+							<h2 className="text-5xl leading-normal font-semibold mb-6">
+								Liquidity and Capital Expenditures
+							</h2>
+							<p className="text-xl mb-8 text-blue-100 leading-relaxed">
+								As of August 31, 2025, the Company's total liquidity was $838.4 million, consisting of $664.5
+								million in cash and cash equivalents.
+							</p>
+
 							<div className="space-y-4">
-								<div className="border-l-4 border-blue-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Growth Investments</h4>
-									<p className="text-gray-600">
-										Strategic capital deployment in mining technology, agricultural innovation, and energy
-										infrastructure
-									</p>
+								<div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+									<div className="text-blue-200 text-sm font-semibold mb-2">TOTAL LIQUIDITY</div>
+									<div className="text-5xl font-bold mb-2">$838.4M</div>
+									<div className="text-blue-200">Strong financial position as of August 31, 2025</div>
 								</div>
-								<div className="border-l-4 border-green-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Operational Excellence</h4>
-									<p className="text-gray-600">
-										Continued investment in efficiency improvements and technological advancement across all
-										sectors
-									</p>
-								</div>
-								<div className="border-l-4 border-purple-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Community Investment</h4>
-									<p className="text-gray-600">
-										Sustained commitment to community development and environmental stewardship initiatives
-									</p>
-								</div>
-								<div className="border-l-4 border-orange-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Shareholder Returns</h4>
-									<p className="text-gray-600">
-										Balanced approach to capital returns while maintaining investment in long-term growth
-									</p>
+
+								<div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+									<div className="text-blue-200 text-sm font-semibold mb-2">CASH & CASH EQUIVALENTS</div>
+									<div className="text-5xl font-bold mb-2">$664.5M</div>
+									<div className="text-blue-200">Immediate available capital for operations and growth</div>
 								</div>
 							</div>
 						</div>
@@ -280,251 +375,38 @@ const AnnualReport: React.FC = () => {
 				</div>
 			</section>
 
-			{/* Key Performance Highlight Section */}
-			<section className="py-20">
+			{/* Financial Summary */}
+			<section className="py-16 bg-white dark:bg-slate-900">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-						{/* Glassmorphism overlay */}
-						<div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 to-purple-700/80 dark:from-blue-500/70 dark:to-purple-600/70"></div>
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl"></div>
-						
-						<div className="relative z-10 text-center">
-							<div className="flex items-center justify-center space-x-3 mb-8">
-								<div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/30">
-									<FileText className="w-6 h-6 text-white" />
-								</div>
-								<h3 className="text-2xl md:text-3xl font-light text-white">Key Financial Highlights</h3>
-							</div>
-							<blockquote className="text-lg md:text-xl lg:text-2xl text-white/95 font-light leading-relaxed mb-8 italic max-w-4xl mx-auto">
-								"Net income for the first quarter of 2025 was $86.4 million, and Adjusted EBITDA for the 
-								first quarter of 2025 was $97.1 million."
-							</blockquote>
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-								{[
-									{ value: "$170.6M", label: "Total Sales Q1 2025" },
-									{ value: "$86.4M", label: "Net Income Q1 2025" },
-									{ value: "$838.4M", label: "Total Liquidity" }
-								].map((highlight, index) => (
-									<div key={index} className="text-center">
-										<div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
-											<div className="text-4xl font-light text-white mb-3">{highlight.value}</div>
-											<p className="text-white/80 font-medium">{highlight.label}</p>
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
+					<div className="text-center mb-12">
+						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Financial Summary</h2>
+						<p className="text-lg text-gray-600 dark:text-gray-400">Q3 2025 Performance Overview</p>
 					</div>
-				</div>
-			</section>
 
-			{/* Segment Performance Section */}
-			<section className="py-16 bg-gray-50">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-left lg:text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 mb-4">Business Segment Performance</h2>
-						<p className="text-lg text-gray-600 max-w-3xl mx-auto">
-							Diversified portfolio performance across mining, agriculture, oil & gas, and sustainable
-							development initiatives driving consistent growth.
-						</p>
-					</div>
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-						<div className="bg-white rounded-lg p-6 shadow-md">
-							<div className="w-12 h-12 bg-gray-600 rounded-lg flex items-center justify-center mb-4">
-								<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-									/>
-								</svg>
-							</div>
-							<h3 className="text-xl font-semibold text-gray-900 mb-3">Mining Operations</h3>
-							<p className="text-gray-600 mb-4">
-								Strong performance in iron ore and gold operations with $300M+ in community royalties
-							</p>
-							<div className="text-2xl font-bold text-gray-600 mb-1">Leading</div>
-							<p className="text-sm text-gray-500">Market Position</p>
-						</div>
-						<div className="bg-white rounded-lg p-6 shadow-md">
-							<div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
-								<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-									/>
-								</svg>
-							</div>
-							<h3 className="text-xl font-semibold text-gray-900 mb-3">Agriculture</h3>
-							<p className="text-gray-600 mb-4">
-								Second largest beef producer with 340,000+ herd capacity across 25+ properties
-							</p>
-							<div className="text-2xl font-bold text-green-600 mb-1">#2</div>
-							<p className="text-sm text-gray-500">Producer Ranking</p>
-						</div>
-						<div className="bg-white rounded-lg p-6 shadow-md">
-							<div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-								<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M13 10V3L4 14h7v7l9-11h-7z"
-									/>
-								</svg>
-							</div>
-							<h3 className="text-xl font-semibold text-gray-900 mb-3">Oil & Gas</h3>
-							<p className="text-gray-600 mb-4">
-								Strategic investments in Australia's expanding LNG export market
-							</p>
-							<div className="text-2xl font-bold text-blue-600 mb-1">Growing</div>
-							<p className="text-sm text-gray-500">Market Share</p>
-						</div>
-						<div className="bg-white rounded-lg p-6 shadow-md">
-							<div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
-								<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-									/>
-								</svg>
-							</div>
-							<h3 className="text-xl font-semibold text-gray-900 mb-3">Sustainability</h3>
-							<p className="text-gray-600 mb-4">
-								Leading ESG initiatives with 43% emissions reduction target by 2030
-							</p>
-							<div className="text-2xl font-bold text-purple-600 mb-1">2050</div>
-							<p className="text-sm text-gray-500">Net Zero Target</p>
-						</div>
-					</div>
-				</div>
-			</section>
-
-			{/* Historical Performance Section */}
-			<section className="py-16 bg-white">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-left lg:text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 mb-4">
-							Historical Performance & Capital Placements
-						</h2>
-						<p className="text-lg text-gray-600 max-w-3xl mx-auto">
-							Since 1992, 99Infinite has demonstrated consistent performance with an average of $5 billion in
-							capital placements annually, establishing our position as a leading investment partner.
-						</p>
-					</div>
-					<div className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-lg p-8 text-white mb-12">
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left lg:text-center">
+					<div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl p-8 md:p-12 text-white">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 							<div>
-								<div className="text-4xl font-bold mb-2">$5B</div>
-								<p className="text-indigo-100">Annual Capital Placements</p>
-								<p className="text-sm text-indigo-200 mt-1">Since 1992 Average</p>
+								<h3 className="text-2xl font-bold mb-6">Net Income</h3>
+								<div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-4">
+									<div className="text-blue-200 text-sm mb-2">Third Quarter 2025</div>
+									<div className="text-4xl font-bold">$86.4M</div>
+								</div>
+								<p className="text-gray-300">
+									Strong net income performance demonstrating operational efficiency and effective cost
+									management.
+								</p>
 							</div>
-							<div>
-								<div className="text-4xl font-bold mb-2">30+</div>
-								<p className="text-indigo-100">Years of Experience</p>
-								<p className="text-sm text-indigo-200 mt-1">Established Track Record</p>
-							</div>
-							<div>
-								<div className="text-4xl font-bold mb-2">$150B+</div>
-								<p className="text-indigo-100">Total Capital Placed</p>
-								<p className="text-sm text-indigo-200 mt-1">Cumulative Investment</p>
-							</div>
-						</div>
-					</div>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-						<div>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Investment Track Record</h3>
-							<div className="space-y-4">
-								<div className="bg-gray-50 rounded-lg p-6">
-									<h4 className="font-semibold text-gray-900 mb-2">Consistent Performance</h4>
-									<p className="text-gray-600">
-										Over three decades of delivering strong returns through diversified investments across
-										multiple sectors and economic cycles.
-									</p>
-								</div>
-								<div className="bg-gray-50 rounded-lg p-6">
-									<h4 className="font-semibold text-gray-900 mb-2">Strategic Positioning</h4>
-									<p className="text-gray-600">
-										Leadership position in Australian mining, agriculture, and energy sectors with strong
-										international partnerships and market access.
-									</p>
-								</div>
-								<div className="bg-gray-50 rounded-lg p-6">
-									<h4 className="font-semibold text-gray-900 mb-2">Risk Management</h4>
-									<p className="text-gray-600">
-										Disciplined approach to capital allocation with focus on long-term value creation and
-										sustainable business practices.
-									</p>
-								</div>
-							</div>
-						</div>
-						<div>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Future Outlook</h3>
-							<div className="space-y-4">
-								<div className="bg-blue-50 rounded-lg p-6">
-									<h4 className="font-semibold text-gray-900 mb-2">Growth Opportunities</h4>
-									<p className="text-gray-600">
-										Positioned to capitalize on increasing global demand for minerals, food security, and
-										clean energy solutions.
-									</p>
-								</div>
-								<div className="bg-green-50 rounded-lg p-6">
-									<h4 className="font-semibold text-gray-900 mb-2">Technology Innovation</h4>
-									<p className="text-gray-600">
-										Continued investment in cutting-edge technology and digital transformation across all
-										business segments.
-									</p>
-								</div>
-								<div className="bg-purple-50 rounded-lg p-6">
-									<h4 className="font-semibold text-gray-900 mb-2">Sustainability Leadership</h4>
-									<p className="text-gray-600">
-										Commitment to net-zero emissions by 2050 while maintaining strong financial performance
-										and community investment.
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
 
-			{/* Download & Contact Section */}
-			<section className="py-20">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 md:p-12 shadow-2xl text-center">
-						{/* Glassmorphism overlay */}
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						
-						<div className="relative z-10">
-							<div className="flex items-center justify-center space-x-3 mb-8">
-								<div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-									<Download className="w-6 h-6 text-white" />
+							<div>
+								<h3 className="text-2xl font-bold mb-6">Adjusted EBITDA</h3>
+								<div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-4">
+									<div className="text-green-200 text-sm mb-2">Last Quarter 2024</div>
+									<div className="text-4xl font-bold">$97.1M</div>
 								</div>
-								<h2 className="text-3xl font-light text-slate-900 dark:text-white">
-									Access Complete Annual Report
-								</h2>
-							</div>
-							<p className="text-lg text-slate-600 dark:text-slate-400 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
-								Download our comprehensive annual report for detailed financial statements, governance
-								information, and strategic outlook for continued growth.
-							</p>
-							<div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-								<button className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-									<Download className="w-5 h-5" />
-									<span>Download Full Report (PDF)</span>
-								</button>
-								<button className="flex items-center justify-center space-x-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 px-8 py-4 rounded-2xl font-medium hover:bg-white/50 dark:hover:bg-slate-700/50 transition-all duration-300 backdrop-blur-sm">
-									<FileText className="w-5 h-5" />
-									<span>Contact Investor Relations</span>
-								</button>
-							</div>
-							<div className="text-slate-500 dark:text-slate-400">
-								<p className="text-sm">Report covers fiscal year ending December 31, 2024</p>
+								<p className="text-gray-300">
+									Robust Adjusted EBITDA highlighting the company's strong operational performance and cash
+									generation capability.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -534,4 +416,4 @@ const AnnualReport: React.FC = () => {
 	);
 };
 
-export default AnnualReport;
+export default AtlasFinancialReport;

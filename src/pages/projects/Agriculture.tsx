@@ -1,5 +1,7 @@
 import React from "react";
 import teambanner from "../../assets/teambanner.png";
+import agriculture from "../../assets/agriculture.png";
+import agriculture2 from "../../assets/agriculture-2.png";
 
 const Agriculture: React.FC = () => {
 	return (
@@ -14,7 +16,7 @@ const Agriculture: React.FC = () => {
 						}}
 					>
 						<div className="max-w-7xl mx-auto px-5 sm:px-10">
-							<h1 className="text-6xl font-bold">Agriculture Investment</h1>
+							<h1 className="text-5xl sm:text-6xl font-bold">Agriculture Investment</h1>
 							<p className="text-lg text-white/60 mt-4 max-w-[800px]">
 								99Infinite's world-class agribusiness portfolio represents the country's second largest beef
 								producer with a total herd capacity of over 340,000 across 25+ properties nationwide.
@@ -50,31 +52,12 @@ const Agriculture: React.FC = () => {
 								</div>
 							</div>
 						</div>
-						<div className="bg-gray-100 rounded-lg p-8">
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Heritage & Legacy</h3>
-							<div className="space-y-4">
-								<div className="border-l-4 border-green-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Historic Cattle Stations</h4>
-									<p className="text-gray-600">
-										Prior to mining exploration, the family owned and operated iconic cattle stations
-										including Ashburton Downs and Hamersley Station
-									</p>
-								</div>
-								<div className="border-l-4 border-green-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Strategic Growth</h4>
-									<p className="text-gray-600">
-										The Group has significantly grown the agricultural portfolio with strategic investment in
-										pastoral stations and agribusinesses
-									</p>
-								</div>
-								<div className="border-l-4 border-green-600 pl-4">
-									<h4 className="font-semibold text-gray-900">Market Leadership</h4>
-									<p className="text-gray-600">
-										Second largest beef producer in the country with nationwide operations from Western
-										Australia to New South Wales
-									</p>
-								</div>
-							</div>
+						<div>
+							<img
+								src={agriculture}
+								alt="Agricultural Operations"
+								className="rounded-lg shadow-lg w-full h-[500px] object-cover object-top"
+							/>
 						</div>
 					</div>
 				</div>
@@ -132,6 +115,45 @@ const Agriculture: React.FC = () => {
 							<div>
 								<div className="text-xl font-bold mb-2">Drone Tech</div>
 								<p className="text-green-100">Remote Monitoring</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Heritage & Legacy Section */}
+			<section className="py-16 bg-gray-50">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div>
+							<img src={agriculture2} alt="Agricultural Heritage" className="rounded-lg shadow-lg w-full" />
+						</div>
+						<div>
+							<div className="bg-gray-100 rounded-lg p-8">
+								<h3 className="text-2xl font-semibold text-gray-900 mb-6">Heritage & Legacy</h3>
+								<div className="space-y-4">
+									<div className="border-l-4 border-green-600 pl-4">
+										<h4 className="font-semibold text-gray-900">Historic Cattle Stations</h4>
+										<p className="text-gray-600">
+											Prior to mining exploration, the family owned and operated iconic cattle stations
+											including Ashburton Downs and Hamersley Station
+										</p>
+									</div>
+									<div className="border-l-4 border-green-600 pl-4">
+										<h4 className="font-semibold text-gray-900">Strategic Growth</h4>
+										<p className="text-gray-600">
+											The Group has significantly grown the agricultural portfolio with strategic investment
+											in pastoral stations and agribusinesses
+										</p>
+									</div>
+									<div className="border-l-4 border-green-600 pl-4">
+										<h4 className="font-semibold text-gray-900">Market Leadership</h4>
+										<p className="text-gray-600">
+											Second largest beef producer in the country with nationwide operations from Western
+											Australia to New South Wales
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

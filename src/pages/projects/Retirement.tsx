@@ -1,5 +1,6 @@
 import React from "react";
 import teambanner from "../../assets/teambanner.png";
+import elderlyWoman from "../../assets/Elderly-Woman.png";
 
 const Retirement: React.FC = () => {
 	return (
@@ -14,7 +15,7 @@ const Retirement: React.FC = () => {
 						}}
 					>
 						<div className="max-w-7xl mx-auto px-5 sm:px-10">
-							<h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-left">Retirement Solutions</h1>
+							<h1 className="text-5xl lg:text-6xl font-bold text-left">Retirement Solutions</h1>
 							<p className="text-base sm:text-lg text-white/60 mt-4 max-w-[800px] text-left">
 								Secure your financial future with 99Infinite's comprehensive retirement investment strategies
 								designed to preserve and grow wealth through diversified global portfolio management.
@@ -98,24 +99,58 @@ const Retirement: React.FC = () => {
 								</div>
 							</div>
 						</div>
-						<div className="bg-gray-100 rounded-lg p-8">
-							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Investment Performance</h3>
+						<div>
+							<img
+								src={elderlyWoman}
+								alt="Retirement Investment Planning"
+								className="rounded-lg shadow-lg w-full h-96 object-cover"
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Investment Performance Section */}
+			<section className="py-16 bg-gray-50">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div>
+							<h2 className="text-3xl font-bold text-gray-900 mb-6">Proven Investment Performance</h2>
+							<p className="text-lg text-gray-600 mb-6">
+								Over 30 years of experience in wealth management has delivered consistent returns for our retirement
+								planning clients through disciplined investment strategies and diversified portfolio management.
+							</p>
 							<div className="space-y-4">
-								<div className="flex justify-between items-center border-b border-gray-200 pb-2">
+								<div className="flex justify-between items-center bg-white rounded-lg p-4 shadow-sm">
 									<span className="text-gray-600">Average Annual Return</span>
-									<span className="font-semibold text-emerald-600">12.5%</span>
+									<span className="font-semibold text-emerald-600 text-lg">12.5%</span>
 								</div>
-								<div className="flex justify-between items-center border-b border-gray-200 pb-2">
-									<span className="text-gray-600">Capital Placements (Annual)</span>
-									<span className="font-semibold text-gray-900">$5B</span>
+								<div className="flex justify-between items-center bg-white rounded-lg p-4 shadow-sm">
+									<span className="text-gray-600">Years of Experience</span>
+									<span className="font-semibold text-gray-900 text-lg">30+</span>
 								</div>
-								<div className="flex justify-between items-center border-b border-gray-200 pb-2">
+								<div className="flex justify-between items-center bg-white rounded-lg p-4 shadow-sm">
 									<span className="text-gray-600">Portfolio Diversification</span>
-									<span className="font-semibold text-blue-600">4 Sectors</span>
+									<span className="font-semibold text-blue-600 text-lg">4 Sectors</span>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div className="bg-emerald-50 rounded-lg p-8">
+								<h3 className="text-2xl font-semibold text-gray-900 mb-6">Capital Deployment</h3>
+								<div className="space-y-4">
+								<div className="flex justify-between items-center border-b border-emerald-200 pb-2">
+									<span className="text-gray-600">Capital Placements (Annual)</span>
+									<span className="font-semibold text-emerald-600 text-lg">$5B</span>
+								</div>
+								<div className="flex justify-between items-center border-b border-emerald-200 pb-2">
+									<span className="text-gray-600">Global Clients Served</span>
+									<span className="font-semibold text-gray-900 text-lg">1000+</span>
 								</div>
 								<div className="flex justify-between items-center">
-									<span className="text-gray-600">Years of Experience</span>
-									<span className="font-semibold text-gray-900">30+</span>
+									<span className="text-gray-600">Success Rate</span>
+									<span className="font-semibold text-emerald-600 text-lg">98%</span>
+								</div>
 								</div>
 							</div>
 						</div>

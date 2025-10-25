@@ -129,6 +129,14 @@ const Step2Investment: React.FC = () => {
 
 	const handleContinue = () => {
 		if (selectedProducts.length > 0 && tempSum >= 100) {
+			// Store selected products in localStorage for later use in dashboard
+			const pendingProducts = {
+				products: selectedProducts,
+				totalAmount: tempSum,
+				timestamp: new Date().toISOString(),
+				status: 'pending'
+			};
+			localStorage.setItem('pendingProducts', JSON.stringify(pendingProducts));
 			nextStep();
 		}
 	};
@@ -137,7 +145,7 @@ const Step2Investment: React.FC = () => {
 		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
 			<div className="max-w-6xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 				{/* Header */}
-				<div className="bg-gray-800 text-white p-6">
+				<div className="bg-gray-800 text-white p-4 md:p-6">
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Investment Selection</h1>
@@ -156,7 +164,7 @@ const Step2Investment: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="p-8">
+				<div className="p-4 md:p-8">
 					<div className="grid lg:grid-cols-3 gap-8">
 						{/* Product Selection */}
 						<div className="lg:col-span-2">
@@ -340,7 +348,7 @@ const Step2Investment: React.FC = () => {
 							disabled={selectedProducts.length === 0 || tempSum < 100}
 							className="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors duration-200"
 						>
-							Continue to Review
+							Continue
 							<ChevronRight className="w-5 h-5 ml-2" />
 						</button>
 					</div>

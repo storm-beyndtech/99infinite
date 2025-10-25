@@ -130,7 +130,7 @@ const ChartTwo: React.FC = () => {
 	});
 
 	return (
-		<div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl">
+		<div className="bg-gray-100/5 backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl h-full w-full">
 			<div className="mb-6 flex justify-between items-center">
 				<div>
 					<h4 className="text-white text-lg font-semibold">Portfolio Performance</h4>

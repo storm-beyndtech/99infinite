@@ -1,5 +1,6 @@
 import React from "react";
 import teambanner from "../../assets/teambanner.png";
+import philanthropy from "../../assets/philantropy.png";
 
 const Philanthropy: React.FC = () => {
 	return (
@@ -14,7 +15,7 @@ const Philanthropy: React.FC = () => {
 						}}
 					>
 						<div className="max-w-7xl mx-auto px-5 sm:px-10">
-							<h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-left">Philanthropy & Impact</h1>
+							<h1 className="text-5xl lg:text-6xl font-bold text-left">Philanthropy</h1>
 							<p className="text-base sm:text-lg text-white/60 mt-4 max-w-[800px] text-left">
 								Committed to creating positive change through strategic philanthropic investments and
 								community development initiatives that support sustainable growth and social responsibility.
@@ -98,7 +99,14 @@ const Philanthropy: React.FC = () => {
 							all regions where 99Infinite operates, creating lasting positive impact.
 						</p>
 					</div>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div>
+							<img
+								src={philanthropy}
+								alt="Philanthropy and Community Development"
+								className="rounded-lg shadow-lg w-full h-96 object-cover"
+							/>
+						</div>
 						<div>
 							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Infrastructure Development</h3>
 							<div className="space-y-4">
@@ -122,6 +130,9 @@ const Philanthropy: React.FC = () => {
 								</div>
 							</div>
 						</div>
+					</div>
+					
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-12">
 						<div>
 							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Skill Development</h3>
 							<div className="space-y-4">
@@ -142,6 +153,52 @@ const Philanthropy: React.FC = () => {
 									<p className="text-gray-600">
 										Initiatives focused on women's economic empowerment and leadership development
 									</p>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div className="bg-purple-50 rounded-lg p-8">
+								<h3 className="text-2xl font-semibold text-gray-900 mb-6">Professional Skills Training</h3>
+								<div className="space-y-4">
+									<div className="flex items-start">
+										<div className="flex-shrink-0">
+											<div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+												<svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+													<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+												</svg>
+											</div>
+										</div>
+										<div className="ml-4">
+											<h4 className="text-lg font-semibold text-gray-900">Digital Literacy Programs</h4>
+											<p className="text-gray-600">Computer skills and digital technology training for community members</p>
+										</div>
+									</div>
+									<div className="flex items-start">
+										<div className="flex-shrink-0">
+											<div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+												<svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+													<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+												</svg>
+											</div>
+										</div>
+										<div className="ml-4">
+											<h4 className="text-lg font-semibold text-gray-900">Business Development</h4>
+											<p className="text-gray-600">Entrepreneurship training and small business support initiatives</p>
+										</div>
+									</div>
+									<div className="flex items-start">
+										<div className="flex-shrink-0">
+											<div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+												<svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+													<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+												</svg>
+											</div>
+										</div>
+										<div className="ml-4">
+											<h4 className="text-lg font-semibold text-gray-900">Leadership Training</h4>
+											<p className="text-gray-600">Developing community leaders and management skills</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

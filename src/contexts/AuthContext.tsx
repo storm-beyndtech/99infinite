@@ -85,36 +85,29 @@ export const AuthProvider = ({ children }: any) => {
 		if (storageData && storageData !== "undefined" && storageData !== "null") {
 			try {
 				const userData = JSON.parse(storageData);
-				if (userData && typeof userData === "object" && (userData._id || userData.id)) {
-					// Validate user data structure
-					if (userData.email && userData._id) {
-						// Set stale data immediately
-						setUser(userData);
-						setFetching(false);
+				if (userData && typeof userData === "object" && userData.id) {
+					// Set stale data immediately
+					setUser(userData);
+					setFetching(false);
 
-						// Fetch fresh data in background if token exists
-						if (token && token !== "null") {
-							fetchUser(userData._id || userData.id, true);
+					// Fetch fresh data in background if token exists
+					if (token && token !== "null") {
+						fetchUser(userData.id, true);
 
-							// Set up periodic refresh every 10 minutes while authenticated
-							const refreshInterval = setInterval(() => {
-								if (localStorage.getItem("token") && localStorage.getItem("user")) {
-									const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
-									if (currentUser._id) {
-										fetchUser(currentUser._id, true);
-									}
-								} else {
-									clearInterval(refreshInterval);
+						// Set up periodic refresh every 10 minutes while authenticated
+						const refreshInterval = setInterval(() => {
+							if (localStorage.getItem("token") && localStorage.getItem("user")) {
+								const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+								if (currentUser.id) {
+									fetchUser(currentUser.id, true);
 								}
-							}, 10 * 60 * 1000); // 10 minutes
+							} else {
+								clearInterval(refreshInterval);
+							}
+						}, 10 * 60 * 1000); // 10 minutes
 
-							// Clean up interval on component unmount
-							return () => clearInterval(refreshInterval);
-						}
-					} else {
-						console.warn("Invalid user data structure, clearing...");
-						clearAuthData();
-						setFetching(false);
+						// Clean up interval on component unmount
+						return () => clearInterval(refreshInterval);
 					}
 				} else {
 					console.warn("No valid user ID found, clearing localStorage...");

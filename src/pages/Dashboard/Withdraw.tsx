@@ -57,9 +57,10 @@ const Withdraw: React.FC = () => {
 	const fetchSupportedCoins = async () => {
 		try {
 			const response = await axios.get("/api/withdrawals/supported-coins");
-			setSupportedCoins(response.data);
+			setSupportedCoins(Array.isArray(response.data) ? response.data : []);
 		} catch (error) {
 			console.error("Error fetching supported coins:", error);
+			setSupportedCoins([]);
 		}
 	};
 

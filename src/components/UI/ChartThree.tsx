@@ -13,23 +13,25 @@ const options: ApexOptions = {
 		fontFamily: "Inter, sans-serif",
 		foreColor: "rgba(255, 255, 255, 0.8)",
 		toolbar: { show: false },
+		height: 350,
 	},
 	colors: ["#14b8a6", "#ea580c", "#164e63", "#0d9488"],
 	labels: ["Gold", "Silver", "Platinum", "Palladium"],
 	legend: {
 		show: true,
-		position: "bottom",
+		position: "right",
 		horizontalAlign: "center",
 		fontFamily: "Inter",
 		fontSize: "12px",
+		fontWeight: 500,
 		labels: {
 			colors: "rgba(255, 255, 255, 0.8)",
 		},
 		markers: {
 			size: 8,
+			shape: 'circle',
 		},
 	},
-
 	plotOptions: {
 		pie: {
 			donut: {
@@ -41,12 +43,32 @@ const options: ApexOptions = {
 	dataLabels: {
 		enabled: false,
 	},
+	stroke: {
+		show: false,
+		width: 0,
+	},
 	responsive: [
 		{
-			breakpoint: 2600,
+			breakpoint: 1536,
 			options: {
 				chart: {
-					width: 380,
+					height: 300,
+				},
+			},
+		},
+		{
+			breakpoint: 1024,
+			options: {
+				chart: {
+					height: 280,
+				},
+			},
+		},
+		{
+			breakpoint: 768,
+			options: {
+				chart: {
+					height: 250,
 				},
 			},
 		},
@@ -54,7 +76,7 @@ const options: ApexOptions = {
 			breakpoint: 640,
 			options: {
 				chart: {
-					width: 200,
+					height: 220,
 				},
 			},
 		},
@@ -67,10 +89,10 @@ const ChartThree: React.FC = () => {
 	});
 
 	return (
-		<div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl">
-			<div className="flex justify-between items-center mb-6">
+		<div className="bg-gray-100/5 backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl h-full w-full">
+			<div className="mb-6 flex justify-between items-center">
 				<div>
-					<h5 className="text-white text-lg font-semibold">Asset Distribution</h5>
+					<h4 className="text-white text-lg font-semibold">Asset Distribution</h4>
 					<p className="text-white/70 text-sm">Portfolio allocation</p>
 				</div>
 				<div>
@@ -88,38 +110,25 @@ const ChartThree: React.FC = () => {
 				</div>
 			</div>
 
-			<div id="chartThree" className="flex justify-center mb-6">
-				<ReactApexChart options={options} series={state.series} type="donut" width={280} />
-			</div>
-
-			<div className="grid grid-cols-2 gap-3">
-				<div className="flex items-center">
-					<span className="mr-2 block h-3 w-3 rounded-full bg-gsp-teal"></span>
-					<p className="flex w-full justify-between text-sm font-medium text-white/90">
-						<span>Gold</span>
-						<span>45%</span>
-					</p>
-				</div>
-				<div className="flex items-center">
-					<span className="mr-2 block h-3 w-3 rounded-full bg-gsp-orange"></span>
-					<p className="flex w-full justify-between text-sm font-medium text-white/90">
-						<span>Silver</span>
-						<span>25%</span>
-					</p>
-				</div>
-				<div className="flex items-center">
-					<span className="mr-2 block h-3 w-3 rounded-full bg-gsp-navy"></span>
-					<p className="flex w-full justify-between text-sm font-medium text-white/90">
-						<span>Platinum</span>
-						<span>20%</span>
-					</p>
-				</div>
-				<div className="flex items-center">
-					<span className="mr-2 block h-3 w-3 rounded-full bg-teal-600"></span>
-					<p className="flex w-full justify-between text-sm font-medium text-white/90">
-						<span>Palladium</span>
-						<span>10%</span>
-					</p>
+			<div className="flex flex-col h-full">
+				<div id="chartThree" className="flex-1 flex justify-center items-center -mx-2">
+					<style>
+						{`
+              .apexcharts-text {
+                fill: rgba(255, 255, 255, 0.8) !important;
+              }
+              .apexcharts-legend-text {
+                color: rgba(255, 255, 255, 0.8) !important;
+              }
+            `}
+					</style>
+					<ReactApexChart 
+						options={options} 
+						series={state.series} 
+						type="donut" 
+						height={350}
+						width="100%"
+					/>
 				</div>
 			</div>
 		</div>
