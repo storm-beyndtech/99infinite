@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState, useEffect } from "react";
-import { Check, X, ShoppingCart, AlertTriangle, Trash2, Plus, Minus } from "lucide-react";
+import { X, ShoppingCart, AlertTriangle, Trash2, Plus, Minus } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useToastUtils } from "../../services/toast";
 import type { InvestmentProduct } from "../../types/auth.types";
@@ -75,7 +75,6 @@ const InvestmentPlan: React.FC = () => {
 
 	// Calculate price for a product based on weight and quantity
 	const calculatePrice = (product: InvestmentProduct): number => {
-		const weightValue = parseFloat(product.weight.replace(/[^0-9.]/g, ''));
 		return product.price * product.quantity;
 	};
 
@@ -175,6 +174,7 @@ const InvestmentPlan: React.FC = () => {
 			weight: productConfig.weights[0],
 			quantity: 1,
 			price: productConfig.basePrice,
+			amount: productConfig.basePrice,
 			totalSum: productConfig.basePrice,
 			deliveryPeriod: 'immediate'
 		};
@@ -212,7 +212,6 @@ const InvestmentPlan: React.FC = () => {
 			setPendingProducts(updatedPending);
 		}
 	};
-
 	// Update product quantity
 	const updateQuantity = (index: number, newQuantity: number) => {
 		if (newQuantity < 1) return;
@@ -220,6 +219,7 @@ const InvestmentPlan: React.FC = () => {
 		const updatedProducts = [...selectedProducts];
 		updatedProducts[index].quantity = newQuantity;
 		updatedProducts[index].totalSum = updatedProducts[index].price * newQuantity;
+		updatedProducts[index].amount = updatedProducts[index].totalSum;
 		
 		setSelectedProducts(updatedProducts);
 		
@@ -232,7 +232,6 @@ const InvestmentPlan: React.FC = () => {
 		localStorage.setItem('pendingProducts', JSON.stringify(updatedPending));
 		setPendingProducts(updatedPending);
 	};
-
 	// Get product configuration
 	const getProductConfig = (productType: string) => {
 		const configs: Record<string, any> = {

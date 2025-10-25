@@ -194,7 +194,7 @@ export default function KYC() {
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	// Check if user has already submitted KYC
-	const hasSubmittedKYC = user?.kycStatus && user.kycStatus !== "unverified" && !showForm;
+	const hasSubmittedKYC = user?.kycStatus && user.kycStatus !== "notSubmitted" && !showForm;
 	const handleResubmit = () => {
 		setShowForm(true);
 	};

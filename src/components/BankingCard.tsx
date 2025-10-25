@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo-2.png";
 import { SiVisa } from "react-icons/si";
 import { FcSimCardChip } from "react-icons/fc";
 
@@ -18,7 +18,7 @@ const BankingCard = () => {
 					{/* Header */}
 					<div className="flex items-center justify-between">
 						<Link to="/">
-							<img src={logo} alt="logo" className="w-16" />
+							<img src={logo} alt="logo" className="w-7" />
 						</Link>
 
 						<SiVisa className="text-6xl text-white" />
