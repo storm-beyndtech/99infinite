@@ -21,7 +21,9 @@ const HeroSection: React.FC = () => {
 								className="opacity-0 animate-fade-in-up"
 								style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
 							>
-								<h1 className="text-5xl lg:text-8xl font-serif mb-4 leading-tight text-white">99INFINITE</h1>
+								<h1 className="text-5xl lg:text-9xl mb-6 text-white arial tracking-widest font-medium">
+									99INFINITE
+								</h1>
 							</div>
 							<div
 								className="opacity-0 animate-fade-in-up"

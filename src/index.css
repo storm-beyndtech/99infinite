@@ -10,6 +10,10 @@ body {
 	line-height: 1.6;
 }
 
+.arial {
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 /* Animations */
 @keyframes fadeInUp {
 	from {
