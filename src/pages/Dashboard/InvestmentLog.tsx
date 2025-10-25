@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Search, Plus, Eye, Loader2, TrendingUp, Shield, Users } from "lucide-react";
 import InvestmentSheet from "@/components/investment-sheet";
 import { Link } from "react-router-dom";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import { useToastUtils } from "@/services/toast";
+import { contextData } from "@/contexts/AuthContext";
 
 export interface Transaction {
 	_id: string;
@@ -34,7 +34,7 @@ const InvestmentLog: React.FC = () => {
 	const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 	const { showErrorToast } = useToastUtils();
-	const { user } = useSafeAuth();
+	const { user } = contextData();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const transactionsPerPage = 10;
 
@@ -46,7 +46,9 @@ const InvestmentLog: React.FC = () => {
 			const data = await response.json();
 
 			if (response.ok) {
-				setAllTransactions(data || []);
+				// Normalize server response: ensure we always store an array
+				const transactionsArray = Array.isArray(data) ? data : data?.transactions ?? [];
+				setAllTransactions(transactionsArray);
 			} else {
 				throw new Error(data.message || "Failed to fetch transactions");
 			}
@@ -65,12 +67,15 @@ const InvestmentLog: React.FC = () => {
 
 	// Filter and paginate transactions
 	useEffect(() => {
-		let filtered = allTransactions.filter((transaction) => {
+		// Defensive: ensure allTransactions is an array before using array methods
+		const txs = Array.isArray(allTransactions) ? allTransactions : [];
+
+		let filtered = txs.filter((transaction) => {
 			// Filter by type (only investment transactions)
 			if (transaction.type !== "investment") return false;
 
 			// Filter by user
-			if (transaction.user?.id !== user._id) return false;
+			if (transaction.user?.id !== user?._id) return false;
 
 			// Filter by status
 			if (statusFilter !== "all" && transaction.status !== statusFilter) return false;
@@ -100,7 +105,7 @@ const InvestmentLog: React.FC = () => {
 		const paginatedTransactions = filtered.slice(startIndex, endIndex);
 
 		setFilteredTransactions(paginatedTransactions);
-	}, [allTransactions, searchTerm, statusFilter, currentPage, user._id]);
+	}, [allTransactions, searchTerm, statusFilter, currentPage, user?._id]);
 
 	// Handle search
 	const handleSearch = (value: string) => {
@@ -196,23 +201,20 @@ const InvestmentLog: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4">
+		<>
 			<div className="max-w-7xl mx-auto space-y-6">
 				{/* Header */}
 				<div className="mb-8">
-					<h1 className="text-3xl font-normal tracking-wide text-slate-900 dark:text-slate-100 mb-2">
+					<h1 className="text-2xl font-medium text-slate-900 dark:text-slate-100 mb-2">
 						Investment{" "}
-						<span className="font-normal bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+						<span className="font-medium bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
 							Transactions
 						</span>
 					</h1>
-					<p className="text-slate-600 dark:text-slate-400 font-normal">
-						Track and manage all your investment activities
-					</p>
 				</div>
 
 				{/* Main Content */}
-				<div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+				<div className="bg-white/80 dark:bg-slate-900/20 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
 					<div className="p-6 md:p-8">
 						{/* Controls */}
 						<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
@@ -475,7 +477,7 @@ const InvestmentLog: React.FC = () => {
 				isOpen={isSheetOpen}
 				onClose={() => setIsSheetOpen(false)}
 			/>
-		</div>
+		</>
 	);
 };
 

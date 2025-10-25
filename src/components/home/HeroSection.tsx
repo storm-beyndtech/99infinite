@@ -6,7 +6,7 @@ const HeroSection: React.FC = () => {
 	return (
 		<section className="py-8">
 			<div className="max-w-[1260px] w-[92%] sm:w-[98%] mx-auto">
-				<div className="relative min-h-[600px] rounded-4xl overflow-hidden">
+				<div className="relative min-h-[600px] rounded-3xl overflow-hidden">
 					{/* img Background */}
 					<img className="absolute inset-0 w-full h-full object-cover" src={bg} alt="bg" />
 

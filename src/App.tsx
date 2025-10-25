@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Layout from "./components/Layout/Layout";
 import DashboardLayoutWrapper from "./components/Layout/DashboardLayoutWrapper";
 import AdminLayoutWrapper from "./components/Layout/AdminLayoutWrapper";
@@ -19,7 +20,6 @@ import Retirement from "./pages/projects/Retirement";
 // Auth pages
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
-import RegistrationSuccess from "./pages/auth/RegistrationSuccess";
 
 // Dashboard pages
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -50,66 +50,170 @@ import PendingWithdrawals from "./pages/Admin/PendingWithdrawals";
 import RejectedDeposits from "./pages/Admin/RejectedDeposits";
 import RejectedWithdrawals from "./pages/Admin/RejectedWithdrawals";
 import SendMail from "./pages/Admin/SendMail";
+import PageLoader from "./components/PageLoader";
+
+// Protected route wrapper
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+	const { user, fetching } = useAuth();
+
+	if (fetching) {
+		return <PageLoader />;
+	}
+
+	if (!user) {
+		return <Navigate to="/login" replace />;
+	}
+
+	return <>{children}</>;
+};
+
+// Admin route wrapper
+const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+	const { user, fetching } = useAuth();
+
+	if (fetching) {
+		return <PageLoader />;
+	}
+
+	if (!user) {
+		return <Navigate to="/login" replace />;
+	}
+
+	if (!user.isAdmin) {
+		return <Navigate to="/dashboard" replace />;
+	}
+
+	return <>{children}</>;
+};
+
+// Auth route wrapper (redirects authenticated users)
+const AuthRoute = ({ children }: { children: React.ReactNode }) => {
+	const { user, fetching } = useAuth();
+
+	if (fetching) {
+		return <PageLoader />;
+	}
+
+	if (user) {
+		return <Navigate to="/dashboard" replace />;
+	}
+
+	return <>{children}</>;
+};
+
+const AppRoutes = () => {
+	return (
+		<Routes>
+			{/* Public routes */}
+			<Route path="/" element={<Layout />}>
+				<Route index element={<Home />} />
+				<Route path="about" element={<About />} />
+				<Route path="team" element={<Team />} />
+				<Route path="team/:slug" element={<Team />} />
+				<Route path="gold" element={<Gold />} />
+				<Route path="annual-report" element={<AnnualReport />} />
+				<Route path="mining" element={<Mining />} />
+				<Route path="agriculture" element={<Agriculture />} />
+				<Route path="oil-and-gas" element={<OilAndGas />} />
+				<Route path="philanthropy" element={<Philanthropy />} />
+				<Route path="retirement" element={<Retirement />} />
+				<Route path="contact" element={<Contact />} />
+				<Route path="support" element={<Contact />} />
+			</Route>
+
+			{/* Protected Dashboard routes */}
+			<Route
+				path="/dashboard"
+				element={
+					<ProtectedRoute>
+						<DashboardLayoutWrapper />
+					</ProtectedRoute>
+				}
+			>
+				<Route index element={<Dashboard />} />
+				<Route path="transactions" element={<AllTransactions />} />
+				<Route path="deposit" element={<Deposit />} />
+				<Route path="deposit-log" element={<DepositLog />} />
+				<Route path="events" element={<Events />} />
+				<Route path="investments" element={<InvestmentLog />} />
+				<Route path="investment-plans" element={<InvestmentPlan />} />
+				<Route path="kyc" element={<KYC />} />
+				<Route path="profile" element={<Profile />} />
+				<Route path="settings" element={<Profile />} />
+				<Route path="withdraw" element={<Withdraw />} />
+				<Route path="withdraw-log" element={<WithdrawLog />} />
+			</Route>
+
+			{/* Protected Admin routes */}
+			<Route
+				path="/admin"
+				element={
+					<AdminRoute>
+						<AdminLayoutWrapper />
+					</AdminRoute>
+				}
+			>
+				<Route index element={<Admin />} />
+				<Route path="settings" element={<AdminSettings />} />
+				<Route path="users" element={<ActiveUsers />} />
+				<Route path="deposits/approved" element={<ApprovedDeposits />} />
+				<Route path="withdrawals/approved" element={<ApprovedWithdrawals />} />
+				<Route path="users/banned" element={<BannedUsers />} />
+				<Route path="investments/history" element={<InvestmentHistory />} />
+				<Route path="kyc" element={<KycApproval />} />
+				<Route path="investments" element={<ManageInvestments />} />
+				<Route path="plans" element={<ManagePlans />} />
+				<Route path="deposits/pending" element={<PendingDeposits />} />
+				<Route path="withdrawals/pending" element={<PendingWithdrawals />} />
+				<Route path="deposits/rejected" element={<RejectedDeposits />} />
+				<Route path="withdrawals/rejected" element={<RejectedWithdrawals />} />
+				<Route path="send-mail" element={<SendMail />} />
+			</Route>
+
+			{/* Auth routes outside of layouts */}
+			<Route
+				path="login"
+				element={
+					<AuthRoute>
+						<Login />
+					</AuthRoute>
+				}
+			/>
+			<Route
+				path="auth/login"
+				element={
+					<AuthRoute>
+						<Login />
+					</AuthRoute>
+				}
+			/>
+			<Route
+				path="register"
+				element={
+					<AuthRoute>
+						<Register />
+					</AuthRoute>
+				}
+			/>
+			<Route
+				path="auth/register"
+				element={
+					<AuthRoute>
+						<Register />
+					</AuthRoute>
+				}
+			/>
+		</Routes>
+	);
+};
 
 function App() {
 	return (
-		<Router>
-			<Routes>
-				{/* Public routes */}
-				<Route path="/" element={<Layout />}>
-					<Route index element={<Home />} />
-					<Route path="about" element={<About />} />
-					<Route path="team" element={<Team />} />
-					<Route path="team/:slug" element={<Team />} />
-					<Route path="gold" element={<Gold />} />
-					<Route path="annual-report" element={<AnnualReport />} />
-					<Route path="mining" element={<Mining />} />
-					<Route path="agriculture" element={<Agriculture />} />
-					<Route path="oil-and-gas" element={<OilAndGas />} />
-					<Route path="philanthropy" element={<Philanthropy />} />
-					<Route path="retirement" element={<Retirement />} />
-					<Route path="contact" element={<Contact />} />
-					<Route path="support" element={<Contact />} />
-				</Route>
-
-				{/* Protected Dashboard routes */}
-				<Route path="/dashboard" element={<DashboardLayoutWrapper><Dashboard /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/transactions" element={<DashboardLayoutWrapper><AllTransactions /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/deposit" element={<DashboardLayoutWrapper><Deposit /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/deposit-log" element={<DashboardLayoutWrapper><DepositLog /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/events" element={<DashboardLayoutWrapper><Events /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/investments" element={<DashboardLayoutWrapper><InvestmentLog /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/investment-plans" element={<DashboardLayoutWrapper><InvestmentPlan /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/kyc" element={<DashboardLayoutWrapper><KYC /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/profile" element={<DashboardLayoutWrapper><Profile /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/withdraw" element={<DashboardLayoutWrapper><Withdraw /></DashboardLayoutWrapper>} />
-				<Route path="/dashboard/withdraw-log" element={<DashboardLayoutWrapper><WithdrawLog /></DashboardLayoutWrapper>} />
-
-				{/* Protected Admin routes */}
-				<Route path="/admin" element={<AdminLayoutWrapper><Admin /></AdminLayoutWrapper>} />
-				<Route path="/admin/settings" element={<AdminLayoutWrapper><AdminSettings /></AdminLayoutWrapper>} />
-				<Route path="/admin/users" element={<AdminLayoutWrapper><ActiveUsers /></AdminLayoutWrapper>} />
-				<Route path="/admin/deposits/approved" element={<AdminLayoutWrapper><ApprovedDeposits /></AdminLayoutWrapper>} />
-				<Route path="/admin/withdrawals/approved" element={<AdminLayoutWrapper><ApprovedWithdrawals /></AdminLayoutWrapper>} />
-				<Route path="/admin/users/banned" element={<AdminLayoutWrapper><BannedUsers /></AdminLayoutWrapper>} />
-				<Route path="/admin/investments/history" element={<AdminLayoutWrapper><InvestmentHistory /></AdminLayoutWrapper>} />
-				<Route path="/admin/kyc" element={<AdminLayoutWrapper><KycApproval /></AdminLayoutWrapper>} />
-				<Route path="/admin/investments" element={<AdminLayoutWrapper><ManageInvestments /></AdminLayoutWrapper>} />
-				<Route path="/admin/plans" element={<AdminLayoutWrapper><ManagePlans /></AdminLayoutWrapper>} />
-				<Route path="/admin/deposits/pending" element={<AdminLayoutWrapper><PendingDeposits /></AdminLayoutWrapper>} />
-				<Route path="/admin/withdrawals/pending" element={<AdminLayoutWrapper><PendingWithdrawals /></AdminLayoutWrapper>} />
-				<Route path="/admin/deposits/rejected" element={<AdminLayoutWrapper><RejectedDeposits /></AdminLayoutWrapper>} />
-				<Route path="/admin/withdrawals/rejected" element={<AdminLayoutWrapper><RejectedWithdrawals /></AdminLayoutWrapper>} />
-				<Route path="/admin/send-mail" element={<AdminLayoutWrapper><SendMail /></AdminLayoutWrapper>} />
-
-				{/* Auth routes outside of layouts */}
-				<Route path="login" element={<Login />} />
-				<Route path="auth/login" element={<Login />} />
-				<Route path="register" element={<Register />} />
-				<Route path="auth/register" element={<Register />} />
-				<Route path="auth/success" element={<RegistrationSuccess />} />
-			</Routes>
-		</Router>
+		<AuthProvider>
+			<Router>
+				<AppRoutes />
+			</Router>
+		</AuthProvider>
 	);
 }
 

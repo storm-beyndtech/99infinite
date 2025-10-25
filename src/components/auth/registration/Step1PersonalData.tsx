@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useRegistration } from "../../../contexts/RegistrationContext";
 import { Link } from "react-router-dom";
-import { ChevronRight, User, Mail, MapPin, Phone, Calendar } from "lucide-react";
+import { ChevronRight, Mail, MapPin, Phone, Calendar } from "lucide-react";
 import logo2 from "../../../assets/logo-2.png";
 
 const Step1PersonalData: React.FC = () => {
 	const { state, updatePersonalInfo, nextStep, setStepValidity } = useRegistration();
 	const [errors, setErrors] = useState<Record<string, string>>({
-		sponsorCode: "Sponsor code is required",
+		username: "Username is required",
 		firstName: "First name is required",
 		lastName: "Last name is required",
 		email: "Email is required",
 		address: "Address is required",
 		zipCode: "ZIP code is required",
 		location: "Location is required",
+		state: "State is required",
 		country: "Country is required",
 		mobileNumber: "Mobile number is required",
 		birthday: "You must be at least 18 years old",
@@ -24,8 +25,12 @@ const Step1PersonalData: React.FC = () => {
 		const newErrors: Record<string, string> = {};
 		const { personalInfo } = state;
 
-		if (!personalInfo.sponsorCode?.trim()) {
-			newErrors.sponsorCode = "Sponsor code is required";
+		if (!personalInfo.username?.trim()) {
+			newErrors.username = "Username is required";
+		} else if (personalInfo.username.length < 3) {
+			newErrors.username = "Username must be at least 3 characters";
+		} else if (!/^[a-zA-Z0-9_]+$/.test(personalInfo.username)) {
+			newErrors.username = "Username can only contain letters, numbers, and underscores";
 		}
 		if (!personalInfo.firstName?.trim()) {
 			newErrors.firstName = "First name is required";
@@ -46,6 +51,9 @@ const Step1PersonalData: React.FC = () => {
 		}
 		if (!personalInfo.location?.trim()) {
 			newErrors.location = "Location is required";
+		}
+		if (!personalInfo.state?.trim()) {
+			newErrors.state = "State is required";
 		}
 		if (!personalInfo.country?.trim()) {
 			newErrors.country = "Country is required";
@@ -130,7 +138,13 @@ const Step1PersonalData: React.FC = () => {
 							<h1 className="text-2xl font-bold">Personal Data</h1>
 							<p className="text-gray-300">Step 1 of 4</p>
 						</div>
-						<div className="flex items-center">
+						<div className="flex items-center space-x-4">
+							<Link 
+								to="/login" 
+								className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+							>
+								Already have an account? Login
+							</Link>
 							<Link to="/" className="hover:opacity-80 transition-opacity duration-200">
 								<img src={logo2} alt="99infinite" className="h-8 w-auto" />
 							</Link>
@@ -155,19 +169,19 @@ const Step1PersonalData: React.FC = () => {
 				{/* Form Content */}
 				<div className="p-8">
 					<div className="grid md:grid-cols-2 gap-6">
-						{/* Sponsor Code */}
+						{/* Username */}
 						<div className="md:col-span-2">
-							<label className="block text-sm font-medium text-gray-700 mb-2">Sponsor Code</label>
+							<label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
 							<input
 								type="text"
-								value={state.personalInfo.sponsorCode || ""}
-								onChange={(e) => handleInputChange("sponsorCode", e.target.value)}
+								value={state.personalInfo.username || ""}
+								onChange={(e) => handleInputChange("username", e.target.value)}
 								className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-									errors.sponsorCode ? "border-red-500" : "border-gray-300"
+									errors.username ? "border-red-500" : "border-gray-300"
 								}`}
-								placeholder="Enter sponsor code"
+								placeholder="Enter unique username"
 							/>
-							{errors.sponsorCode && <p className="text-red-500 text-sm mt-1">{errors.sponsorCode}</p>}
+							{errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
 						</div>
 
 						{/* Title */}
@@ -313,7 +327,7 @@ const Step1PersonalData: React.FC = () => {
 
 						{/* Location */}
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+							<label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
 							<input
 								type="text"
 								value={state.personalInfo.location || ""}
@@ -321,9 +335,24 @@ const Step1PersonalData: React.FC = () => {
 								className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
 									errors.location ? "border-red-500" : "border-gray-300"
 								}`}
-								placeholder="Enter city/location"
+								placeholder="Enter city"
 							/>
 							{errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+						</div>
+
+						{/* State */}
+						<div>
+							<label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
+							<input
+								type="text"
+								value={state.personalInfo.state || ""}
+								onChange={(e) => handleInputChange("state", e.target.value)}
+								className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+									errors.state ? "border-red-500" : "border-gray-300"
+								}`}
+								placeholder="Enter state/province"
+							/>
+							{errors.state && <p className="text-red-500 text-sm mt-1">{errors.state}</p>}
 						</div>
 
 						{/* Country */}

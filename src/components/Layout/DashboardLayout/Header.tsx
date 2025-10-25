@@ -4,9 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../UI/avatar";
 import { Popover, PopoverTrigger, PopoverContent } from "../../UI/popover";
 import { useEffect, useState } from "react";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
-import { useAuth } from "@/contexts/AuthContext";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
+import { contextData, useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
+import Logo from "@/components/Logo";
 
 interface HeaderProps {
 	setSidebarOpen: (open: boolean) => void;
@@ -16,7 +16,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
 	const [mounted, setMounted] = useState(false);
 	const { logout } = useAuth();
-	const { user } = useSafeAuth();
+	const { user } = contextData();
 
 	useEffect(() => {
 		setMounted(true);
@@ -27,89 +27,115 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
 	}
 
 	return (
-		<header className="bg-slate-50 dark:bg-slate-950  px-4 md:px-6 py-2 flex items-center justify-between lg:justify-end transition-colors duration-300">
-			{/* Mobile menu button */}
-			<button
-				onClick={() => setSidebarOpen(true)}
-				className="lg:hidden p-2 rounded-md text-white hover:text-foreground bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
-				aria-label="Open sidebar"
-			>
-				<Menu className="w-5 h-5" />
-			</button>
+		<header className="fixed top-0 left-0 right-0 z-50 h-16 bg-white/10 dark:bg-slate-900/10 backdrop-blur-2xl border-b border-gray-700/30 dark:border-slate-700/30 px-4 md:px-6 py-2 flex items-center justify-between transition-all duration-300">
+			{/* Left side - Mobile menu button and Logo */}
+			<div className="flex items-center gap-4">
+				<button
+					onClick={() => setSidebarOpen(true)}
+					className="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white/20 dark:bg-slate-800/30 backdrop-blur-sm border border-white/30 dark:border-slate-700/50 hover:bg-white/30 dark:hover:bg-slate-700/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+					aria-label="Open sidebar"
+				>
+					<Menu className="w-5 h-5" />
+				</button>
+
+				{/* Logo - visible on all screen sizes */}
+				<div className="dark:hidden">
+					<Logo variant="dark" />
+				</div>
+				<div className="hidden dark:block">
+					<Logo />
+				</div>
+			</div>
 
 			{/* Page title for mobile */}
-			<h1 className="lg:hidden text-lg font-semibold text-foreground">Dashboard</h1>
+			<h1 className="lg:hidden text-lg font-semibold text-slate-800 dark:text-slate-200">Dashboard</h1>
 
 			{/* Right side - Theme toggle and Profile with popover */}
 			<div className="flex items-center gap-4">
 				{/* Theme Toggle Styled as Radio Button */}
-				<DarkModeSwitcher variant="neutral" />
+				<DarkModeSwitcher />
 
 				<Popover>
 					<PopoverTrigger asChild>
-						<button className="flex items-center space-x-3 focus:outline-none bg-transparent border-0 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+						<button className="flex items-center space-x-3 focus:outline-none bg-white/20 dark:bg-slate-800/30 backdrop-blur-sm border border-white/30 dark:border-slate-700/50 p-2 rounded-xl hover:bg-white/30 dark:hover:bg-slate-700/40 transition-all duration-200">
 							<div className="relative">
-								<Avatar className="w-8 h-8">
-									<AvatarImage src={user.profileImage} alt="User avatar" />
-									<AvatarFallback className="bg-blue-500 text-primary-foreground text-sm">
+								<Avatar className="w-8 h-8 ring-2 ring-white/50 dark:ring-slate-700/50">
+									<AvatarImage
+										src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user.username}`}
+										alt="User avatar"
+									/>
+									<AvatarFallback className="bg-gradient-to-br from-cyan-500 to-amber-500 text-white text-sm">
 										<UserIcon />
 									</AvatarFallback>
 								</Avatar>
 								{/* Active green dot */}
-								<span className="absolute -bottom-0.5 -right-0.5 block w-3 h-3 rounded-full ring-2 ring-background bg-green-500" />
+								<span className="absolute -bottom-0.5 -right-0.5 block w-3 h-3 rounded-full ring-2 ring-white/70 dark:ring-slate-800/70 bg-green-500" />
 							</div>
 							<div className="hidden md:flex flex-col items-start">
-								<span className="text-sm font-medium text-foreground dark:text-white">{user.username || user.personalInfo?.firstName || 'User'}</span>
-								<span className="text-xs text-muted-foreground">{user.email}</span>
+								<span className="text-sm font-medium text-slate-800 dark:text-slate-200">
+									{user.username || user.personalInfo?.firstName || "User"}
+								</span>
+								<span className="text-xs text-slate-600 dark:text-slate-400">{user.email}</span>
 							</div>
 						</button>
 					</PopoverTrigger>
 					<PopoverContent
-						className="w-64 p-4 bg-white dark:bg-slate-950/20 backdrop-blur-xl border-gray-50 dark:border-gray-800"
+						className="w-64 p-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/30 dark:border-slate-700/50 shadow-xl rounded-2xl"
 						align="end"
 					>
 						<div className="flex flex-col space-y-3">
 							{/* User info */}
 							<div className="flex items-center space-x-3">
-								<Avatar className="w-8 h-8">
-									<AvatarImage src={user.profileImage} alt="User avatar" />
-									<AvatarFallback className="bg-blue-500 text-primary-foreground text-sm">
+								<Avatar className="w-10 h-10 ring-2 ring-white/50 dark:ring-slate-700/50">
+									<AvatarImage
+										src={
+											user.profileImage?.trim()
+												? user.profileImage
+												: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+														user.username || user.personalInfo?.firstName || "User",
+												  )}&background=0D8ABC&color=fff&rounded=true`
+										}
+										alt="User avatar"
+									/>
+									<AvatarFallback className="bg-gradient-to-br from-cyan-500 to-amber-500 text-white text-sm">
 										<UserIcon />
 									</AvatarFallback>
 								</Avatar>
 								<div className="flex flex-col">
-									<span className="text-sm font-medium text-gray-500 dark:text-white">{user.username || user.personalInfo?.firstName || 'User'}</span>
-									<span className="text-xs text-muted-foreground">{user.email}</span>
+									<span className="text-sm font-medium text-slate-800 dark:text-slate-200">
+										{user.username || user.personalInfo?.firstName || "User"}
+									</span>
+									<span className="text-xs text-slate-600 dark:text-slate-400">{user.email}</span>
 								</div>
 							</div>
 
 							{/* Status indicator */}
-							<div className="flex items-center space-x-2 px-2 py-1 bg-green-50 dark:bg-green-950 rounded-md">
+							<div className="flex items-center space-x-2 px-3 py-2 bg-green-500/10 dark:bg-green-500/20 border border-green-500/20 dark:border-green-500/30 rounded-xl backdrop-blur-sm">
 								<span className="inline-block w-2 h-2 rounded-full bg-green-500" />
 								<span className="text-xs text-green-700 dark:text-green-300 font-medium">Online</span>
 							</div>
 
 							{/* Menu items */}
-							<div className="py-1">
+							<div className="space-y-1">
 								<Link
 									to="/dashboard"
-									className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+									className="flex items-center px-3 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl transition-all duration-200 border border-transparent hover:border-white/30 dark:hover:border-slate-700/50"
 								>
-									<LayoutDashboard size={16} className="mr-2" />
+									<LayoutDashboard size={16} className="mr-3 text-cyan-600 dark:text-cyan-400" />
 									Dashboard
 								</Link>
 								<Link
 									to="/dashboard/profile"
-									className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+									className="flex items-center px-3 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl transition-all duration-200 border border-transparent hover:border-white/30 dark:hover:border-slate-700/50"
 								>
-									<User size={16} className="mr-2" />
+									<User size={16} className="mr-3 text-amber-600 dark:text-amber-400" />
 									Profile
 								</Link>
 								<div
 									onClick={() => logout()}
-									className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+									className="flex cursor-pointer items-center px-3 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-red-500/10 dark:hover:bg-red-500/20 rounded-xl transition-all duration-200 border border-transparent hover:border-red-500/20 dark:hover:border-red-500/30"
 								>
-									<LogOut size={16} className="mr-2" />
+									<LogOut size={16} className="mr-3 text-red-500" />
 									Logout
 								</div>
 							</div>

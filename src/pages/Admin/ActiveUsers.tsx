@@ -1,13 +1,13 @@
 import EditUserModal from "@/components/EditUserModal";
 import PageLoader from "@/components/PageLoader";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
+import { contextData } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { TfiSearch } from "react-icons/tfi";
 
 const tableTitles = ["User", "Phone", "Country", "Balance", "Action"]
 
 export default function ActiveUsers() {
-  const { user:admin } = useSafeAuth()
+  const { user:admin } = contextData()
   const [users, setUsers] = useState<any>(null)
   const [filteredUsers, setFilteredUsers] = useState<any>(null)
   const [userData, setUserData] = useState(null)
@@ -17,7 +17,7 @@ export default function ActiveUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${url}/users`);
+      const res = await fetch(`${url}/api/users`);
       const data = await res.json();
 
       if (res.ok) {

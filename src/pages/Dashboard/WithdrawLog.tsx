@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Search, Eye, Loader2, ArrowDownLeft } from "lucide-react";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import WithdrawalSheet from "@/components/withdrawal-sheet";
 import { useToastUtils } from "@/services/toast";
 import { Link } from "react-router-dom";
+import { contextData } from "@/contexts/AuthContext";
 
 interface Withdrawal {
 	_id: string;
@@ -28,7 +28,7 @@ const WithdrawalLog: React.FC = () => {
 	const [selectedWithdrawal, setSelectedWithdrawal] = useState<Withdrawal | null>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-	const { user } = useSafeAuth();
+	const { user } = contextData();
 	const { showErrorToast } = useToastUtils();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const withdrawalsPerPage = 10;
@@ -148,23 +148,20 @@ const WithdrawalLog: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8">
+		<>
 			<div className="max-w-7xl mx-auto space-y-6">
 				{/* Header */}
 				<div className="mb-8">
-					<h1 className="text-3xl font-normal tracking-wide text-slate-900 dark:text-slate-100 mb-2">
+					<h1 className="text-2xl font-medium text-slate-900 dark:text-slate-100 mb-2">
 						Withdrawal{" "}
-						<span className="font-normal bg-gradient-to-r from-red-600 to-red-700 dark:from-red-400 dark:to-red-500 bg-clip-text text-transparent">
+						<span className="font-medium bg-gradient-to-r from-red-600 to-red-700 dark:from-red-400 dark:to-red-500 bg-clip-text text-transparent">
 							History
 						</span>
 					</h1>
-					<p className="text-slate-600 dark:text-slate-400 font-normal">
-						View and manage all your withdrawal transactions
-					</p>
 				</div>
 
 				{/* Main Content */}
-				<div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+				<div className="bg-white/80 dark:bg-slate-900/20 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
 					<div className="p-6 md:p-8">
 						{/* Controls */}
 						<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
@@ -410,7 +407,7 @@ const WithdrawalLog: React.FC = () => {
 					onClose={() => setIsSheetOpen(false)}
 				/>
 			</div>
-		</div>
+		</>
 	);
 };
 

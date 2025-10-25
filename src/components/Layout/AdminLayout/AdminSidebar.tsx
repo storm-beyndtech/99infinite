@@ -61,7 +61,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 				<NavLink to="/">
 					<img src={Logo} alt="Logo" className="w-20" />
 				</NavLink>
-				<DarkModeSwitcher variant="neutral" />
+				<DarkModeSwitcher />
 				<button
 					ref={trigger}
 					onClick={() => setSidebarOpen(!sidebarOpen)}

@@ -21,7 +21,7 @@ const ReportSection: React.FC = () => {
 					<div className="bg-cyan-800 rounded-xl p-8">
 						<h3 className="text-xl font-bold text-orange-400 mb-4">Revew Analysis</h3>
 						<div className="flex items-center space-x-4">
-							<img src={report} alt="The Report" className="w-30 h-30 rounded-lg object-cover" />
+							<img src={report} alt="The Report" className="w-32 h-32 rounded-lg object-cover" />
 							<div>
 								<h4 className="font-bold text-white mb-1">The Grand Report</h4>
 								<p className="text-cyan-200 text-sm mb-2">Create your knowledge with our insights...</p>

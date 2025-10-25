@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import logo from "../../assets/logo-2-dark.png";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Header: React.FC = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 	const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
-	const [dropdownTimeout, setDropdownTimeout] = useState<number | null>(null);
+	const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
 	const location = useLocation();
+	const { user } = useAuth();
 
 	// Close mobile menu when route changes
 	useEffect(() => {
@@ -157,12 +159,12 @@ const Header: React.FC = () => {
 							</div>
 						))}
 
-						{/* Subscribe Button */}
+						{/* Subscribe/Dashboard Button */}
 						<Link
-							to="/register"
+							to={user ? "/dashboard" : "/register"}
 							className="border border-gray-300 text-gray-200 bg-black hover:border-gsp-navy px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
 						>
-							GET STARTED
+							{user ? "DASHBOARD" : "GET STARTED"}
 						</Link>
 					</div>
 
@@ -265,13 +267,13 @@ const Header: React.FC = () => {
 									</div>
 								))}
 
-								{/* Subscribe Button */}
+								{/* Subscribe/Dashboard Button */}
 								<Link
-									to="/register"
+									to={user ? "/dashboard" : "/register"}
 									className="block mt-8 py-3 px-6 border-2 border-cyan-400 text-center text-cyan-400 hover:bg-cyan-400 hover:text-cyan-900 font-semibold tracking-wide transition-colors rounded-lg"
 									onClick={() => setIsMenuOpen(false)}
 								>
-									Get Started
+									{user ? "Dashboard" : "Get Started"}
 								</Link>
 							</div>
 						</div>

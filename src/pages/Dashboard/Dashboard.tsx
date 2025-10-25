@@ -1,70 +1,97 @@
 import { useState, useEffect } from "react";
-import { Coins, TrendingUp, DollarSign, BarChart3, Gem, Shield, ArrowUpRight, Plus } from "lucide-react";
-import { useSafeAuth } from "../../contexts/SafeAuthContext";
-import GoldInvestmentCard from "../../components/dashboard/GoldInvestmentCard";
+import { Coins, TrendingUp, DollarSign, BarChart3, Gem, Shield, ArrowUpRight, Plus, Activity, Clock, ExternalLink } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 import WithdrawalForm from "../../components/dashboard/WithdrawalForm";
-import { goldInvestmentPlans, getCurrentGoldPrice, calculateGoldOunces } from "../../data/investmentPlans";
-import type { DashboardStats } from "../../types/investment";
+import { 
+  productConfigs, 
+  getCurrentGoldPrice, 
+  getCurrentSilverPrice,
+  getCurrentPlatinumPrice,
+  getCurrentPalladiumPrice,
+  calculatePortfolioValue, 
+  calculateMetalOunces,
+} from "../../data/investmentPlans";
+import type { InvestmentProduct } from "../../types/auth.types";
 
 const Dashboard = () => {
-	const [goldPrice, setGoldPrice] = useState(0);
-	const [showInvestmentPlans, setShowInvestmentPlans] = useState(false);
+	const [metalPrices, setMetalPrices] = useState({
+		gold: 0,
+		silver: 0,
+		platinum: 0,
+		palladium: 0
+	});
+	const [showAddProduct, setShowAddProduct] = useState(false);
 	const [showWithdrawalForm, setShowWithdrawalForm] = useState(false);
-	const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [userPortfolio] = useState<InvestmentProduct[]>([]);
+	const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
+	const [transactionsLoading, setTransactionsLoading] = useState(true);
 
 	// User is guaranteed to exist by DashboardLayoutWrapper
-	const { user } = useSafeAuth();
+	const { user } = useAuth();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	useEffect(() => {
-		setGoldPrice(getCurrentGoldPrice());
-		fetchDashboardStats();
-	}, []);
+		// Load current metal prices
+		setMetalPrices({
+			gold: getCurrentGoldPrice(),
+			silver: getCurrentSilverPrice(),
+			platinum: getCurrentPlatinumPrice(),
+			palladium: getCurrentPalladiumPrice()
+		});
+		
+		// Only fetch transactions if user exists and has valid ID
+		if (user && user._id && user._id !== "undefined") {
+			fetchRecentTransactions();
+		} else {
+			// Set loading to false if no user to prevent infinite loading
+			setTransactionsLoading(false);
+			setRecentTransactions([]);
+		}
+	}, [user?._id]); // Keep dependency but add better checks
 
-	const fetchDashboardStats = async () => {
+	// Calculate portfolio metrics from current holdings
+	const portfolioValue = calculatePortfolioValue(userPortfolio);
+	const metalOunces = calculateMetalOunces(userPortfolio);
+	const totalInvested = userPortfolio.reduce((total, product) => total + product.amount, 0);
+	const totalEarnings = portfolioValue - totalInvested; // Current value minus invested amount
+	const dailyEarnings = totalEarnings * 0.001; // Assume 0.1% daily growth
+	const activeProducts = userPortfolio.length;
+
+	const fetchRecentTransactions = async () => {
 		try {
-			setLoading(true);
-			const res = await fetch(`${url}/api/users/dashboard/${user._id}`);
-			const data = await res.json();
+			setTransactionsLoading(true);
 			
-			if (res.ok) {
-				setDashboardStats(data);
-			} else {
-				console.error('Failed to fetch dashboard stats:', data.message);
-				// Fallback to mock data
-				setDashboardStats({
-					totalInvested: user.deposit || 0,
-					totalEarnings: user.interest || 0,
-					dailyEarnings: (user.interest || 0) * 0.035,
-					activeInvestments: 0,
-					goldOunces: calculateGoldOunces(user.deposit || 0, goldPrice),
-					portfolioValue: (user.deposit || 0) + (user.interest || 0)
-				});
+			if (!user || !user._id || user._id === "undefined") {
+				setRecentTransactions([]);
+				setTransactionsLoading(false);
+				return;
 			}
+
+			const res = await fetch(`${url}/transactions/user/${user._id}?limit=5`);
+			
+			// If fetch fails (network error, server down, etc.), handle gracefully
+			if (!res.ok) {
+				console.warn(`Failed to fetch transactions: ${res.status} ${res.statusText}`);
+				setRecentTransactions([]);
+				setTransactionsLoading(false);
+				return;
+			}
+
+			const data = await res.json();
+			const transactions = Array.isArray(data.transactions) ? data.transactions : data || [];
+			setRecentTransactions(transactions.slice(0, 5));
+			
 		} catch (error) {
-			console.error('Error fetching dashboard stats:', error);
-			// Fallback to user data
-			setDashboardStats({
-				totalInvested: user.deposit || 0,
-				totalEarnings: user.interest || 0,
-				dailyEarnings: (user.interest || 0) * 0.035,
-				activeInvestments: 0,
-				goldOunces: calculateGoldOunces(user.deposit || 0, goldPrice),
-				portfolioValue: (user.deposit || 0) + (user.interest || 0)
-			});
+			console.error("Error fetching transactions:", error);
+			setRecentTransactions([]);
 		} finally {
-			setLoading(false);
+			setTransactionsLoading(false);
 		}
 	};
 
-	const handleSelectPlan = (planId: string) => {
-		console.log('Selected plan:', planId);
-		// TODO: Navigate to investment form or open modal
-	};
 
 	const handleNewInvestment = () => {
-		setShowInvestmentPlans(true);
+		setShowAddProduct(true);
 	};
 
 	const handleWithdrawal = () => {
@@ -73,17 +100,9 @@ const Dashboard = () => {
 
 	const handleWithdrawalSuccess = () => {
 		// Refresh user data or show success message
-		console.log('Withdrawal submitted successfully');
+		console.log("Withdrawal submitted successfully");
 	};
 
-	// Show loading spinner while fetching data
-	if (loading || !dashboardStats) {
-		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-			</div>
-		);
-	}
 
 	const today = new Date();
 	const dateString = today.toLocaleDateString(undefined, {
@@ -103,42 +122,51 @@ const Dashboard = () => {
 	};
 
 	// Calculate portfolio metrics
-	const portfolioGrowth = dashboardStats.totalEarnings > 0 ? 
-		((dashboardStats.totalEarnings / dashboardStats.totalInvested) * 100).toFixed(2) : '0.00';
-	const goldValue = dashboardStats.goldOunces * goldPrice;
+	const portfolioGrowth =
+		totalEarnings > 0
+			? ((totalEarnings / totalInvested) * 100).toFixed(2)
+			: "0.00";
+	const goldValue = metalOunces.gold * metalPrices.gold;
 
-	if (showInvestmentPlans) {
+	if (showAddProduct) {
 		return (
 			<div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4 md:p-8">
 				<div className="max-w-7xl mx-auto">
 					{/* Header */}
 					<div className="mb-12">
 						<button
-							onClick={() => setShowInvestmentPlans(false)}
+							onClick={() => setShowAddProduct(false)}
 							className="mb-6 flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
 						>
 							← Back to Dashboard
 						</button>
 						<h1 className="text-3xl md:text-5xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-4">
-							Gold Investment{" "}
+							Precious Metals{" "}
 							<span className="bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-400 dark:to-yellow-400 bg-clip-text text-transparent">
-								Plans
+								Products
 							</span>
 						</h1>
 						<p className="text-lg text-gray-600 dark:text-gray-400 font-normal tracking-wide max-w-2xl">
-							Choose from our premium gold-backed investment plans designed to maximize your returns while preserving capital.
+							Choose from our premium precious metals collection - gold bars, coins, silver, platinum, and palladium.
 						</p>
 					</div>
 
-					{/* Investment Plans Grid */}
-					<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-						{goldInvestmentPlans.map((plan, index) => (
-							<GoldInvestmentCard
-								key={plan._id}
-								plan={plan}
-								onSelect={handleSelectPlan}
-								isPopular={index === 1} // Gold Standard is most popular
-							/>
+					{/* Products Grid */}
+					<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+						{Object.entries(productConfigs).map(([key, product]) => (
+							<div key={key} className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+								<div className="text-center">
+									<div className="text-6xl mb-4">{product.icon}</div>
+									<h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{product.name}</h3>
+									<p className="text-gray-600 dark:text-gray-400 mb-6">{product.description}</p>
+									<div className={`text-2xl font-bold bg-gradient-to-r ${product.color} bg-clip-text text-transparent mb-6`}>
+										${product.basePrice}+
+									</div>
+									<button className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-semibold py-3 px-6 rounded-2xl transition-all duration-300">
+										Select Product
+									</button>
+								</div>
+							</div>
 						))}
 					</div>
 				</div>
@@ -147,7 +175,7 @@ const Dashboard = () => {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-amber-50/50 via-white to-yellow-50/50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4 md:p-8">
+		<>
 			<div className="max-w-7xl mx-auto space-y-8">
 				{/* Header */}
 				<div className="mb-10">
@@ -156,10 +184,12 @@ const Dashboard = () => {
 							<h1 className="text-2xl md:text-4xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-3">
 								Welcome back,{" "}
 								<span className="bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-400 dark:to-yellow-400 bg-clip-text text-transparent">
-									{user.personalInfo?.firstName || user.firstName || 'User'}
+									{user.personalInfo?.firstName || user.firstName || "User"}
 								</span>
 							</h1>
-							<p className="text-sm text-gray-500 dark:text-gray-400 font-normal tracking-wide">{dateString}</p>
+							<p className="text-sm text-gray-500 dark:text-gray-400 font-normal tracking-wide">
+								{dateString}
+							</p>
 						</div>
 						<button
 							onClick={handleNewInvestment}
@@ -185,7 +215,7 @@ const Dashboard = () => {
 							</div>
 							<div>
 								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{formatCurrency(dashboardStats.portfolioValue)}
+									{formatCurrency(portfolioValue)}
 								</p>
 								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
 									Portfolio Value
@@ -209,13 +239,13 @@ const Dashboard = () => {
 							</div>
 							<div>
 								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{formatCurrency(dashboardStats.totalInvested)}
+									{formatCurrency(totalInvested)}
 								</p>
 								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
 									Total Invested
 								</p>
 								<p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-									{dashboardStats.activeInvestments} active plans
+									{activeProducts} active products
 								</p>
 							</div>
 						</div>
@@ -233,13 +263,13 @@ const Dashboard = () => {
 							</div>
 							<div>
 								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{formatCurrency(dashboardStats.totalEarnings)}
+									{formatCurrency(totalEarnings)}
 								</p>
 								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
 									Total Earnings
 								</p>
 								<p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mt-1">
-									+{formatCurrency(dashboardStats.dailyEarnings)}/day
+									+{formatCurrency(dailyEarnings)}/day
 								</p>
 							</div>
 						</div>
@@ -257,7 +287,7 @@ const Dashboard = () => {
 							</div>
 							<div>
 								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{dashboardStats.goldOunces.toFixed(3)} oz
+									{metalOunces.gold.toFixed(3)} oz
 								</p>
 								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
 									Gold Holdings
@@ -284,7 +314,9 @@ const Dashboard = () => {
 											Tracker
 										</span>
 									</h2>
-									<p className="text-gray-600 dark:text-gray-400">Real-time gold price and your investment insights</p>
+									<p className="text-gray-600 dark:text-gray-400">
+										Real-time gold price and your investment insights
+									</p>
 								</div>
 								<div className="flex items-center gap-3">
 									<Shield className="w-6 h-6 text-amber-500" />
@@ -303,7 +335,7 @@ const Dashboard = () => {
 									</div>
 									<div>
 										<p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-											{formatCurrency(goldPrice)}
+											{formatCurrency(metalPrices.gold)}
 										</p>
 										<p className="text-sm text-gray-600 dark:text-gray-400">per ounce</p>
 									</div>
@@ -339,7 +371,7 @@ const Dashboard = () => {
 									<Plus className="w-5 h-5" />
 									Start Investment
 								</button>
-								<button 
+								<button
 									onClick={handleWithdrawal}
 									className="w-full bg-white/50 dark:bg-slate-700/50 hover:bg-white/70 dark:hover:bg-slate-700/70 text-gray-900 dark:text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 border border-gray-200/50 dark:border-slate-600/50"
 								>
@@ -352,16 +384,149 @@ const Dashboard = () => {
 						</div>
 					</div>
 				</div>
+
+				{/* Charts and Recent Transactions */}
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					{/* Performance Chart */}
+					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 shadow-xl">
+						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
+						<div className="relative z-10">
+							<div className="flex items-center justify-between mb-6">
+								<div>
+									<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Portfolio Performance</h3>
+									<p className="text-sm text-gray-600 dark:text-gray-400">Last 7 days growth trend</p>
+								</div>
+								<Activity className="w-6 h-6 text-emerald-500" />
+							</div>
+							<div className="h-48 flex items-center justify-center bg-gradient-to-br from-emerald-50/50 to-green-50/50 dark:from-emerald-950/30 dark:to-green-950/30 rounded-2xl">
+								<div className="text-center">
+									<TrendingUp className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
+									<p className="text-sm text-gray-600 dark:text-gray-400">Chart visualization coming soon</p>
+									<p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">+{portfolioGrowth}%</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Activity Chart */}
+					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 shadow-xl">
+						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
+						<div className="relative z-10">
+							<div className="flex items-center justify-between mb-6">
+								<div>
+									<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Investment Activity</h3>
+									<p className="text-sm text-gray-600 dark:text-gray-400">Monthly investment flow</p>
+								</div>
+								<BarChart3 className="w-6 h-6 text-blue-500" />
+							</div>
+							<div className="h-48 flex items-center justify-center bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-950/30 dark:to-cyan-950/30 rounded-2xl">
+								<div className="text-center">
+									<BarChart3 className="w-12 h-12 text-blue-500 mx-auto mb-4" />
+									<p className="text-sm text-gray-600 dark:text-gray-400">Activity chart coming soon</p>
+									<p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-2">{activeProducts}</p>
+									<p className="text-sm text-gray-600 dark:text-gray-400">Active Products</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Recent Transactions */}
+				<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl p-8 shadow-xl">
+					<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
+					<div className="relative z-10">
+						<div className="flex items-center justify-between mb-6">
+							<div>
+								<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Recent Transactions</h3>
+								<p className="text-sm text-gray-600 dark:text-gray-400">Your latest transaction activity</p>
+							</div>
+							<button className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+								View All <ExternalLink className="w-4 h-4" />
+							</button>
+						</div>
+						
+						{transactionsLoading ? (
+							<div className="flex items-center justify-center py-12">
+								<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+							</div>
+						) : recentTransactions.length > 0 ? (
+							<div className="overflow-hidden rounded-2xl border border-gray-200/50 dark:border-slate-700/50">
+								<div className="overflow-x-auto">
+									<table className="w-full">
+										<thead className="bg-gray-50/50 dark:bg-slate-800/50">
+											<tr>
+												<th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Type</th>
+												<th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Amount</th>
+												<th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Status</th>
+												<th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Date</th>
+											</tr>
+										</thead>
+										<tbody className="divide-y divide-gray-200/50 dark:divide-slate-700/50">
+											{recentTransactions.map((transaction, index) => (
+												<tr key={transaction._id || index} className="hover:bg-gray-50/30 dark:hover:bg-slate-700/30 transition-colors">
+													<td className="py-4 px-4">
+														<div className="flex items-center gap-3">
+															<div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+																transaction.type === 'deposit' ? 'bg-green-100 dark:bg-green-900/30' :
+																transaction.type === 'withdrawal' ? 'bg-red-100 dark:bg-red-900/30' :
+																'bg-blue-100 dark:bg-blue-900/30'
+															}`}>
+																{transaction.type === 'deposit' ? (
+																	<ArrowUpRight className="w-4 h-4 text-green-600 dark:text-green-400" />
+																) : transaction.type === 'withdrawal' ? (
+																	<ArrowUpRight className="w-4 h-4 text-red-600 dark:text-red-400 rotate-180" />
+																) : (
+																	<Activity className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+																)}
+															</div>
+															<span className="text-sm font-medium text-gray-900 dark:text-gray-100 capitalize">
+																{transaction.type || 'Transaction'}
+															</span>
+														</div>
+													</td>
+													<td className="py-4 px-4 text-sm font-medium text-gray-900 dark:text-gray-100">
+														{formatCurrency(transaction.amount || 0)}
+													</td>
+													<td className="py-4 px-4">
+														<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+															transaction.status === 'approved' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
+															transaction.status === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+															'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
+														}`}>
+															{transaction.status || 'pending'}
+														</span>
+													</td>
+													<td className="py-4 px-4 text-sm text-gray-600 dark:text-gray-400">
+														<div className="flex items-center gap-1">
+															<Clock className="w-3 h-3" />
+															{transaction.date ? new Date(transaction.date).toLocaleDateString() : 'N/A'}
+														</div>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						) : (
+							<div className="text-center py-12">
+								<Activity className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+								<p className="text-sm text-gray-600 dark:text-gray-400">No recent transactions</p>
+								<p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Start investing to see your transaction history</p>
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
 
 			{/* Withdrawal Form Modal */}
 			<WithdrawalForm
 				isOpen={showWithdrawalForm}
 				onClose={() => setShowWithdrawalForm(false)}
-				userBalance={dashboardStats.portfolioValue}
+				userBalance={portfolioValue}
 				onSuccess={handleWithdrawalSuccess}
 			/>
-		</div>
+		</>
 	);
 };
 

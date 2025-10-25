@@ -8,7 +8,7 @@ export type AccountStatus = "active" | "suspended" | "deactivated" | "pending_ve
 
 // Personal Information
 export interface PersonalInfo {
-  sponsorCode?: string;
+  username: string;
   title: "Mr" | "Mrs" | "Ms" | "Dr" | "Prof";
   firstName: string;
   lastName: string;
@@ -21,6 +21,7 @@ export interface PersonalInfo {
   address: string;
   zipCode: string;
   location: string;
+  state: string;
   country: string;
   mobileNumber: {
     countryCode: string;

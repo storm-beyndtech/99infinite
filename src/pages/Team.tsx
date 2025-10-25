@@ -1,4 +1,3 @@
-import React from "react";
 import TeamHeroSection from "../components/team/TeamHeroSection";
 import BoardOfDirectors from "../components/BoardOfDirectors";
 

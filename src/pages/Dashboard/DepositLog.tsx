@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Search, Plus, Eye, Loader2 } from "lucide-react";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import DepositSheet from "@/components/deposit-sheet";
 import { useToastUtils } from "@/services/toast";
 import { Link } from "react-router-dom";
+import { contextData } from "@/contexts/AuthContext";
 
 interface Deposit {
 	_id: string;
@@ -26,7 +26,7 @@ const DepositLog: React.FC = () => {
 	const [selectedDeposit, setSelectedDeposit] = useState<Deposit | null>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-	const { user } = useSafeAuth();
+	const { user } = contextData();
 	const { showErrorToast } = useToastUtils();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const depositsPerPage = 10;
@@ -147,23 +147,20 @@ const DepositLog: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8">
+		<>
 			<div className="max-w-7xl mx-auto space-y-6">
 				{/* Header */}
 				<div className="mb-8">
-					<h1 className="text-3xl font-normal tracking-wide text-slate-900 dark:text-slate-100 mb-2">
+					<h1 className="text-2xl font-medium text-slate-900 dark:text-slate-100 mb-2">
 						Deposit{" "}
-						<span className="font-normal bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+						<span className="font-medium bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
 							History
 						</span>
 					</h1>
-					<p className="text-slate-600 dark:text-slate-400 font-normal">
-						View and manage all your deposit transactions
-					</p>
 				</div>
 
 				{/* Main Content */}
-				<div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+				<div className="bg-white/80 dark:bg-slate-900/20 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
 					<div className="p-6 md:p-8">
 						{/* Controls */}
 						<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
@@ -389,7 +386,7 @@ const DepositLog: React.FC = () => {
 			</div>
 			{/* Deposit Sheet */}
 			<DepositSheet deposit={selectedDeposit} isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
-		</div>
+		</>
 	);
 };
 

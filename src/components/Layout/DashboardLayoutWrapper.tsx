@@ -1,43 +1,28 @@
-import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
-import DashboardLayout from './DashboardLayout/DashboardLayout';
-import SafeAuthContext from '../../contexts/SafeAuthContext';
-
-interface DashboardLayoutWrapperProps {
-  children: React.ReactNode;
-}
+import React from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { Navigate, Outlet } from "react-router-dom";
+import DashboardLayout from "./DashboardLayout/DashboardLayout";
+import PageLoader from "../PageLoader";
 
 // This wrapper ensures user is never null in DashboardLayout and its children
-const DashboardLayoutWrapper: React.FC<DashboardLayoutWrapperProps> = ({ children }) => {
-  const { user, fetching, logout, updateUser } = useAuth();
+const DashboardLayoutWrapper: React.FC = () => {
+	const { user, fetching } = useAuth();
 
-  // Loading state
-  if (fetching) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+	// Loading state
+	if (fetching) {
+		return <PageLoader />;
+	}
 
-  // Not authenticated
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+	// Not authenticated
+	if (!user) {
+		return <Navigate to="/login" replace />;
+	}
 
-  // User exists - provide safe auth context and pass to DashboardLayout
-  const safeAuthValue = {
-    user, // Guaranteed to exist
-    logout,
-    updateUser,
-  };
-
-  return (
-    <SafeAuthContext.Provider value={safeAuthValue}>
-      <DashboardLayout>{children}</DashboardLayout>
-    </SafeAuthContext.Provider>
-  );
+	return (
+		<DashboardLayout>
+			<Outlet />
+		</DashboardLayout>
+	);
 };
 
 export default DashboardLayoutWrapper;

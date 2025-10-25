@@ -1,135 +1,170 @@
-import type { GoldInvestmentPlan } from '../types/investment';
+import type { InvestmentProduct, InvestmentProductType } from '../types/auth.types';
 
-export const goldInvestmentPlans: GoldInvestmentPlan[] = [
+// Product configurations matching the registration system
+export const productConfigs = {
+  gold_bar: {
+    name: "Gold Bar",
+    weights: ["1g", "2.5g", "5g", "10g", "20g", "50g", "100g"],
+    basePrice: 65, // per gram
+    color: "from-yellow-400 to-yellow-600",
+    icon: "🥇",
+    description: "Pure gold bars with guaranteed authenticity certificates",
+  },
+  gold_coin: {
+    name: "Gold Coin",
+    weights: ["1/10 oz", "1/4 oz", "1/2 oz", "1 oz"],
+    basePrice: 2050, // per oz
+    color: "from-amber-400 to-amber-600",
+    icon: "🪙",
+    description: "Collectible gold coins from renowned mints worldwide",
+  },
+  silver_bar: {
+    name: "Silver Bar",
+    weights: ["1oz", "5oz", "10oz", "100oz", "1000oz"],
+    basePrice: 25, // per oz
+    color: "from-gray-300 to-gray-500",
+    icon: "⚪",
+    description: "High-purity silver bars for diversified precious metals portfolio",
+  },
+  silver_coin: {
+    name: "Silver Coin",
+    weights: ["1/2 oz", "1 oz", "5 oz"],
+    basePrice: 27, // per oz
+    color: "from-slate-300 to-slate-500",
+    icon: "🥈",
+    description: "Silver coins with numismatic and investment value",
+  },
+  platinum: {
+    name: "Platinum",
+    weights: ["1/10 oz", "1/4 oz", "1/2 oz", "1 oz"],
+    basePrice: 980, // per oz
+    color: "from-blue-400 to-blue-600",
+    icon: "💎",
+    description: "Rare platinum metals for premium investment portfolios",
+  },
+  palladium: {
+    name: "Palladium",
+    weights: ["1/10 oz", "1/4 oz", "1/2 oz", "1 oz"],
+    basePrice: 2000, // per oz
+    color: "from-purple-400 to-purple-600",
+    icon: "✨",
+    description: "Industrial and investment-grade palladium metals",
+  },
+};
+
+export const deliveryOptions = [
+  { value: "immediate", label: "Immediate Delivery", extra: "+€50", days: 0 },
+  { value: "1_month", label: "1 Month", extra: "+€25", days: 30 },
+  { value: "3_months", label: "3 Months", extra: "Standard", days: 90 },
+  { value: "6_months", label: "6 Months", extra: "-€25", days: 180 },
+];
+
+// Sample user portfolio for demonstration
+export const sampleUserPortfolio: InvestmentProduct[] = [
   {
-    _id: 'gold-starter',
-    name: 'Gold Starter',
-    tier: 'starter',
-    minInvestment: 100,
-    maxInvestment: 999,
-    dailyReturn: 2.5,
-    planDuration: 30,
-    description: 'Start your gold investment journey with our entry-level plan backed by physical gold reserves.',
-    features: [
-      '2.5% daily returns',
-      '30-day investment period', 
-      '15% real gold backing',
-      '$50 daily withdrawal limit',
-      'Basic portfolio tracking',
-      'Email support'
-    ],
-    goldBacking: 15,
-    withdrawalLimit: 50,
-    color: {
-      primary: 'from-amber-400 to-yellow-500',
-      secondary: 'from-amber-50 to-yellow-100',
-      accent: 'amber-500'
-    },
-    isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    product: 'gold_bar' as InvestmentProductType,
+    weight: '10g',
+    price: 65,
+    quantity: 2,
+    deliveryPeriod: '3_months',
+    amount: 1300,
+    totalSum: 1300,
   },
   {
-    _id: 'gold-standard',
-    name: 'Gold Standard',
-    tier: 'standard',
-    minInvestment: 1000,
-    maxInvestment: 4999,
-    dailyReturn: 3.5,
-    planDuration: 45,
-    description: 'Enhanced returns with substantial gold backing for serious investors seeking steady growth.',
-    features: [
-      '3.5% daily returns',
-      '45-day investment period',
-      '25% real gold backing',
-      '$200 daily withdrawal limit',
-      'Advanced portfolio analytics',
-      'Priority support',
-      'Market insights access'
-    ],
-    goldBacking: 25,
-    withdrawalLimit: 200,
-    color: {
-      primary: 'from-yellow-500 to-amber-600',
-      secondary: 'from-yellow-50 to-amber-100',
-      accent: 'yellow-600'
-    },
-    isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    product: 'gold_coin' as InvestmentProductType,
+    weight: '1 oz',
+    price: 2050,
+    quantity: 1,
+    deliveryPeriod: '1_month',
+    amount: 2075,
+    totalSum: 2075,
   },
   {
-    _id: 'gold-elite',
-    name: 'Gold Elite',
-    tier: 'elite',
-    minInvestment: 5000,
-    maxInvestment: 19999,
-    dailyReturn: 4.5,
-    planDuration: 60,
-    description: 'Premium gold investment with higher returns and extensive gold reserves backing your investment.',
-    features: [
-      '4.5% daily returns',
-      '60-day investment period',
-      '40% real gold backing',
-      '$500 daily withdrawal limit',
-      'Real-time gold price tracking',
-      'Dedicated account manager',
-      'VIP customer support',
-      'Quarterly gold market reports'
-    ],
-    goldBacking: 40,
-    withdrawalLimit: 500,
-    color: {
-      primary: 'from-amber-600 to-orange-600',
-      secondary: 'from-amber-100 to-orange-100',
-      accent: 'amber-700'
-    },
-    isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    product: 'silver_bar' as InvestmentProductType,
+    weight: '10oz',
+    price: 25,
+    quantity: 4,
+    deliveryPeriod: '3_months',
+    amount: 1000,
+    totalSum: 1000,
   },
-  {
-    _id: 'gold-empire',
-    name: 'Gold Empire',
-    tier: 'empire',
-    minInvestment: 20000,
-    maxInvestment: 100000,
-    dailyReturn: 6.0,
-    planDuration: 90,
-    description: 'Our flagship plan with maximum returns, extensive gold backing, and exclusive premium benefits.',
-    features: [
-      '6.0% daily returns',
-      '90-day investment period',
-      '60% real gold backing',
-      '$2000 daily withdrawal limit',
-      'Physical gold certificate',
-      'Personal investment advisor',
-      '24/7 VIP support',
-      'Monthly strategy consultations',
-      'Exclusive market intelligence',
-      'Gold storage facility access'
-    ],
-    goldBacking: 60,
-    withdrawalLimit: 2000,
-    color: {
-      primary: 'from-orange-600 to-red-600',
-      secondary: 'from-orange-100 to-red-100',
-      accent: 'orange-700'
-    },
-    isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
 ];
 
 export const getCurrentGoldPrice = (): number => {
   // In a real app, this would fetch from a live API
-  // For now, return a mock price per ounce
   return 2024.50;
 };
 
-export const calculateGoldOunces = (investmentAmount: number, goldBacking: number): number => {
-  const goldPrice = getCurrentGoldPrice();
-  const goldValue = (investmentAmount * goldBacking) / 100;
-  return goldValue / goldPrice;
+export const getCurrentSilverPrice = (): number => {
+  return 25.30;
+};
+
+export const getCurrentPlatinumPrice = (): number => {
+  return 980.50;
+};
+
+export const getCurrentPalladiumPrice = (): number => {
+  return 2000.75;
+};
+
+export const calculatePortfolioValue = (portfolio: InvestmentProduct[]): number => {
+  return portfolio.reduce((total, product) => total + product.totalSum, 0);
+};
+
+export const calculateMetalOunces = (portfolio: InvestmentProduct[]): {
+  gold: number;
+  silver: number;
+  platinum: number;
+  palladium: number;
+} => {
+  const totals = { gold: 0, silver: 0, platinum: 0, palladium: 0 };
+  
+  portfolio.forEach(product => {
+    let ounces = 0;
+    
+    if (product.product.includes('gold')) {
+      // Convert grams to ounces for gold bars, or use oz directly for coins
+      if (product.weight.includes('g')) {
+        ounces = (parseFloat(product.weight) / 31.1035) * product.quantity;
+      } else {
+        ounces = parseFloat(product.weight.split(' ')[0]) * product.quantity;
+      }
+      totals.gold += ounces;
+    } else if (product.product.includes('silver')) {
+      ounces = parseFloat(product.weight.split('oz')[0]) * product.quantity;
+      totals.silver += ounces;
+    } else if (product.product === 'platinum') {
+      ounces = parseFloat(product.weight.split(' ')[0]) * product.quantity;
+      totals.platinum += ounces;
+    } else if (product.product === 'palladium') {
+      ounces = parseFloat(product.weight.split(' ')[0]) * product.quantity;
+      totals.palladium += ounces;
+    }
+  });
+  
+  return totals;
+};
+
+export const getDeliveryStatus = (deliveryPeriod: string, purchaseDate: Date): {
+  status: 'delivered' | 'in_transit' | 'processing';
+  estimatedDelivery: Date;
+  daysRemaining: number;
+} => {
+  const option = deliveryOptions.find(opt => opt.value === deliveryPeriod);
+  const deliveryDays = option?.days || 90;
+  
+  const estimatedDelivery = new Date(purchaseDate);
+  estimatedDelivery.setDate(estimatedDelivery.getDate() + deliveryDays);
+  
+  const now = new Date();
+  const daysRemaining = Math.max(0, Math.ceil((estimatedDelivery.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+  
+  let status: 'delivered' | 'in_transit' | 'processing' = 'processing';
+  if (daysRemaining === 0) {
+    status = 'delivered';
+  } else if (daysRemaining <= deliveryDays / 2) {
+    status = 'in_transit';
+  }
+  
+  return { status, estimatedDelivery, daysRemaining };
 };

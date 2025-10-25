@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState, type FormEvent } from "react";
 import Alert from "./UI/Alert";
 
 export default function SendMailModal({ emails, onClose }: any) {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import SendMailModal from "@/components/SendMailModal";
+import { contextData } from "@/contexts/AuthContext";
 
 type User = {
 	_id: string;
@@ -17,7 +17,7 @@ type Admin = {
 };
 
 export default function SendMail() {
-	const { user: admin } = useSafeAuth() as { user: Admin };
+	const { user: admin } = contextData() as { user: Admin };
 	const [users, setUsers] = useState<User[] | null>(null);
 	const [filteredUsers, setFilteredUsers] = useState<User[] | null>(null);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]); // Using email instead of _id
@@ -28,7 +28,7 @@ export default function SendMail() {
 
 	const fetchUsers = async () => {
 		try {
-			const res = await fetch(`${url}/users`);
+			const res = await fetch(`${url}/api/users`);
 			const data = await res.json();
 
 			if (res.ok) {

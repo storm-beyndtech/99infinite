@@ -20,8 +20,8 @@ const GoldSection: React.FC = () => {
 							View Gold Info
 						</Link>
 					</div>
-					<div className="bg-cyan-900 rounded-xl p-6 w-70 h-70">
-						<img src={elevator} alt="The Report" className=" rounded-lg object-cover" />
+					<div className="bg-cyan-900 rounded-xl p-6 w-80 h-80">
+						<img src={elevator} alt="The Report" className="w-full h-full rounded-lg object-cover" />
 					</div>
 				</div>
 			</div>

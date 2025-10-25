@@ -8,12 +8,19 @@ export default function AdminUserCards() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${url}/users`);
+      const res = await fetch(`${url}/api/users`);
       const data = await res.json();
 
       if (res.ok) {
-        setUsers(data.length - 1);
-        setActiveUsers(data.length - 1);
+        // Handle API response format: {users: [...], totalUsers: number}
+        const usersArray = data.users || data || [];
+        const totalUsers = data.totalUsers || usersArray.length || 0;
+        const activeUsersCount = Array.isArray(usersArray) 
+          ? usersArray.filter(user => user.accountStatus === 'active').length 
+          : 0;
+        
+        setUsers(totalUsers);
+        setActiveUsers(activeUsersCount);
       } else throw new Error(data.message);
     } catch (error) {
       console.log(error);

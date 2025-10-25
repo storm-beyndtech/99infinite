@@ -1,7 +1,7 @@
 import type React from "react";
 import { useState, useEffect } from "react";
 import { Check, X, Shield } from "lucide-react";
-import { useSafeAuth } from "../../contexts/SafeAuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useToastUtils } from "@/services/toast";
 
 // TypeScript interfaces
@@ -21,8 +21,7 @@ const InvestmentPlan: React.FC = () => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [investmentAmount, setInvestmentAmount] = useState<string>("");
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	// User is guaranteed to exist by DashboardLayoutWrapper
-	const { user } = useSafeAuth();
+	const { user } = useAuth();
 	const { showSuccessToast, showErrorToast } = useToastUtils();
 
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -34,10 +33,13 @@ const InvestmentPlan: React.FC = () => {
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
-			const data: InvestmentPlan[] = await response.json();
-			setPlans(data);
+			const data = await response.json();
+			// Handle both response formats
+			const plansArray = data.plans || data || [];
+			setPlans(Array.isArray(plansArray) ? plansArray : []);
 		} catch (error: any) {
 			console.error("Error fetching plans:", error);
+			setPlans([]); // Set empty array on error
 			showErrorToast(error.message || "Error Fetching Plans");
 		}
 	};
@@ -55,6 +57,12 @@ const InvestmentPlan: React.FC = () => {
 	const handleInvestment = async () => {
 		if (!selectedPlan) return;
 
+		// Validate user exists
+		if (!user || !user._id) {
+			showErrorToast("User session invalid. Please refresh and try again.");
+			return;
+		}
+
 		setIsSubmitting(true);
 
 		const amount = parseFloat(investmentAmount);
@@ -71,8 +79,9 @@ const InvestmentPlan: React.FC = () => {
 			return;
 		}
 
-		if (amount > user.deposit) {
-			showErrorToast(`Insufficient balance. Available: $${user.deposit.toLocaleString()}`);
+		const userDeposit = user?.deposit || 0;
+		if (amount > userDeposit) {
+			showErrorToast(`Insufficient balance. Available: $${userDeposit.toLocaleString()}`);
 			setIsSubmitting(false);
 			return;
 		}
@@ -114,12 +123,11 @@ const InvestmentPlan: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 p-6">
+		<>
 			<div className="max-w-6xl mx-auto">
 				{/* Header */}
-				<div className="text-center mb-12">
-					<h1 className="text-3xl font-light text-slate-900 dark:text-white mb-2">Investment Plans</h1>
-					<p className="text-slate-600 dark:text-slate-400">Choose your investment strategy</p>
+				<div className="mb-12">
+					<h1 className="text-2xl font-medium text-slate-900 dark:text-white mb-2">Investment Plans</h1>
 				</div>
 
 				{/* Plans Grid */}
@@ -142,8 +150,7 @@ const InvestmentPlan: React.FC = () => {
 											<Shield className="w-6 h-6 text-slate-700 dark:text-slate-300" />
 										</div>
 										<h3 className="text-xl font-medium text-slate-900 dark:text-white">{plan.name}</h3>
-                  </div>
-                  
+									</div>
 
 									{/* Price Display */}
 									<div className="mb-6">
@@ -246,7 +253,7 @@ const InvestmentPlan: React.FC = () => {
 									/>
 								</div>
 								<div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-									Available: ${user.deposit.toLocaleString()}
+									Available: ${(user?.deposit || 0).toLocaleString()}
 								</div>
 							</div>
 
@@ -289,7 +296,7 @@ const InvestmentPlan: React.FC = () => {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 

@@ -17,6 +17,7 @@ type RegistrationAction =
 const initialState: RegistrationFormState = {
   step: 1,
   personalInfo: {
+    username: '',
     title: 'Mr',
     firstName: '',
     lastName: '',
@@ -24,6 +25,7 @@ const initialState: RegistrationFormState = {
     address: '',
     zipCode: '',
     location: '',
+    state: '',
     country: '',
     birthday: {
       day: 1,

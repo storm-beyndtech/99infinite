@@ -1,6 +1,5 @@
-import Header from "@/components/Layout/KycLayout/Header";
 import ProofOfIdentificationForm from "@/components/ProofOfIdentificationForm";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
+import { contextData } from "@/contexts/AuthContext";
 import { CheckCircle, Clock, XCircle, FileText, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -65,7 +64,7 @@ const KYCStatusMessage = ({
 	if (!config) return null;
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-6">
+		<div className="flex items-center justify-center p-6">
 			<div className="max-w-2xl w-full">
 				<div
 					className={`${config.bgColor} ${config.borderColor} border rounded-2xl p-8 shadow-lg backdrop-blur-sm`}
@@ -188,7 +187,7 @@ const KYCStatusMessage = ({
 };
 
 export default function KYC() {
-	const { user, updateUser } = useSafeAuth();
+	const { user, updateUser } = contextData();
 	const navigate = useNavigate();
 	const [showForm, setShowForm] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
@@ -204,7 +203,14 @@ export default function KYC() {
 	const handleRefreshStatus = async () => {
 		setIsRefreshing(true);
 		try {
-			const res = await fetch(`${url}/users/${user._id}`, {
+			// Validate user ID exists
+			if (!user || !user._id) {
+				console.error("User ID is required");
+				setIsRefreshing(false);
+				return;
+			}
+
+			const res = await fetch(`${url}/api/users/${user._id}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -234,8 +240,8 @@ export default function KYC() {
 	};
 
 	return (
-		<div className="bg-slate-50 dark:bg-slate-950">
-			<Header />
+		<div className="space-y-6">
+			{/* KYC Content */}
 			{hasSubmittedKYC ? (
 				<KYCStatusMessage
 					status={user.kycStatus}

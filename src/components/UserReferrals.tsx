@@ -1,9 +1,9 @@
-import { useSafeAuth } from '@/contexts/SafeAuthContext';
+import { contextData } from '@/contexts/AuthContext';
 import { CheckSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function UserReferrals() {
-  const { user } = useSafeAuth();
+  const { user } = contextData();
   const [referrals, setReferrals] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -23,7 +23,7 @@ export default function UserReferrals() {
     const fetchReferrals = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${url}/users/referrals/${user?.username || user?._id}`);
+        const response = await fetch(`${url}/api/users/referrals/${user?.username || user?._id}`);
 
         const data = await response.json();
         if (response.ok) {

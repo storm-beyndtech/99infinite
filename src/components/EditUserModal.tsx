@@ -64,7 +64,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 
 		try {
 			setLoading(true);
-			const res = await fetch(`${url}/users/update-profile`, {
+			const res = await fetch(`${url}/api/users/update-profile`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(profileData),
@@ -88,7 +88,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	const deleteUser = async () => {
 		try {
 			setLoading(true);
-			const res = await fetch(`${url}/users/${userData.email}`, {
+			const res = await fetch(`${url}/api/users/${userData.email}`, {
 				method: "DELETE",
 			});
 			const data = await res.json();

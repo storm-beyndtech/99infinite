@@ -10,9 +10,9 @@ import {
 	Wallet,
 	DollarSign,
 } from "lucide-react";
-import { useSafeAuth } from "@/contexts/SafeAuthContext";
 import TransactionSheet from "@/components/transaction-sheet";
 import { useToastUtils } from "@/services/toast";
+import { contextData } from "@/contexts/AuthContext";
 
 export interface Transaction {
 	_id: string;
@@ -52,7 +52,7 @@ const AllTransactions: React.FC = () => {
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
 	const { showErrorToast } = useToastUtils();
-	const { user } = useSafeAuth();
+	const { user } = contextData();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 	const transactionsPerPage = 10;
 
@@ -64,7 +64,9 @@ const AllTransactions: React.FC = () => {
 			const data = await response.json();
 
 			if (response.ok) {
-				setAllTransactions(data || []);
+				// Handle different API response formats
+				const transactions = data.transactions || data || [];
+				setAllTransactions(Array.isArray(transactions) ? transactions : []);
 			} else {
 				throw new Error(data.message || "Failed to fetch transactions");
 			}
@@ -83,6 +85,13 @@ const AllTransactions: React.FC = () => {
 
 	// Filter and paginate transactions
 	useEffect(() => {
+		// Ensure allTransactions is an array before filtering
+		if (!Array.isArray(allTransactions)) {
+			setFilteredTransactions([]);
+			setTotalPages(1);
+			return;
+		}
+
 		let filtered = allTransactions.filter((transaction) => {
 			// Filter by user
 			if (transaction.user?.id !== user._id) return false;
@@ -210,27 +219,27 @@ const AllTransactions: React.FC = () => {
 			case "approved":
 			case "completed":
 				return (
-					<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+					<span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-medium bg-green-500/10 dark:bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/20 dark:border-green-500/30 backdrop-blur-sm">
 						{status === "approved" ? "Approved" : "Completed"}
 					</span>
 				);
 			case "pending":
 			case "active":
 				return (
-					<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300">
+					<span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-medium bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/20 dark:border-amber-500/30 backdrop-blur-sm">
 						{status === "pending" ? "Pending" : "Active"}
 					</span>
 				);
 			case "rejected":
 			case "cancelled":
 				return (
-					<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
+					<span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-medium bg-red-500/10 dark:bg-red-500/20 text-red-700 dark:text-red-300 border border-red-500/20 dark:border-red-500/30 backdrop-blur-sm">
 						{status === "rejected" ? "Rejected" : "Cancelled"}
 					</span>
 				);
 			default:
 				return (
-					<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300">
+					<span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-500/10 dark:bg-slate-500/20 text-slate-700 dark:text-slate-300 border border-slate-500/20 dark:border-slate-500/30 backdrop-blur-sm">
 						{status.charAt(0).toUpperCase() + status.slice(1)}
 					</span>
 				);
@@ -255,35 +264,32 @@ const AllTransactions: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8">
-			<div className="max-w-7xl mx-auto space-y-6">
+		<>
+			<div className="space-y-6">
 				{/* Header */}
 				<div className="mb-8">
-					<h1 className="text-3xl font-normal tracking-wide text-slate-900 dark:text-slate-100 mb-2">
+					<h1 className="text-2xl font-medium text-slate-800 dark:text-slate-100 mb-2">
 						All{" "}
-						<span className="font-normal bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+						<span className="font-medium bg-gradient-to-r from-cyan-600 to-amber-600 dark:from-cyan-400 dark:to-amber-400 bg-clip-text text-transparent">
 							Transactions
 						</span>
 					</h1>
-					<p className="text-slate-600 dark:text-slate-400 font-normal">
-						Complete overview of your financial activities
-					</p>
 				</div>
 
 				{/* Main Content */}
-				<div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+				<div className="bg-white/60 dark:bg-slate-900/20 backdrop-blur-xl rounded-3xl shadow-xl border border-white/30 dark:border-slate-700/40">
 					<div className="p-6 md:p-8">
 						{/* Controls */}
 						<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
 							{/* Search */}
 							<div className="relative flex-1 max-w-md">
-								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 w-5 h-5" />
 								<input
 									type="text"
 									placeholder="Search transactions..."
 									value={searchTerm}
 									onChange={(e) => handleSearch(e.target.value)}
-									className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all duration-200"
+									className="w-full pl-10 pr-4 py-3 bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-white/50 dark:border-slate-600/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400/60 text-slate-800 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 transition-all duration-200"
 								/>
 							</div>
 
@@ -292,7 +298,7 @@ const AllTransactions: React.FC = () => {
 								<select
 									value={typeFilter}
 									onChange={(e) => handleTypeFilter(e.target.value)}
-									className="px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-slate-900 dark:text-slate-100 transition-all duration-200"
+									className="px-4 py-3 bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-white/50 dark:border-slate-600/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-slate-800 dark:text-slate-100 transition-all duration-200"
 								>
 									<option value="all">All Types</option>
 									<option value="deposit">Deposits</option>
@@ -305,7 +311,7 @@ const AllTransactions: React.FC = () => {
 								<select
 									value={statusFilter}
 									onChange={(e) => handleStatusFilter(e.target.value)}
-									className="px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-slate-900 dark:text-slate-100 transition-all duration-200"
+									className="px-4 py-3 bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-white/50 dark:border-slate-600/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-slate-800 dark:text-slate-100 transition-all duration-200"
 								>
 									<option value="all">All Status</option>
 									<option value="pending">Pending</option>
@@ -497,13 +503,12 @@ const AllTransactions: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			{/* Transaction Sheet */}
 			<TransactionSheet
 				transaction={selectedTransaction}
 				isOpen={isSheetOpen}
 				onClose={() => setIsSheetOpen(false)}
 			/>
-		</div>
+		</>
 	);
 };
 

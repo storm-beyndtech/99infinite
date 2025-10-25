@@ -1,16 +1,11 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import AdminLayout from './AdminLayout/AdminLayout';
-import SafeAuthContext from '../../contexts/SafeAuthContext';
-
-interface AdminLayoutWrapperProps {
-  children: React.ReactNode;
-}
 
 // This wrapper ensures user is never null and is admin in AdminLayout and its children
-const AdminLayoutWrapper: React.FC<AdminLayoutWrapperProps> = ({ children }) => {
-  const { user, fetching, logout, updateUser } = useAuth();
+const AdminLayoutWrapper: React.FC = () => {
+  const { user, fetching } = useAuth();
 
   // Loading state
   if (fetching) {
@@ -31,17 +26,10 @@ const AdminLayoutWrapper: React.FC<AdminLayoutWrapperProps> = ({ children }) => 
     return <Navigate to="/dashboard" replace />;
   }
 
-  // User exists and is admin - provide safe auth context and pass to AdminLayout
-  const safeAuthValue = {
-    user, // Guaranteed to exist and be admin
-    logout,
-    updateUser,
-  };
-
   return (
-    <SafeAuthContext.Provider value={safeAuthValue}>
-      <AdminLayout>{children}</AdminLayout>
-    </SafeAuthContext.Provider>
+      <AdminLayout>
+        <Outlet />
+      </AdminLayout>
   );
 };
 

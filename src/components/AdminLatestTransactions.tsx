@@ -47,6 +47,13 @@ const AdminLatestTransactions = ({
 
   // Function to handle search
   useEffect(() => {
+    // Ensure allTransactions is an array before filtering
+    if (!Array.isArray(allTransactions)) {
+      setFilteredTransactions([]);
+      setCurrentPage(1);
+      return;
+    }
+
     const results = allTransactions.filter(
       (transaction) =>
         transaction.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
