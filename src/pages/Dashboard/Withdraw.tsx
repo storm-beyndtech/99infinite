@@ -159,8 +159,8 @@ const Withdraw: React.FC = () => {
 		<div className="max-w-2xl mx-auto space-y-6">
 			{/* Header */}
 			<div className="flex items-center gap-4 mb-8">
-				<div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-950/50 dark:to-yellow-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-					<ArrowDownLeft className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+				<div className="w-12 h-12 bg-gradient-to-br from-red-100 to-red-100 dark:from-red-950/50 dark:to-red-900/30 rounded-xl flex items-center justify-center shadow-inner">
+					<ArrowDownLeft className="w-6 h-6 text-red-600 dark:text-red-400" />
 				</div>
 				<div>
 					<h1 className="text-2xl font-bold text-gray-900 dark:text-white">Withdraw Funds</h1>
@@ -174,7 +174,7 @@ const Withdraw: React.FC = () => {
 				<div className="relative z-10">
 					{/* Auto-withdrawal Info */}
 					{formData.autoWithdraw && (
-						<div className="bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-950/30 dark:to-green-950/30 rounded-2xl p-4 mb-6 border border-emerald-200/50 dark:border-emerald-800/50">
+						<div className="hidden bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-950/30 dark:to-green-950/30 rounded-xl p-4 mb-6 border border-emerald-200/50 dark:border-emerald-800/50">
 							<div className="flex items-start gap-3">
 								<Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5" />
 								<div>
@@ -204,7 +204,7 @@ const Withdraw: React.FC = () => {
 								step="0.01"
 								min="10"
 								max={userBalance}
-								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-transparent transition-all duration-200"
+								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
 								placeholder="Enter amount"
 								required
 							/>
@@ -213,24 +213,24 @@ const Withdraw: React.FC = () => {
 						{/* Availability Check */}
 						{availability && (
 							<div
-								className={`rounded-2xl p-4 border ${
+								className={`rounded-xl p-4 border ${
 									availability.available
 										? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800"
-										: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800"
+										: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800"
 								}`}
 							>
 								<div className="flex items-start gap-3">
 									{availability.available ? (
 										<CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5" />
 									) : (
-										<AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5" />
+										<AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
 									)}
 									<div>
 										<p
 											className={`text-sm font-medium ${
 												availability.available
 													? "text-emerald-800 dark:text-emerald-300"
-													: "text-amber-800 dark:text-amber-300"
+													: "text-red-800 dark:text-red-300"
 											}`}
 										>
 											{availability.available ? "Auto-withdrawal available" : "Manual approval required"}
@@ -239,7 +239,7 @@ const Withdraw: React.FC = () => {
 											className={`text-xs ${
 												availability.available
 													? "text-emerald-700 dark:text-emerald-400"
-													: "text-amber-700 dark:text-amber-400"
+													: "text-red-700 dark:text-red-400"
 											}`}
 										>
 											{availability.message}
@@ -258,7 +258,7 @@ const Withdraw: React.FC = () => {
 								name="coinName"
 								value={formData.coinName}
 								onChange={handleInputChange}
-								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-transparent transition-all duration-200"
+								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
 								required
 							>
 								{supportedCoins.map((coin) => (
@@ -278,7 +278,7 @@ const Withdraw: React.FC = () => {
 								name="network"
 								value={formData.network}
 								onChange={handleInputChange}
-								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-transparent transition-all duration-200"
+								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
 								required
 							>
 								{availableChains.map((chain) => (
@@ -299,7 +299,7 @@ const Withdraw: React.FC = () => {
 								name="address"
 								value={formData.address}
 								onChange={handleInputChange}
-								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-transparent transition-all duration-200"
+								className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
 								placeholder="Enter your wallet address"
 								required
 							/>
@@ -312,7 +312,7 @@ const Withdraw: React.FC = () => {
 								name="autoWithdraw"
 								checked={formData.autoWithdraw}
 								onChange={handleInputChange}
-								className="w-5 h-5 text-amber-600 border-gray-300 rounded focus:ring-amber-500"
+								className="w-5 h-5 text-red-600 border-gray-300 rounded focus:ring-red-500"
 							/>
 							<label className="text-sm text-gray-700 dark:text-gray-300">
 								Enable auto-withdrawal (faster processing when available)
@@ -321,7 +321,7 @@ const Withdraw: React.FC = () => {
 
 						{/* Error Message */}
 						{error && (
-							<div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-2xl p-4">
+							<div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl p-4">
 								<div className="flex items-start gap-3">
 									<AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
 									<p className="text-sm text-red-800 dark:text-red-300">{error}</p>
@@ -331,7 +331,7 @@ const Withdraw: React.FC = () => {
 
 						{/* Success Message */}
 						{success && (
-							<div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-4">
+							<div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
 								<div className="flex items-start gap-3">
 									<CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5" />
 									<p className="text-sm text-emerald-800 dark:text-emerald-300">{success}</p>
@@ -343,14 +343,14 @@ const Withdraw: React.FC = () => {
 						<button
 							type="submit"
 							disabled={isLoading || isCheckingAvailability}
-							className="w-full bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-amber-500/25 disabled:cursor-not-allowed"
+							className="w-full bg-red-700 hover:bg-red-800 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-red-500/25 disabled:cursor-not-allowed"
 						>
 							{isLoading ? "Processing..." : "Submit Withdrawal"}
 						</button>
 					</form>
 
 					{/* Info Section */}
-					<div className="mt-6 bg-gray-50 dark:bg-slate-700/30 rounded-2xl p-4">
+					<div className="mt-6 bg-gray-50 dark:bg-slate-700/30 rounded-xl p-4">
 						<div className="flex items-start gap-3">
 							<Info className="w-5 h-5 text-gray-600 dark:text-gray-400 mt-0.5" />
 							<div className="text-sm text-gray-600 dark:text-gray-400">
