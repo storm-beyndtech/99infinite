@@ -14,7 +14,6 @@ import {
 	Settings,
 	ArrowUpFromLine,
 	ArrowDownFromLine,
-  Coins,
 } from "lucide-react";
 import { contextData } from "@/contexts/AuthContext";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
@@ -105,8 +104,8 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 							title="Investments"
 							icon={<BarChart2 strokeWidth={1.5} className="text-blue-500 text-xl" />}
 							links={[
-								{ label: "Manage Investments", href: "manage-investments" },
-								{ label: "Investment  History", href: "investment-history" },
+								{ label: "Manage Investments", href: "investments" },
+								{ label: "Investment  History", href: "investments/history" },
 							]}
 						/>
 
@@ -115,8 +114,8 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 							title="Users"
 							icon={<Users strokeWidth={1.5} className="text-blue-500 text-xl" />}
 							links={[
-								{ label: "Active Users", href: "active-users" },
-								{ label: "Banned Users", href: "banned-users" },
+								{ label: "Active Users", href: "users" },
+								{ label: "Banned Users", href: "users/banned" },
 							]}
 						/>
 
@@ -125,9 +124,9 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 							title="Manage Deposits"
 							icon={<ArrowUpFromLine strokeWidth={1.5} className="text-blue-500 text-xl" />}
 							links={[
-								{ label: "Approved Deposits", href: "approved-deposits" },
-								{ label: "Pending Deposits", href: "pending-deposits" },
-								{ label: "Rejected Deposits", href: "rejected-deposits" },
+								{ label: "Approved Deposits", href: "deposits/approved" },
+								{ label: "Pending Deposits", href: "deposits/pending" },
+								{ label: "Rejected Deposits", href: "deposits/rejected" },
 							]}
 						/>
 
@@ -135,9 +134,9 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 							title="Manage Withdrawals"
 							icon={<ArrowDownFromLine strokeWidth={1.5} className="text-blue-500 text-xl" />}
 							links={[
-								{ label: "Approved Withdrawals", href: "approved-withdrawals" },
-								{ label: "Pending Withdrawals", href: "pending-withdrawals" },
-								{ label: "Rejected Withdrawals", href: "rejected-withdrawals" },
+								{ label: "Approved Withdrawals", href: "withdrawals/approved" },
+								{ label: "Pending Withdrawals", href: "withdrawals/pending" },
+								{ label: "Rejected Withdrawals", href: "withdrawals/rejected" },
 							]}
 						/>
 					</ul>
@@ -154,30 +153,18 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 								Kyc
 							</NavLink>
             </li>
-            
-						<li>
-							<NavLink
-								to="/admin/plans"
-								className={`text-xs group relative flex items-center gap-2.5 rounded-sm py-2.5 px-3 text-gray-300 font-montserrat duration-300 ease-in-out hover:bg-black dark:hover:bg-black ${
-									pathname.includes("plans") && "bg-black"
-								}`}
-							>
-								<Coins strokeWidth={1.5} className="text-blue-500 text-xl" />
-								Manage Plans
-							</NavLink>
-						</li>
 					</ul>
 
 					<ul className="flex flex-col gap-1.5">
 						<li>
 							<NavLink
-								to="/admin/mails"
+								to="/admin/send-mail"
 								className={`text-xs group relative flex items-center gap-2.5 rounded-sm py-2.5 px-3 text-gray-300 font-montserrat duration-300 ease-in-out hover:bg-black dark:hover:bg-black ${
-									pathname.includes("mails") && "bg-black"
+									pathname.includes("send-mail") && "bg-black"
 								}`}
 							>
 								<MessageSquare strokeWidth={1.5} className="text-blue-500 text-xl" />
-								Mails
+								Send Mail
 							</NavLink>
 						</li>
 

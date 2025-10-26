@@ -2,11 +2,11 @@ import type { ApexOptions } from 'apexcharts';
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const options: ApexOptions = {
+const getChartOptions = (): ApexOptions => ({
   colors: ['#3C50E0', '#80CAEE'],
   grid: {
-    show: true, // Show the grid
-    borderColor: '#ffffff3d',
+    show: true,
+    borderColor: '#e5e7eb', // gray-200 - subtle grid lines
     strokeDashArray: 8,
     position: 'back',
     xaxis: {
@@ -31,8 +31,9 @@ const options: ApexOptions = {
     zoom: {
       enabled: false,
     },
+    foreColor: '#6b7280', // gray-500 - works on both light and dark themes
+    background: 'transparent',
   },
-
   responsive: [
     {
       breakpoint: 1536,
@@ -58,9 +59,28 @@ const options: ApexOptions = {
   dataLabels: {
     enabled: false,
   },
-
   xaxis: {
     categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    labels: {
+      style: {
+        colors: Array(7).fill('#6b7280'), // gray-500 - works on both light and dark themes
+        fontSize: '12px',
+      },
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: '#6b7280', // gray-500 - works on both light and dark themes
+        fontSize: '12px',
+      },
+    },
   },
   legend: {
     position: 'top',
@@ -68,13 +88,18 @@ const options: ApexOptions = {
     fontFamily: 'Satoshi',
     fontWeight: 500,
     fontSize: '14px',
+    labels: {
+      colors: '#6b7280', // gray-500 - works on both light and dark themes
+    },
   },
   fill: {
     opacity: 1,
   },
-};
+});
 
 const ChartTwo: React.FC = () => {
+  // Removed theme detection logic since we now use universal gray colors
+  
   const state = {
     series: [
       {
@@ -88,6 +113,8 @@ const ChartTwo: React.FC = () => {
     ],
   };
 
+  // Theme detection logic removed - using universal gray colors
+
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-gray-950 xl:col-span-4">
       <div className="mb-4 justify-between gap-4 sm:flex">
@@ -96,7 +123,7 @@ const ChartTwo: React.FC = () => {
             <select
               name="#"
               id="#"
-              className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
+              className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none text-gray-900 dark:text-gray-100"
             >
               <option value="">This Week</option>
               <option value="">Last Week</option>
@@ -106,8 +133,18 @@ const ChartTwo: React.FC = () => {
       </div>
 
       <div id="chartTwo">
+        <style>
+          {`
+            .apexcharts-text {
+              fill: #6b7280 !important;
+            }
+            .apexcharts-legend-text {
+              color: #6b7280 !important;
+            }
+          `}
+        </style>
         <ReactApexChart
-          options={options}
+          options={getChartOptions()}
           series={state.series}
           type="bar"
           height={400}
