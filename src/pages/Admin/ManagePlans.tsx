@@ -70,11 +70,11 @@ const AdminInvestmentPlans: React.FC = () => {
 		try {
 			setLoading(true);
 			const response = await fetch(`${url}/plans`);
-			
+
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
-			
+
 			const data: InvestmentPlan[] = await response.json();
 			setPlans(data);
 		} catch (error: any) {
@@ -160,8 +160,8 @@ const AdminInvestmentPlans: React.FC = () => {
 
 			const response = await fetch(endpoint, {
 				method,
-				headers: { 
-					"Content-Type": "application/json" 
+				headers: {
+					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(planData),
 			});
@@ -170,9 +170,7 @@ const AdminInvestmentPlans: React.FC = () => {
 
 			if (response.ok) {
 				showSuccessToast(
-					editingPlan 
-						? "Investment plan updated successfully" 
-						: "Investment plan created successfully"
+					editingPlan ? "Investment plan updated successfully" : "Investment plan created successfully",
 				);
 				await fetchPlans();
 				setShowModal(false);
@@ -193,10 +191,10 @@ const AdminInvestmentPlans: React.FC = () => {
 		}
 
 		try {
-			const response = await fetch(`${url}/plans/${planId}`, { 
-				method: "DELETE" 
+			const response = await fetch(`${url}/plans/${planId}`, {
+				method: "DELETE",
 			});
-			
+
 			const responseData = await response.json();
 
 			if (response.ok) {
@@ -233,13 +231,13 @@ const AdminInvestmentPlans: React.FC = () => {
 			adminForm.minAmount.trim() &&
 			adminForm.description.trim() &&
 			adminForm.duration.trim() &&
-			adminForm.features.some(f => f.trim() !== "")
+			adminForm.features.some((f) => f.trim() !== "")
 		);
 	};
 
 	if (loading) {
 		return (
-			<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 p-6">
+			<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950/10 dark:to-slate-950/50 p-6">
 				<div className="max-w-7xl mx-auto">
 					<div className="flex justify-center items-center h-64">
 						<div className="text-slate-600 dark:text-slate-400">Loading investment plans...</div>
@@ -250,15 +248,12 @@ const AdminInvestmentPlans: React.FC = () => {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 p-6">
+		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950/10 dark:to-slate-950/50 p-6">
 			<div className="max-w-7xl mx-auto">
 				{/* Header */}
 				<div className="flex justify-between items-center mb-12">
 					<div>
-						<h1 className="text-3xl font-light text-slate-900 dark:text-white mb-2">
-							Investment Plans Admin
-						</h1>
-						<p className="text-slate-600 dark:text-slate-400">Manage investment plans and settings</p>
+						<h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Manage Plans</h1>
 					</div>
 					<button
 						onClick={() => openModal()}
@@ -277,7 +272,7 @@ const AdminInvestmentPlans: React.FC = () => {
 						return (
 							<div
 								key={plan._id}
-								className="relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
+								className="relative bg-white/40 dark:bg-slate-800/20 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
 							>
 								{/* Glassmorphism overlay */}
 								<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-2xl"></div>

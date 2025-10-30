@@ -4,14 +4,17 @@
 
 // Re-export types from local files
 export * from './user.types';
-export * from './investment.types';
-import type { PersonalInfo, Portfolio, PrivacyData } from './index';
+import type { PersonalInfo } from './index';
+
+// Privacy Settings Interface
+export interface PrivacySettings {
+	termsAndConditions: boolean;
+	privacyStatement: boolean;
+}
 
 // Registration Request Interface (client-specific)
 export interface RegistrationRequest {
 	personalInfo: PersonalInfo;
-	portfolio?: Portfolio;
-	privacy?: PrivacyData;
 	password: string;
 	confirmPassword: string;
 }
@@ -20,16 +23,12 @@ export interface RegistrationRequest {
 export interface RegistrationFormState {
 	step: number;
 	personalInfo: Partial<PersonalInfo>;
-	portfolio: Partial<Portfolio>;
-	privacy: Partial<PrivacyData>;
 	password: string;
 	confirmPassword: string;
+	privacy: PrivacySettings;
 	isValid: {
 		step1: boolean;
 		step2: boolean;
-		step3: boolean;
-		step4: boolean;
-		step5: boolean;
 	};
 	errors: any;
 }

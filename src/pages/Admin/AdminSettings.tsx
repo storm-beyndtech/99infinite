@@ -165,7 +165,7 @@ export default function AdminSettings() {
           </div>
         ))}
         {error && <Alert type="danger" message={error} />}
-        {success && <Alert type="success" message={success as any} />}
+        {success && <Alert type="success" message={"Update Successful..."} />}
       </div>
 
       <div className="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">

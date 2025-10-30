@@ -15,8 +15,8 @@ const getChartOptions = (): ApexOptions => ({
 		toolbar: { show: false },
 		height: 350,
 	},
-	colors: ["#14b8a6", "#ea580c", "#164e63", "#0d9488"],
-	labels: ["Gold", "Silver", "Platinum", "Palladium"],
+	colors: ["#14b8a6", "#ea580c", "#164e63"],
+	labels: ["Starter", "Advanced", "Master"],
 	legend: {
 		show: true,
 		position: "right",
@@ -85,7 +85,7 @@ const getChartOptions = (): ApexOptions => ({
 
 const ChartThree: React.FC = () => {
 	const [state] = useState<ChartThreeState>({
-		series: [45, 25, 20, 10],
+		series: [45, 25, 20],
 	});
 
 	// Removed theme detection logic since we now use universal gray colors
@@ -94,8 +94,7 @@ const ChartThree: React.FC = () => {
 		<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-lg border border-gray-200/50 dark:border-white/20 rounded-xl p-6 shadow-xl h-fit lg:h-full w-full">
 			<div className="mb-6 flex justify-between items-center">
 				<div>
-					<h4 className="text-gray-900 dark:text-white text-lg font-semibold">Asset Distribution</h4>
-					<p className="text-gray-600 dark:text-white/70 text-sm">Portfolio allocation</p>
+					<h4 className="text-gray-900 dark:text-white text-lg font-semibold">Position Performance</h4>
 				</div>
 				<div>
 					<div className="relative">

@@ -52,6 +52,7 @@ import RejectedWithdrawals from "./pages/Admin/RejectedWithdrawals";
 import SendMail from "./pages/Admin/SendMail";
 import PageLoader from "./components/PageLoader";
 import ScrollToTop from "./components/ScrollToTop";
+import Wallet from "./pages/Dashboard/Wallet";
 
 // Protected route wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -63,6 +64,16 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 	if (!user) {
 		return <Navigate to="/login" replace />;
+	}
+
+	if (user) {
+		if (user.isAdmin) {
+			return <Navigate to="/admin" replace />;
+		}
+
+		if (user.kycStatus !== "approved") {
+			return <Navigate to="/kyc" replace />;
+		}
 	}
 
 	return <>{children}</>;
@@ -108,6 +119,14 @@ const AppRoutes = () => {
 			{/* Public routes */}
 			<Route path="/" element={<Layout />}>
 				<Route index element={<Home />} />
+				<Route
+					path="kyc"
+					element={
+						<div className="py-10 bg-[#012026]">
+							<KYC />
+						</div>
+					}
+				/>
 				<Route path="about" element={<About />} />
 				<Route path="team" element={<Team />} />
 				<Route path="team/:slug" element={<Team />} />
@@ -136,6 +155,7 @@ const AppRoutes = () => {
 				<Route path="deposit" element={<Deposit />} />
 				<Route path="deposit-log" element={<DepositLog />} />
 				<Route path="events" element={<Events />} />
+				<Route path="wallet" element={<Wallet />} />
 				<Route path="investments" element={<InvestmentLog />} />
 				<Route path="investment-plans" element={<InvestmentPlan />} />
 				<Route path="kyc" element={<KYC />} />
@@ -163,7 +183,7 @@ const AppRoutes = () => {
 				<Route path="investments/history" element={<InvestmentHistory />} />
 				<Route path="kyc" element={<KycApproval />} />
 				<Route path="investments" element={<ManageInvestments />} />
-				<Route path="plans" element={<ManagePlans />} />
+				<Route path="manage-plans" element={<ManagePlans />} />
 				<Route path="deposits/pending" element={<PendingDeposits />} />
 				<Route path="withdrawals/pending" element={<PendingWithdrawals />} />
 				<Route path="deposits/rejected" element={<RejectedDeposits />} />

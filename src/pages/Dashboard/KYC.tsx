@@ -175,7 +175,7 @@ const KYCStatusMessage = ({
 											d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
 										/>
 									</svg>
-									support@bluevestapty.club
+									support@99infinite.club
 								</Link>
 							</div>
 						</div>
@@ -203,13 +203,13 @@ export default function KYC() {
 		setIsRefreshing(true);
 		try {
 			// Validate user ID exists
-			if (!user || !user.id) {
+			if (!user || !(user.id || user._id)) {
 				console.error("User ID is required");
 				setIsRefreshing(false);
 				return;
 			}
 
-			const res = await fetch(`${url}/users/${user.id}`, {
+			const res = await fetch(`${url}/users/${user.id || user._id}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

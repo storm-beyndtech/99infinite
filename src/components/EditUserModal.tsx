@@ -5,6 +5,7 @@ import { countries } from "@/utils/countries";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function EditUserModal({ userData, handleUserData }: any) {
+	const [userId, setUserId] = useState("");
 	const [fullName, setFullName] = useState("");
 	const [email, setEmail] = useState("");
 	const [selectedCountry, setSelectedCountry] = useState("");
@@ -25,11 +26,12 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	useEffect(() => {
+		setUserId(userData._id);
 		setFullName(userData.fullName);
 		setEmail(userData.email);
 		setSelectedCountry(userData.country);
 		setPhoneNumber(userData.phone);
-		setAddress(userData.address);
+		setAddress(userData.streetAddress);
 		setCity(userData.city);
 		setState(userData.state);
 		setZipCode(userData.zipCode);
@@ -47,6 +49,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 		const lastName = rest.join(" ") || "";
 
 		const profileData = {
+			userId,
 			email,
 			firstName,
 			lastName,
@@ -64,7 +67,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 
 		try {
 			setLoading(true);
-			const res = await fetch(`${url}/api/users/update-profile`, {
+			const res = await fetch(`${url}/users/update-profile`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(profileData),

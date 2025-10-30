@@ -1,29 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <script>
-      // Prevent flash of unstyled content
-      (function() {
-        try {
-          const theme = localStorage.getItem('color-theme');
-          if (theme) {
-            const colorMode = JSON.parse(theme);
-            if (colorMode === 'dark') {
-              document.documentElement.classList.add('dark');
-            }
-          }
-        } catch (e) {
-          console.log('Error loading theme:', e);
-        }
-      })();
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite + React + TS</title>
+		<script>
+			// Prevent flash of unstyled content
+			(function () {
+				try {
+					const theme = localStorage.getItem("color-theme");
+					if (theme) {
+						const colorMode = JSON.parse(theme);
+						if (colorMode === "dark") {
+							document.documentElement.classList.add("dark");
+						}
+					}
+				} catch (e) {
+					console.log("Error loading theme:", e);
+				}
+			})();
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<div id="modal-root"></div>
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
 </html>

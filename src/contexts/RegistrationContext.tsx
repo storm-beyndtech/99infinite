@@ -1,13 +1,12 @@
 import { createContext, useContext, useReducer, useCallback, type ReactNode } from 'react';
-import type { PrivacyData, PersonalInfo, Portfolio, RegistrationFormState, ValidationErrors } from '../types/auth.types';
+import type { PersonalInfo, RegistrationFormState, ValidationErrors, PrivacySettings } from '../types/auth.types';
 
 // Registration Actions
 type RegistrationAction =
   | { type: 'SET_STEP'; payload: number }
   | { type: 'UPDATE_PERSONAL_INFO'; payload: Partial<PersonalInfo> }
-  | { type: 'UPDATE_PORTFOLIO'; payload: Partial<Portfolio> }
-  | { type: 'UPDATE_Privacy'; payload: Partial<PrivacyData> }
   | { type: 'UPDATE_PASSWORD'; payload: { password?: string; confirmPassword?: string } }
+  | { type: 'UPDATE_PRIVACY'; payload: Partial<PrivacySettings> }
   | { type: 'SET_STEP_VALIDITY'; payload: { step: keyof RegistrationFormState['isValid']; isValid: boolean } }
   | { type: 'RESET_FORM' }
   | { type: 'SET_ERRORS'; payload: ValidationErrors }
@@ -37,27 +36,15 @@ const initialState: RegistrationFormState = {
       number: '',
     },
   },
-  portfolio: {
-    products: [],
-    tempSum: 0,
-    finalSum: 0,
-    minimumOrderAmount: 100,
-  },
-  privacy: {
-    buyingForSelf: true,
-    politicallyExposed: false,
-    termsAndConditions: false,
-    privacyStatement: false,
-    paymentMethod: 'bank_transfer',
-  },
   password: '',
   confirmPassword: '',
+  privacy: {
+    termsAndConditions: false,
+    privacyStatement: false,
+  },
   isValid: {
     step1: false,
     step2: false,
-    step3: false,
-    step4: false,
-    step5: false,
   },
   errors: null
 };
@@ -78,27 +65,19 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
           ...action.payload,
         },
       };
-    case 'UPDATE_PORTFOLIO':
+    case 'UPDATE_PASSWORD':
       return {
         ...state,
-        portfolio: {
-          ...state.portfolio,
-          ...action.payload,
-        },
+        password: action.payload.password || state.password,
+        confirmPassword: action.payload.confirmPassword || state.confirmPassword,
       };
-    case 'UPDATE_Privacy':
+    case 'UPDATE_PRIVACY':
       return {
         ...state,
         privacy: {
           ...state.privacy,
           ...action.payload,
         },
-      };
-    case 'UPDATE_PASSWORD':
-      return {
-        ...state,
-        password: action.payload.password || state.password,
-        confirmPassword: action.payload.confirmPassword || state.confirmPassword,
       };
     case 'SET_STEP_VALIDITY':
       return {
@@ -130,9 +109,8 @@ interface RegistrationContextType {
   state: RegistrationFormState;
   setStep: (step: number) => void;
   updatePersonalInfo: (data: Partial<PersonalInfo>) => void;
-  updatePortfolio: (data: Partial<Portfolio>) => void;
-  updatePrivacy: (data: Partial<PrivacyData>) => void;
   updatePassword: (password?: string, confirmPassword?: string) => void;
+  updatePrivacy: (data: Partial<PrivacySettings>) => void;
   setStepValidity: (step: keyof RegistrationFormState['isValid'], isValid: boolean) => void;
   resetForm: () => void;
   setErrors: (errors: ValidationErrors) => void;
@@ -163,16 +141,13 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
     dispatch({ type: 'UPDATE_PERSONAL_INFO', payload: data });
   }, []);
 
-  const updatePortfolio = useCallback((data: Partial<Portfolio>) => {
-    dispatch({ type: 'UPDATE_PORTFOLIO', payload: data });
-  }, []);
-
-  const updatePrivacy = useCallback((data: Partial<PrivacyData>) => {
-    dispatch({ type: 'UPDATE_Privacy', payload: data });
-  }, []);
 
   const updatePassword = useCallback((password?: string, confirmPassword?: string) => {
     dispatch({ type: 'UPDATE_PASSWORD', payload: { password, confirmPassword } });
+  }, []);
+
+  const updatePrivacy = useCallback((data: Partial<PrivacySettings>) => {
+    dispatch({ type: 'UPDATE_PRIVACY', payload: data });
   }, []);
 
   const setStepValidity = useCallback((step: keyof RegistrationFormState['isValid'], isValid: boolean) => {
@@ -193,7 +168,7 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
 
   // Navigation helpers
   const nextStep = useCallback(() => {
-    if (state.step < 4) {
+    if (state.step < 2) {
       setStep(state.step + 1);
     }
   }, [state.step, setStep]);
@@ -211,10 +186,6 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
         return state.isValid.step1;
       case 2:
         return state.isValid.step2;
-      case 3:
-        return state.isValid.step3;
-      case 4:
-        return state.isValid.step4;
       default:
         return false;
     }
@@ -224,20 +195,17 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
   const getRegistrationData = useCallback(() => {
     return {
       personalInfo: state.personalInfo,
-      portfolio: state.portfolio,
-      privacy: state.privacy,
       password: state.password,
       confirmPassword: state.confirmPassword,
     };
-  }, [state.personalInfo, state.portfolio, state.privacy, state.password, state.confirmPassword]);
+  }, [state.personalInfo, state.password, state.confirmPassword]);
 
   const contextValue: RegistrationContextType = {
     state,
     setStep,
     updatePersonalInfo,
-    updatePortfolio,
-    updatePrivacy,
     updatePassword,
+    updatePrivacy,
     setStepValidity,
     resetForm,
     setErrors,

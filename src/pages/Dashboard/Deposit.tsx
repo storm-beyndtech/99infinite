@@ -34,6 +34,7 @@ export default function Deposit() {
 			const data = await res.json();
 
 			if (res.ok) {
+				console.log(data);
 				setCoins(data.coins);
 				setCoin(data.coins[0]);
 				// showSuccessToast("Payment methods loaded successfully");

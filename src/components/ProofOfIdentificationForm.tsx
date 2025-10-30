@@ -189,13 +189,13 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 			</div>
 
 			<div className="mb-6 w-full text-xs">
-				<p className="mb-2 dark:text-gray-300 text-gray-700 max-w-[600px]">
+				<p className="mb-2 dark:text-gray-400 text-gray-700 max-w-[800px] leading-relaxed">
 					To verify your identification, please upload one of the following proof of identification documents:
-					ID Card, passport or driver's license. All sides containing your personal details are required.
-				</p>
-				<p className="dark:text-gray-300 text-gray-700 max-w-[620px]">
-					The documents must include: full name, ID number, photograph, date of birth, place of birth,
-					nationality
+					ID Card, passport or driver's license. All sides containing your personal details are required.{" "}
+					<span className="italic">
+						The documents must include: full name, ID number, photograph, date of birth, place of birth,
+						nationality
+					</span>
 				</p>
 			</div>
 
@@ -209,7 +209,7 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 							className={`p-3 text-center rounded-md transition-all font-semibold ${
 								formData.documentType === type
 									? "dark:bg-blue-600 bg-blue-500 text-white"
-									: "dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 bg-gray-200 text-gray-700 hover:bg-gray-300"
+									: "dark:bg-gray-100/5 dark:text-gray-300 dark:hover:bg-gray-800 bg-/5gray-200 text-gray-700 hover:bg-gray-300"
 							}`}
 							onClick={() => handleDocumentTypeChange(type)}
 						>
@@ -307,7 +307,7 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 							className={`w-full border rounded-md py-3 px-4 ${
 								errors.documentNumber
 									? "border-red-500"
-									: "dark:bg-gray-900 dark:border-gray-700 dark:text-white bg-white border-gray-300 text-gray-900"
+									: "dark:bg-gray-100/5 dark:border-gray-700 dark:text-white bg-white/5 border-gray-300 text-gray-900"
 							}`}
 							placeholder="Enter document number"
 						/>
@@ -336,7 +336,7 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
               ${
 								errors.expiryDate
 									? "border-red-500"
-									: "dark:bg-gray-900 dark:border-gray-700 dark:text-white bg-white border-gray-300 text-gray-900"
+									: "dark:bg-gray-100/5 dark:border-gray-700 dark:text-white bg-white/5 border-gray-300 text-gray-900"
 							}`}
 							/>
 							<Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-300 pointer-events-none" />

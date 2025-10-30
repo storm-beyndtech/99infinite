@@ -2,20 +2,16 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import {
 	User,
-	TrendingUp,
-	ArrowDownLeft,
 	History,
-	Target,
 	ChevronLeft,
 	ChevronRight,
 	X,
 	Calendar,
-	CreditCard,
 	Wallet,
 	Shield,
 	Settings,
-	DollarSign,
-  LayoutPanelLeft,
+	LayoutPanelLeft,
+	PiggyBank,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -26,7 +22,7 @@ interface SidebarProps {
 }
 
 interface MenuItem {
-	icon: React.ComponentType<{ className?: string }>;
+	icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
 	label: string;
 	to?: string;
 }
@@ -46,28 +42,29 @@ const Sidebar: React.FC<SidebarProps> = ({
 		{
 			title: "DASHBOARD",
 			items: [
-				{ icon: LayoutPanelLeft, label: "Wallet", to: "/dashboard" },
+				{ icon: LayoutPanelLeft, label: "Dashboard", to: "/dashboard" },
+				{ icon: Wallet, label: "Wallet", to: "/dashboard/wallet" },
 			],
 		},
 		{
 			title: "INVESTMENTS",
 			items: [
-				{ icon: Target, label: "Investment Plans", to: "/dashboard/investment-plans" },
-				{ icon: TrendingUp, label: "My Investments", to: "/dashboard/investments" },
+				{ icon: PiggyBank, label: "Investment Plans", to: "/dashboard/investment-plans" },
+				{ icon: PiggyBank, label: "My Investments", to: "/dashboard/investments" },
 			],
 		},
 		{
 			title: "TRANSACTIONS",
 			items: [
-				{ icon: DollarSign, label: "Deposit", to: "/dashboard/deposit" },
+				{ icon: Wallet, label: "Deposit", to: "/dashboard/deposit" },
 				{ icon: Wallet, label: "Withdraw", to: "/dashboard/withdraw" },
 			],
 		},
 		{
 			title: "HISTORY",
 			items: [
-				{ icon: CreditCard, label: "Deposits", to: "/dashboard/deposit-log" },
-				{ icon: ArrowDownLeft, label: "Withdrawals", to: "/dashboard/withdraw-log" },
+				// { icon: History, label: "Deposits", to: "/dashboard/deposit-log" },
+				// { icon: History, label: "Withdrawals", to: "/dashboard/withdraw-log" },
 				{ icon: History, label: "Transactions", to: "/dashboard/transactions" },
 			],
 		},
@@ -101,7 +98,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 				className={`
         fixed lg:static inset-y-0 left-0 z-30
         ${sidebarCollapsed ? "lg:w-20" : "lg:w-64"} 
-        w-64 dark:bg-cyan-950/90 bg-[#001215] border border-cyan-900/50 dark:border-cyan-800/30 
+        w-64 dark:bg-[#012026] bg-[#001215] border border-cyan-900/50 dark:border-cyan-800/30 
       rounded-2xl shadow-2xl backdrop-blur-xl
         flex flex-col transform transition-all duration-300 ease-in-out
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -130,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 									</h3>
 								)}
 
-								<nav className="space-y-2">
+								<div className="space-y-2">
 									{group.items.map((item, index) => (
 										<div key={index} className="relative">
 											<NavLink
@@ -142,24 +139,27 @@ const Sidebar: React.FC<SidebarProps> = ({
 														sidebarCollapsed ? "lg:justify-center lg:px-2" : "space-x-3 px-3"
 													} py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative border backdrop-blur-sm ${
 														isActive
-															? "bg-cyan-600/10 text-white border-cyan-400/50 dark:border-cyan-300/50 shadow-lg shadow-cyan-500/20"
-															: "bg-cyan-950/5 text-cyan-100/70 hover:bg-cyan-800/50 dark:hover:bg-cyan-800/70 hover:text-white border-transparent hover:border-cyan-700/50 dark:hover:border-cyan-600/50"
+															? " text-white border-cyan-400/50 dark:border-cyan-300/50 shadow-lg"
+															: "  text-cyan-100/70 hover:bg-cyan-800/50 dark:hover:bg-cyan-800/70 hover:text-white border-transparent hover:border-cyan-700/50 dark:hover:border-cyan-600/50"
 													}`
 												}
 												title={sidebarCollapsed ? item.label : ""}
 											>
-												<item.icon className={`flex-shrink-0 ${sidebarCollapsed ? "w-5 h-5" : "w-4 h-4"}`} />
+												<item.icon
+													strokeWidth={1.2}
+													className={`flex-shrink-0 ${sidebarCollapsed ? "w-6 h-6" : "w-6 h-6"}`}
+												/>
 												{!sidebarCollapsed && <span className="truncate">{item.label}</span>}
 
 												{sidebarCollapsed && (
-													<div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 hidden lg:block pointer-events-none">
+													<div className="absolute -top-8 ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 hidden lg:block pointer-events-none">
 														{item.label}
 													</div>
 												)}
 											</NavLink>
 										</div>
 									))}
-								</nav>
+								</div>
 
 								{/* Add spacing between groups when collapsed */}
 								{sidebarCollapsed && groupIndex < menuGroups.length - 1 && (

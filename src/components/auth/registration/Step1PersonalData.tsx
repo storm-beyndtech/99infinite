@@ -136,7 +136,7 @@ const Step1PersonalData: React.FC = () => {
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Personal Data</h1>
-							<p className="text-gray-300">Step 1 of 4</p>
+							<p className="text-gray-300">Step 1 of 2</p>
 						</div>
 						<div className="flex flex-col items-center space-y-2">
 							<Link
@@ -155,12 +155,12 @@ const Step1PersonalData: React.FC = () => {
 					<div className="mt-6">
 						<div className="flex justify-between text-sm text-cyan-100 mb-2">
 							<span>Progress</span>
-							<span>25%</span>
+							<span>50%</span>
 						</div>
 						<div className="w-full bg-gray-600 rounded-full h-2">
 							<div
 								className="bg-white h-2 rounded-full transition-all duration-300"
-								style={{ width: "25%" }}
+								style={{ width: "50%" }}
 							></div>
 						</div>
 					</div>

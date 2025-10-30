@@ -17,12 +17,12 @@ export default function ActiveUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${url}/api/users`);
+      const res = await fetch(`${url}/users`);
       const data = await res.json();
 
       if (res.ok) {
-        setUsers(data.filter((user:any) => user._id !== admin._id))
-        setFilteredUsers(data.filter((user:any) => user._id !== admin._id))
+        setUsers(data.users.filter((user:any) => user._id !== admin._id))
+        setFilteredUsers(data.users.filter((user:any) => user._id !== admin._id))
       }
       else throw new Error(data.message);
     } catch (error) {

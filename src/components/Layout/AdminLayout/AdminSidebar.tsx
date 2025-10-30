@@ -14,6 +14,7 @@ import {
 	Settings,
 	ArrowUpFromLine,
 	ArrowDownFromLine,
+	PiggyBank,
 } from "lucide-react";
 import { contextData } from "@/contexts/AuthContext";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
@@ -115,7 +116,6 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 							icon={<Users strokeWidth={1.5} className="text-blue-500 text-xl" />}
 							links={[
 								{ label: "Active Users", href: "users" },
-								{ label: "Banned Users", href: "users/banned" },
 							]}
 						/>
 
@@ -152,7 +152,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 								<ShieldAlert strokeWidth={1.5} className="text-blue-500 text-xl" />
 								Kyc
 							</NavLink>
-            </li>
+						</li>
 					</ul>
 
 					<ul className="flex flex-col gap-1.5">
@@ -170,13 +170,25 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 
 						<li>
 							<NavLink
+								to="/admin/manage-plans"
+								className={`text-xs group relative flex items-center gap-2.5 rounded-sm py-2.5 px-3 text-gray-300 font-montserrat duration-300 ease-in-out hover:bg-black dark:hover:bg-black ${
+									pathname.includes("manage-plans") && "bg-black"
+								}`}
+							>
+								<PiggyBank strokeWidth={1.5} className="text-blue-500 text-xl" />
+								Manage Plans
+							</NavLink>
+						</li>
+
+						<li>
+							<NavLink
 								to="/admin/settings"
 								className={`text-xs group relative flex items-center gap-2.5 rounded-sm py-2.5 px-3 text-gray-300 font-montserrat duration-300 ease-in-out hover:bg-black dark:hover:bg-black ${
 									pathname.includes("settings") && "bg-black"
 								}`}
 							>
 								<Settings strokeWidth={1.5} className="text-blue-500 text-xl" />
-								Settings
+								Manage Wallet
 							</NavLink>
 						</li>
 

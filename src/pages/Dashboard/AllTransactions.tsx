@@ -60,7 +60,7 @@ const AllTransactions: React.FC = () => {
 	const fetchTransactions = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch(`${url}/transactions`);
+			const response = await fetch(`${url}/transactions/user/${user.email}`);
 			const data = await response.json();
 
 			if (response.ok) {
@@ -78,10 +78,10 @@ const AllTransactions: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (user?.id) {
+		if (user.email) {
 			fetchTransactions();
 		}
-	}, [user?._id]);
+	}, [user.email]);
 
 	// Filter and paginate transactions
 	useEffect(() => {

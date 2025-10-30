@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRegistration } from "../../../contexts/RegistrationContext";
-import { ChevronLeft, Shield, CreditCard, FileText, CheckCircle, Loader } from "lucide-react";
+import { ChevronLeft, Shield, CheckCircle, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Alert from "../../UI/Alert";
 import { useToastUtils } from "../../../services/toast";
 import { contextData } from "@/contexts/AuthContext";
 
-const Step4Privacy: React.FC = () => {
+const Step2Privacy: React.FC = () => {
 	const { state, updatePrivacy, updatePassword, prevStep, setStepValidity, getRegistrationData, resetForm } =
 		useRegistration();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -39,7 +39,7 @@ const Step4Privacy: React.FC = () => {
 
 		setErrors(newErrors);
 		const isValid = Object.keys(newErrors).length === 0;
-		setStepValidity("step4", isValid);
+		setStepValidity("step2", isValid);
 		return isValid;
 	};
 
@@ -83,17 +83,19 @@ const Step4Privacy: React.FC = () => {
 				login(data.user);
 				resetForm();
 
-				// Redirect to dashboard after 2 seconds
-				setTimeout(() => {
-					navigate("/dashboard"); // Redirect to dashboard
-				}, 2000);
+				navigate("/kyc");
 			} else {
-				// Handle registration error
 				setErrors({ submit: data.message || "Registration failed. Please try again." });
+				setTimeout(() => {
+					setErrors({});
+				}, 4000);
 			}
 		} catch (error: any) {
 			console.error("Registration error:", error.message);
 			setErrors({ submit: error.message || "Registration failed. Please try again." });
+			setTimeout(() => {
+				setErrors({});
+			}, 4000);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -107,7 +109,7 @@ const Step4Privacy: React.FC = () => {
 					<div className="flex items-center justify-between">
 						<div>
 							<h1 className="text-2xl font-bold">Verification & Checkout</h1>
-							<p className="text-gray-300">Step 4 of 4 - Complete Your Registration</p>
+							<p className="text-gray-300">Step 2 of 2 - Complete Your Registration</p>
 						</div>
 					</div>
 
@@ -124,126 +126,6 @@ const Step4Privacy: React.FC = () => {
 
 				<div className="p-4 md:p-8">
 					<div className="space-y-8">
-						{/* Privacy Questions */}
-						<div className="bg-gray-50 rounded-xl p-6">
-							<h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-								<FileText className="w-5 h-5 mr-2 text-blue-600" />
-								Know Your Customer (Privacy) Information
-							</h2>
-
-							<div className="space-y-6">
-								{/* Buying for self */}
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-3">
-										Are you buying these precious metals for yourself?
-									</label>
-									<div className="space-y-2">
-										<label className="flex items-center">
-											<input
-												type="radio"
-												name="buyingForSelf"
-												checked={state.privacy.buyingForSelf === true}
-												onChange={() => handlePrivacyChange("buyingForSelf", true)}
-												className="mr-3 text-blue-600 focus:ring-blue-500"
-											/>
-											<span className="text-gray-700">Yes, I am buying for myself</span>
-										</label>
-										<label className="flex items-center">
-											<input
-												type="radio"
-												name="buyingForSelf"
-												checked={state.privacy.buyingForSelf === false}
-												onChange={() => handlePrivacyChange("buyingForSelf", false)}
-												className="mr-3 text-blue-600 focus:ring-blue-500"
-											/>
-											<span className="text-gray-700">No, I am buying for someone else</span>
-										</label>
-									</div>
-								</div>
-
-								{/* Politically exposed */}
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-3">
-										Are you a politically exposed person (PEP) or related to one?
-									</label>
-									<div className="space-y-2">
-										<label className="flex items-center">
-											<input
-												type="radio"
-												name="politicallyExposed"
-												checked={state.privacy.politicallyExposed === false}
-												onChange={() => handlePrivacyChange("politicallyExposed", false)}
-												className="mr-3 text-blue-600 focus:ring-blue-500"
-											/>
-											<span className="text-gray-700">No</span>
-										</label>
-										<label className="flex items-center">
-											<input
-												type="radio"
-												name="politicallyExposed"
-												checked={state.privacy.politicallyExposed === true}
-												onChange={() => handlePrivacyChange("politicallyExposed", true)}
-												className="mr-3 text-blue-600 focus:ring-blue-500"
-											/>
-											<span className="text-gray-700">Yes</span>
-										</label>
-									</div>
-									<p className="text-xs text-gray-500 mt-2">
-										PEP includes government officials, politicians, judges, military officers, and their close
-										associates.
-									</p>
-								</div>
-							</div>
-						</div>
-
-						{/* Payment Method */}
-						<div className="bg-gray-50 rounded-xl p-6">
-							<h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-								<CreditCard className="w-5 h-5 mr-2 text-green-600" />
-								Payment Method
-							</h2>
-
-							<div className="space-y-4">
-								<label className="block">
-									<input
-										type="radio"
-										name="paymentMethod"
-										checked={state.privacy.paymentMethod === "bank_transfer"}
-										onChange={() => handlePrivacyChange("paymentMethod", "bank_transfer")}
-										className="mr-3 text-blue-600 focus:ring-blue-500"
-									/>
-									<span className="font-medium">Bank Transfer (Recommended)</span>
-									<p className="text-sm text-gray-600 ml-6">Secure and cost-effective. No additional fees.</p>
-								</label>
-
-								<label className="block">
-									<input
-										type="radio"
-										name="paymentMethod"
-										checked={state.privacy.paymentMethod === "credit_card"}
-										onChange={() => handlePrivacyChange("paymentMethod", "credit_card")}
-										className="mr-3 text-blue-600 focus:ring-blue-500"
-									/>
-									<span className="font-medium">Credit Card</span>
-									<p className="text-sm text-gray-600 ml-6">
-										Instant processing. 2.5% processing fee applies.
-									</p>
-								</label>
-
-								<label className="block">
-									<input
-										type="radio"
-										name="paymentMethod"
-										checked={state.privacy.paymentMethod === "paypal"}
-										onChange={() => handlePrivacyChange("paymentMethod", "paypal")}
-										className="mr-3 text-blue-600 focus:ring-blue-500"
-									/>
-									<span className="font-medium">PayPal</span>
-									<p className="text-sm text-gray-600 ml-6">Quick and secure. 3.0% processing fee applies.</p>
-								</label>
-							</div>
-						</div>
-
 						{/* Account Security */}
 						<div className="bg-gray-50 rounded-xl p-6">
 							<h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
@@ -336,27 +218,19 @@ const Step4Privacy: React.FC = () => {
 							</div>
 						</div>
 
-						{/* Final Investment Summary */}
+						{/* Registration Summary */}
 						<div className="bg-gray-100 rounded-lg p-6">
-							<h3 className="text-lg font-bold mb-4 text-gray-900">Final Investment Summary</h3>
-							<div className="grid md:grid-cols-3 gap-4 text-sm">
+							<h3 className="text-lg font-bold mb-4 text-gray-900">Registration Summary</h3>
+							<div className="grid md:grid-cols-2 gap-4 text-sm">
 								<div>
-									<p className="text-gray-600">Total Investment</p>
-									<p className="font-bold text-xl text-gray-900">
-										€{state.portfolio.finalSum?.toFixed(2) || "0.00"}
+									<p className="text-gray-600">Account Holder</p>
+									<p className="font-bold text-lg text-gray-900">
+										{state.personalInfo.firstName} {state.personalInfo.lastName}
 									</p>
 								</div>
 								<div>
-									<p className="text-gray-600">Products</p>
-									<p className="font-semibold text-gray-900">
-										{state.portfolio.products?.length || 0} items selected
-									</p>
-								</div>
-								<div>
-									<p className="text-gray-600">Payment Method</p>
-									<p className="font-semibold capitalize text-gray-900">
-										{state.privacy.paymentMethod?.replace("_", " ")}
-									</p>
+									<p className="text-gray-600">Email</p>
+									<p className="font-semibold text-gray-900">{state.personalInfo.email}</p>
 								</div>
 							</div>
 						</div>
@@ -407,4 +281,4 @@ const Step4Privacy: React.FC = () => {
 	);
 };
 
-export default Step4Privacy;
+export default Step2Privacy;

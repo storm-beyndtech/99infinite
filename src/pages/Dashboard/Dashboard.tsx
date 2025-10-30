@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-	Coins,
-	TrendingUp,
-	DollarSign,
-	BarChart3,
-	Gem,
 	ArrowUpRight,
 	Plus,
 	Activity,
@@ -15,38 +10,26 @@ import {
 	Check,
 	Share2,
 	Copy,
+	PiggyBank,
+	MoveRight,
+	Wallet,
+	DollarSign,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import ChartTwo from "../../components/UI/ChartTwo";
 import ChartThree from "../../components/UI/ChartThree";
-import type { InvestmentProduct } from "../../types/auth.types";
 import { Link } from "react-router-dom";
 import BankingCard from "@/components/BankingCard";
+import { formatCurrency } from "./Wallet";
 
 const Dashboard = () => {
 	const [copied, setCopied] = useState(false);
-	const [metalPrices, setMetalPrices] = useState({
-		gold: 2000,
-		silver: 25,
-		platinum: 980,
-		palladium: 1200,
-	});
-	const [userPortfolio] = useState<InvestmentProduct[]>([]);
 	const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
 	const [transactionsLoading, setTransactionsLoading] = useState(true);
 
 	// User is guaranteed to exist by DashboardLayoutWrapper
 	const { user } = useAuth();
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
-
-	// Calculate portfolio value from user object
-	const portfolioValue = user?.deposit || 0;
-	const totalInvested = portfolioValue; // For now, assume all deposits are investments
-	const totalEarnings = user?.interest || 0;
-	const dailyEarnings = totalEarnings * 0.01; // Assume 1% of total earnings per day
-	const activeProducts = userPortfolio.length;
-	const goldOunces = user?.totalGoldOunces || 0;
-	const goldValue = goldOunces * (metalPrices.gold || 2000); // Estimate gold value
 
 	const handleCopyReferralCode = async () => {
 		try {
@@ -89,23 +72,7 @@ const Dashboard = () => {
 		}
 
 		// Fetch metal prices
-		fetchMetalPrices();
 	}, [user?.id]);
-
-	const fetchMetalPrices = async () => {
-		try {
-			const res = await fetch(`${url}/utils`);
-			if (res.ok) {
-				const data = await res.json();
-				if (data.metalPrices) {
-					setMetalPrices(data.metalPrices);
-				}
-			}
-		} catch (error) {
-			console.error("Error fetching metal prices:", error);
-			// Keep default values if fetch fails
-		}
-	};
 
 	const fetchRecentTransactions = async () => {
 		try {
@@ -117,7 +84,7 @@ const Dashboard = () => {
 				return;
 			}
 
-			const res = await fetch(`${url}/transactions/user/${user.id}?limit=5`);
+			const res = await fetch(`${url}/transactions/user/${user.email}`);
 
 			// If fetch fails (network error, server down, etc.), handle gracefully
 			if (!res.ok) {
@@ -146,18 +113,6 @@ const Dashboard = () => {
 		day: "numeric",
 	});
 
-	const formatCurrency = (amount: number): string => {
-		return new Intl.NumberFormat("en-US", {
-			style: "currency",
-			currency: "USD",
-			minimumFractionDigits: 0,
-			maximumFractionDigits: 2,
-		}).format(amount);
-	};
-
-	// Calculate portfolio metrics
-	const portfolioGrowth = totalEarnings > 0 ? ((totalEarnings / totalInvested) * 100).toFixed(2) : "0.00";
-
 	return (
 		<>
 			<div className="max-w-7xl mx-auto space-y-8">
@@ -185,103 +140,99 @@ const Dashboard = () => {
 					</div>
 				</div>
 
-				{/* Portfolio Overview Cards */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-					{/* Portfolio Value */}
-					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						<div className="relative z-10">
-							<div className="flex items-center justify-between mb-4">
-								<div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-950/50 dark:to-yellow-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-									<DollarSign className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-								</div>
-								<ArrowUpRight className="w-5 h-5 text-emerald-500" />
+				{/* Quick Actions */}
+				<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+					{/* View Balance */}
+					<Link
+						to="/dashboard/wallet"
+						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
+					>
+						<div className="flex items-center justify-between mb-4">
+							<div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center shadow-inner">
+								<span className="text-blue-600 dark:text-blue-400 font-medium text-lg">
+									<Wallet />
+								</span>
 							</div>
-							<div>
-								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{formatCurrency(portfolioValue)}
-								</p>
-								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
-									Portfolio Value
-								</p>
-								<p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mt-1">
-									+{portfolioGrowth}% growth
-								</p>
-							</div>
+							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
-					</div>
+						<div>
+							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+								Wallet
+							</p>
+							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
+								<span>View Balance</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							</p>
+						</div>
+					</Link>
 
-					{/* Total Invested */}
-					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						<div className="relative z-10">
-							<div className="flex items-center justify-between mb-4">
-								<div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-950/50 dark:to-cyan-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-									<BarChart3 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-								</div>
-								<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full"></div>
+					{/* View Plans */}
+					<Link
+						to="/dashboard/investment-plans"
+						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
+					>
+						<div className="flex items-center justify-between mb-4">
+							<div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center shadow-inner">
+								<span className="text-blue-600 dark:text-blue-400 font-medium text-lg">
+									<PiggyBank />
+								</span>
 							</div>
-							<div>
-								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{formatCurrency(totalInvested)}
-								</p>
-								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
-									Total Invested
-								</p>
-								<p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-									{activeProducts} active products
-								</p>
-							</div>
+							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
-					</div>
+						<div>
+							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+								Invest
+							</p>
+							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
+								<span>View Plans</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							</p>
+						</div>
+					</Link>
 
-					{/* Total Earnings */}
-					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						<div className="relative z-10">
-							<div className="flex items-center justify-between mb-4">
-								<div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-950/50 dark:to-green-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-									<TrendingUp className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-								</div>
-								<div className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full"></div>
+					{/* View Balance */}
+					<Link
+						to="/dashboard/deposit"
+						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
+					>
+						<div className="flex items-center justify-between mb-4">
+							<div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center shadow-inner">
+								<span className="text-blue-600 dark:text-blue-400 font-medium text-lg">
+									<DollarSign />
+								</span>
 							</div>
-							<div>
-								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{formatCurrency(totalEarnings)}
-								</p>
-								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
-									Total Earnings
-								</p>
-								<p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mt-1">
-									+{formatCurrency(dailyEarnings)}/day
-								</p>
-							</div>
+							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
-					</div>
+						<div>
+							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+								Deposit
+							</p>
+							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
+								<span>Fund Account</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							</p>
+						</div>
+					</Link>
 
-					{/* Gold Holdings */}
-					<div className="bg-white/40 dark:bg-gray-100/5 backdrop-blur-2xl border border-white/30 dark:border-gray-400/30 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
-						<div className="relative z-10">
-							<div className="flex items-center justify-between mb-4">
-								<div className="w-12 h-12 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-950/50 dark:to-amber-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-									<Coins className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
-								</div>
-								<Gem className="w-5 h-5 text-amber-500" />
+					{/* View Balance */}
+					<Link
+						to="/dashboard/withdraw"
+						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
+					>
+						<div className="flex items-center justify-between mb-4">
+							<div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center shadow-inner">
+								<span className="text-blue-600 dark:text-blue-400 font-medium text-lg">
+									<DollarSign />
+								</span>
 							</div>
-							<div>
-								<p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-									{goldOunces.toFixed(3)} oz
-								</p>
-								<p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-medium">
-									Gold Holdings
-								</p>
-								<p className="text-sm text-amber-600 dark:text-amber-400 font-medium mt-1">
-									{formatCurrency(goldValue)} value
-								</p>
-							</div>
+							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
-					</div>
+						<div>
+							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+								Withdraw
+							</p>
+							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
+								<span>Withdraw Assets</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							</p>
+						</div>
+					</Link>
 				</div>
 
 				{/* Charts and Recent Transactions */}
@@ -464,12 +415,12 @@ const Dashboard = () => {
 					<div className="relative z-10">
 						<div className="flex items-center justify-between mb-6">
 							<div>
-								<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Recent Transactions</h3>
-								<p className="text-sm text-gray-600 dark:text-gray-400">Your latest transaction activity</p>
+								<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">Recent Transactions</h3>
+								<p className="text-sm text-gray-500">Your latest transaction activity</p>
 							</div>
-							<button className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+							<Link to="/dashboard/transactions" className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
 								View All <ExternalLink className="w-4 h-4" />
-							</button>
+							</Link>
 						</div>
 
 						{transactionsLoading ? (

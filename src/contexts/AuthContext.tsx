@@ -87,11 +87,12 @@ export const AuthProvider = ({ children }: any) => {
 				const userData = JSON.parse(storageData);
 				if (userData && typeof userData === "object" && userData.id) {
 					// Set stale data immediately
-					setUser(userData);
+          setUser(userData);
 					setFetching(false);
 
 					// Fetch fresh data in background if token exists
-					if (token && token !== "null") {
+          if (token && token !== "null") {
+            console.log(token)
 						fetchUser(userData.id, true);
 
 						// Set up periodic refresh every 10 minutes while authenticated
