@@ -66,11 +66,18 @@ const LoginForm: React.FC = () => {
 
 			if (res.ok && data.user) {
 				showSuccessToast("Logged in successfully");
-				login(data.user);
-
+				
+				// Ensure token is included in user data for persistence
+				const userData = {
+					...data.user,
+					token: data.token || data.user.token
+				};
+				
+				login(userData);
+				
 				setTimeout(() => {
-					navigate;
-				}, 2000);
+					navigate("/dashboard");
+				}, 1000);
 			} else {
 				setError(data.message || "Login failed");
 			}

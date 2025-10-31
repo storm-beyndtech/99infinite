@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: any) => {
 
 	const fetchUser = async (userId: string, silent: boolean = true) => {
 		try {
-			const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 			if (!token || token === "null") {
 				console.warn("No token available for user fetch");
 				return;
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: any) => {
 			});
 
 			if (res.ok) {
-				const data = await res.json();
+        const data = await res.json();
 				if (data.user) {
 					setUser(data.user);
 					localStorage.setItem("user", JSON.stringify(data.user));
@@ -78,29 +78,41 @@ export const AuthProvider = ({ children }: any) => {
 	};
 
 	useEffect(() => {
-		setFetching(true);
-		const storageData = localStorage.getItem("user");
-		const token = localStorage.getItem("token");
+		const initializeAuth = async () => {
+			setFetching(true);
+			const storageData = localStorage.getItem("user");
+			const token = localStorage.getItem("token");
 
-		if (storageData && storageData !== "undefined" && storageData !== "null") {
-			try {
-				const userData = JSON.parse(storageData);
-				if (userData && typeof userData === "object" && userData.id) {
-					// Set stale data immediately
-          setUser(userData);
-					setFetching(false);
-
-					// Fetch fresh data in background if token exists
-          if (token && token !== "null") {
-            console.log(token)
-						fetchUser(userData.id, true);
+			if (storageData && storageData !== "undefined" && storageData !== "null" && token && token !== "null") {
+				try {
+					const userData = JSON.parse(storageData);
+					if (userData && typeof userData === "object" && userData.id) {
+						// Set stale data immediately for fast UI load
+						setUser(userData);
+						
+						// Fetch fresh data in background
+						try {
+							await fetchUser(userData.id, true);
+						} catch (error) {
+							console.error("Failed to refresh user data:", error);
+						}
+						
+						setFetching(false);
 
 						// Set up periodic refresh every 10 minutes while authenticated
 						const refreshInterval = setInterval(() => {
-							if (localStorage.getItem("token") && localStorage.getItem("user")) {
-								const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
-								if (currentUser.id) {
-									fetchUser(currentUser.id, true);
+							const currentToken = localStorage.getItem("token");
+							const currentUser = localStorage.getItem("user");
+							
+							if (currentToken && currentToken !== "null" && currentUser) {
+								try {
+									const parsedUser = JSON.parse(currentUser);
+									if (parsedUser.id) {
+										fetchUser(parsedUser.id, true);
+									}
+								} catch (error) {
+									console.error("Failed to parse user in interval:", error);
+									clearInterval(refreshInterval);
 								}
 							} else {
 								clearInterval(refreshInterval);
@@ -109,22 +121,24 @@ export const AuthProvider = ({ children }: any) => {
 
 						// Clean up interval on component unmount
 						return () => clearInterval(refreshInterval);
+					} else {
+						console.warn("No valid user ID found, clearing localStorage...");
+						clearAuthData();
+						setFetching(false);
 					}
-				} else {
-					console.warn("No valid user ID found, clearing localStorage...");
+				} catch (error) {
+					console.error("Failed to parse user data:", error);
 					clearAuthData();
 					setFetching(false);
 				}
-			} catch (error) {
-				console.error("Failed to parse user data:", error);
+			} else {
+				// No user data, invalid data, or no token
 				clearAuthData();
 				setFetching(false);
 			}
-		} else {
-			// No user data or invalid data
-			clearAuthData();
-			setFetching(false);
-		}
+		};
+
+		initializeAuth();
 	}, []);
 
 	return (

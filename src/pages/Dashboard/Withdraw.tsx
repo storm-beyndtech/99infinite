@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CheckCircle, AlertCircle, ArrowDownLeft } from "lucide-react";
-import axios from "axios";
+import api from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 interface SupportedCoin {
@@ -36,8 +36,8 @@ const Withdraw: React.FC = () => {
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
 
-	const { user } = useAuth();
-	const userBalance = user?.deposit || 0;
+	const { user, fetchUser } = useAuth();
+	const userBalance = (user?.deposit || 0) + (user?.interest || 0);
 
 	// Fetch supported coins on component mount
 	useEffect(() => {
@@ -55,7 +55,7 @@ const Withdraw: React.FC = () => {
 
 	const fetchSupportedCoins = async () => {
 		try {
-			const response = await axios.get("/api/withdrawals/supported-coins");
+			const response = await api.get("/withdrawals/supported-coins");
 			setSupportedCoins(Array.isArray(response.data) ? response.data : []);
 		} catch (error) {
 			console.error("Error fetching supported coins:", error);
@@ -66,7 +66,7 @@ const Withdraw: React.FC = () => {
 	const checkWithdrawalAvailability = async () => {
 		setIsCheckingAvailability(true);
 		try {
-			const response = await axios.post("/api/withdrawals/check-availability", {
+			const response = await api.post("/withdrawals/check-availability", {
 				amount: parseFloat(formData.amount),
 				coinName: formData.coinName,
 			});
@@ -116,7 +116,7 @@ const Withdraw: React.FC = () => {
 				throw new Error("Insufficient balance");
 			}
 
-			const response = await axios.post("/api/withdrawals", {
+			const response = await api.post("/withdrawals", {
 				id: user?.id,
 				amount: amount,
 				convertedAmount: amount, // For now, assume 1:1 conversion
@@ -127,6 +127,11 @@ const Withdraw: React.FC = () => {
 			});
 
 			setSuccess(response.data.message);
+
+			// Silently refresh user data to reflect updated balance
+			if (user?.id && fetchUser) {
+				fetchUser(user.id, true);
+			}
 
 			// Reset form after successful submission
 			setFormData({
@@ -154,7 +159,12 @@ const Withdraw: React.FC = () => {
 				</div>
 				<div>
 					<h1 className="text-2xl font-bold text-gray-900 dark:text-white">Withdraw Funds</h1>
-					<p className="text-gray-600 dark:text-gray-400 text-sm">Available: ${userBalance.toFixed(2)}</p>
+					<div className="text-gray-600 dark:text-gray-400 text-sm">
+						<p>Total Available: ${userBalance.toFixed(2)}</p>
+						<p className="text-xs">
+							Deposit: ${(user?.deposit || 0).toFixed(2)} + Interest: ${(user?.interest || 0).toFixed(2)}
+						</p>
+					</div>
 				</div>
 			</div>
 

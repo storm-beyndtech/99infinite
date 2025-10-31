@@ -21,7 +21,7 @@ const InvestmentPlan: React.FC = () => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [investmentAmount, setInvestmentAmount] = useState<string>("");
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const { user } = contextData();
+	const { user, fetchUser } = contextData();
 	const { showSuccessToast, showErrorToast } = useToastUtils();
 
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -93,7 +93,15 @@ const InvestmentPlan: React.FC = () => {
 			const data = await response.json();
 
 			if (response.ok) {
-				showSuccessToast(`Investment of $${amount.toLocaleString()} created successfully!`);
+				showSuccessToast(
+					`Investment of $${amount.toLocaleString()} activated successfully! Your investment is now earning returns.`,
+				);
+				
+				// Silently refresh user data to reflect updated balance
+				if (user?.id && fetchUser) {
+					fetchUser(user.id, true);
+				}
+				
 				setShowModal(false);
 				setSelectedPlan(null);
 				setInvestmentAmount("");

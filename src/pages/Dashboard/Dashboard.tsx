@@ -120,15 +120,15 @@ const Dashboard = () => {
 				<div className="mb-10">
 					<div className="flex items-center justify-between flex-wrap gap-4">
 						<div>
-							<h1 className="text-2xl md:text-4xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-3">
-								Welcome back,{" "}
-								<span className="bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-400 dark:to-yellow-400 bg-clip-text text-transparent">
-									{user.personalInfo?.firstName || user.firstName || "User"}
-								</span>
-							</h1>
 							<p className="text-sm text-gray-500 dark:text-gray-400 font-normal tracking-wide">
 								{dateString}
 							</p>
+							<h1 className="text-2xl md:text-4xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-3">
+								Welcome back,{" "}
+								<span className="font-medium bg-gradient-to-r from-orange-600 to-orange-800 dark:from-amber-400 dark:to-amber-400 bg-clip-text text-transparent">
+									{user.personalInfo?.firstName || user.firstName || "User"}
+								</span>
+							</h1>
 						</div>
 						<Link
 							to="/dashboard/investment-plans"
@@ -141,7 +141,7 @@ const Dashboard = () => {
 				</div>
 
 				{/* Quick Actions */}
-				<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 					{/* View Balance */}
 					<Link
 						to="/dashboard/wallet"
@@ -156,11 +156,15 @@ const Dashboard = () => {
 							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
 						<div>
-							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+							<p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 sm:mb-2 mb-4 tracking-tight">
 								Wallet
 							</p>
-							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
-								<span>View Balance</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							<p className="flex items-center text-xs uppercase tracking-widest text-sky-500 dark:text-sky-200/70 font-semibold">
+								<span>
+									View <br className="sm:hidden" />
+									Balance
+								</span>{" "}
+								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
 							</p>
 						</div>
 					</Link>
@@ -179,11 +183,15 @@ const Dashboard = () => {
 							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
 						<div>
-							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-								Invest
+							<p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 sm:mb-2 mb-4 tracking-tight">
+								Purchase
 							</p>
-							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
-								<span>View Plans</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							<p className="flex items-center text-xs uppercase tracking-widest text-sky-500 dark:text-sky-200/70 font-semibold">
+								<span>
+									Purchase <br className="sm:hidden" />
+									Positions
+								</span>{" "}
+								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
 							</p>
 						</div>
 					</Link>
@@ -202,11 +210,15 @@ const Dashboard = () => {
 							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
 						<div>
-							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+							<p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 sm:mb-2 mb-4 tracking-tight">
 								Deposit
 							</p>
-							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
-								<span>Fund Account</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							<p className="flex items-center text-xs uppercase tracking-widest text-sky-500 dark:text-sky-200/70 font-semibold">
+								<span>
+									Fund <br className="sm:hidden" />
+									Account
+								</span>{" "}
+								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
 							</p>
 						</div>
 					</Link>
@@ -225,11 +237,15 @@ const Dashboard = () => {
 							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
 						</div>
 						<div>
-							<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
+							<p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 sm:mb-2 mb-4 tracking-tight">
 								Withdraw
 							</p>
-							<p className="flex items-center text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
-								<span>Withdraw Assets</span> <MoveRight strokeWidth={1.2} className="inline-block ml-auto" />
+							<p className="flex items-center text-xs uppercase tracking-widest text-sky-500 dark:text-sky-200/70 font-semibold">
+								<span>
+									Withdraw <br className="sm:hidden" />
+									Assets
+								</span>{" "}
+								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
 							</p>
 						</div>
 					</Link>
@@ -418,7 +434,10 @@ const Dashboard = () => {
 								<h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">Recent Transactions</h3>
 								<p className="text-sm text-gray-500">Your latest transaction activity</p>
 							</div>
-							<Link to="/dashboard/transactions" className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+							<Link
+								to="/dashboard/transactions"
+								className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+							>
 								View All <ExternalLink className="w-4 h-4" />
 							</Link>
 						</div>

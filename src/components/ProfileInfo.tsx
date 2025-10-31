@@ -63,7 +63,7 @@ const updateProfile = async (data: globalThis.FormData, userId: string): Promise
 };
 
 export default function ProfileInfo() {
-	const { user } = contextData();
+	const { user, fetchUser } = contextData();
 	const [loading, setLoading] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 	const [errors, setErrors] = useState<ValidationErrors>({});
@@ -81,7 +81,6 @@ export default function ProfileInfo() {
 	});
 
 	useEffect(() => {
-		console.log(user);
 		const loadProfile = async () => {
 			if (!user || !user.id) {
 				return; // Wait for user to be loaded
@@ -205,6 +204,11 @@ export default function ProfileInfo() {
 
 			// Call your API
 			await updateProfile(formPayload, user.id);
+
+			// Refresh user data from server after successful update
+			if (fetchUser) {
+				await fetchUser(user.id, false);
+			}
 
 			setSuccessMessage("Profile updated successfully");
 		} catch (error: any) {

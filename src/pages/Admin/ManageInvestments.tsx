@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TrendingUp, Clock, CheckCircle, DollarSign } from "lucide-react";
+import { TrendingUp, CheckCircle, DollarSign } from "lucide-react";
 import ManageInvestmentModal from "@/components/ManageInvestmentModal";
 
 interface User {
@@ -25,7 +25,7 @@ interface ITransaction {
 	_id: string;
 	type: string;
 	user: User;
-	status: "pending" | "approved" | "rejected" | "completed";
+	status: "active" | "completed";
 	amount: number;
 	date: string;
 	walletData: WalletData;
@@ -78,14 +78,10 @@ const ManageInvestments: React.FC = () => {
 
 	const getStatusColor = (status: string) => {
 		switch (status) {
-			case "pending":
-				return "text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/20";
-			case "approved":
+			case "active":
 				return "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/20";
 			case "completed":
 				return "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/20";
-			case "rejected":
-				return "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/20";
 			default:
 				return "text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-900/20";
 		}
@@ -93,10 +89,10 @@ const ManageInvestments: React.FC = () => {
 
 	const stats = {
 		total: investments.length,
-		pending: investments.filter((inv) => inv.status === "pending").length,
-		approved: investments.filter((inv) => inv.status === "approved").length,
+		active: investments.filter((inv) => inv.status === "active").length,
 		completed: investments.filter((inv) => inv.status === "completed").length,
 		totalValue: investments.reduce((sum, inv) => sum + inv.amount, 0),
+		activeValue: investments.filter((inv) => inv.status === "active").reduce((sum, inv) => sum + inv.amount, 0),
 	};
 
 	return (
@@ -112,12 +108,12 @@ const ManageInvestments: React.FC = () => {
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 					<div className="bg-white dark:bg-gray-800 rounded-xl p-6 px-3 shadow-sm border border-gray-200 dark:border-gray-700">
 						<div className="flex items-center">
-							<div className="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
-								<Clock className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+							<div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+								<TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
 							</div>
 							<div className="ml-4">
-								<p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pending</p>
-								<p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.pending}</p>
+								<p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Investments</p>
+								<p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
 							</div>
 						</div>
 					</div>
@@ -128,8 +124,8 @@ const ManageInvestments: React.FC = () => {
 								<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
 							</div>
 							<div className="ml-4">
-								<p className="text-sm font-medium text-gray-600 dark:text-gray-400">Approved</p>
-								<p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.approved}</p>
+								<p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active</p>
+								<p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.active}</p>
 							</div>
 						</div>
 					</div>
@@ -152,9 +148,9 @@ const ManageInvestments: React.FC = () => {
 								<DollarSign className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
 							</div>
 							<div className="ml-4">
-								<p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Value</p>
+								<p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Value</p>
 								<p className="text-xl font-bold text-gray-900 dark:text-white">
-									${stats.totalValue.toLocaleString()}
+									${stats.activeValue.toLocaleString()}
 								</p>
 							</div>
 						</div>
@@ -164,7 +160,7 @@ const ManageInvestments: React.FC = () => {
 				{/* Filter Tabs */}
 				<div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
 					<div className="flex flex-wrap gap-2">
-						{["all", "pending", "approved", "completed", "rejected"].map((status) => (
+						{["all", "active", "completed"].map((status) => (
 							<button
 								key={status}
 								onClick={() => setFilter(status)}
@@ -174,7 +170,7 @@ const ManageInvestments: React.FC = () => {
 										: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
 								}`}
 							>
-								{status === "all" ? "All Investments" : status.charAt(0).toUpperCase() + status.slice(1)}
+								{status === "all" ? "All Investments" : status === "active" ? "Active" : status.charAt(0).toUpperCase() + status.slice(1)}
 							</button>
 						))}
 					</div>

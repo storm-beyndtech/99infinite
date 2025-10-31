@@ -106,7 +106,7 @@ export default function Wallet() {
 					</div>
 					<div>
 						<p className="text-3xl font-normal text-gray-900 dark:text-gray-100 mb-2 tracking-tight">
-							{formatCurrency(user.interest || 0)}
+							{formatCurrency(user.withdrawal || 0)}
 						</p>
 						<p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-400 font-medium">
 							Total Withdrawn

@@ -1,4 +1,4 @@
-import { AlertCircle, Calendar, CheckCircle, DollarSign, TrendingUp, Users, X, XCircle } from "lucide-react";
+import { AlertCircle, Calendar, CheckCircle, DollarSign, TrendingUp, Users, X } from "lucide-react";
 import { useState } from "react";
 
 interface User {
@@ -24,7 +24,7 @@ interface ITransaction {
 	_id: string;
 	type: string;
 	user: User;
-	status: "pending" | "approved" | "rejected" | "completed";
+	status: "active" | "completed";
 	amount: number;
 	date: string;
 	walletData: WalletData;
@@ -38,8 +38,6 @@ interface ManageInvestmentModalProps {
 
 const ManageInvestmentModal: React.FC<ManageInvestmentModalProps> = ({ toggleModal, investment }) => {
 	const [error, setError] = useState<string | null>(null);
-	const [successLoading, setSuccessLoading] = useState(false);
-	const [rejectedLoading, setRejectedLoading] = useState(false);
 	const [completedLoading, setCompletedLoading] = useState(false);
 	const [success, setSuccess] = useState<string | null>(null);
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -56,13 +54,10 @@ const ManageInvestmentModal: React.FC<ManageInvestmentModalProps> = ({ toggleMod
 		return maturity.toLocaleDateString();
 	};
 
-	const startUpdate = async (status: "approved" | "rejected" | "completed") => {
+	const startUpdate = async (status: "completed") => {
 		setError(null);
 		setSuccess(null);
-
-		if (status === "approved") setSuccessLoading(true);
-		else if (status === "rejected") setRejectedLoading(true);
-		else setCompletedLoading(true);
+		setCompletedLoading(true);
 
 		try {
 			const res = await fetch(`${url}/plans/investment/${investment?._id}`, {
@@ -81,8 +76,6 @@ const ManageInvestmentModal: React.FC<ManageInvestmentModalProps> = ({ toggleMod
 			setError(error.message);
 			console.log(error.message);
 		} finally {
-			setSuccessLoading(false);
-			setRejectedLoading(false);
 			setCompletedLoading(false);
 		}
 	};
@@ -118,13 +111,11 @@ const ManageInvestmentModal: React.FC<ManageInvestmentModalProps> = ({ toggleMod
 						<span className="text-sm font-medium text-gray-600 dark:text-gray-400">Status:</span>
 						<span
 							className={`px-3 py-1 rounded-full text-xs font-semibold ${
-								investment.status === "pending"
-									? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
-									: investment.status === "approved"
+								investment.status === "active"
 									? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
 									: investment.status === "completed"
 									? "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
-									: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+									: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
 							}`}
 						>
 							{investment.status.toUpperCase()}
@@ -264,37 +255,24 @@ const ManageInvestmentModal: React.FC<ManageInvestmentModalProps> = ({ toggleMod
 						</div>
 					)}
 
-					{/* Action Buttons */}
-					{investment.status === "pending" && (
-						<div className="flex gap-3">
-							<button
-								onClick={() => startUpdate("approved")}
-								disabled={successLoading}
-								className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-							>
-								<CheckCircle className="w-4 h-4" />
-								{successLoading ? "Approving..." : "Approve"}
-							</button>
-							<button
-								onClick={() => startUpdate("rejected")}
-								disabled={rejectedLoading}
-								className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-							>
-								<XCircle className="w-4 h-4" />
-								{rejectedLoading ? "Rejecting..." : "Reject"}
-							</button>
-						</div>
-					)}
-
-					{investment.status === "approved" && (
+					{/* Action Buttons - Only show "End Investment" for active investments */}
+					{investment.status === "active" && (
 						<button
 							onClick={() => startUpdate("completed")}
 							disabled={completedLoading}
 							className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
 						>
 							<TrendingUp className="w-4 h-4" />
-							{completedLoading ? "Completing..." : "Mark as Completed"}
+							{completedLoading ? "Ending Investment..." : "End Investment"}
 						</button>
+					)}
+
+					{investment.status === "completed" && (
+						<div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+							<CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
+							<p className="text-green-700 dark:text-green-300 font-medium">Investment Completed</p>
+							<p className="text-green-600 dark:text-green-400 text-sm">Returns have been paid to the investor.</p>
+						</div>
 					)}
 				</div>
 			</div>
