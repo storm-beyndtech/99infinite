@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { X, Wallet, CheckCircle, AlertCircle, Info, Zap } from 'lucide-react';
-import axios from 'axios';
 
 interface WithdrawalFormProps {
   isOpen: boolean;
@@ -61,8 +60,22 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
 
   const fetchSupportedCoins = async () => {
     try {
-      const response = await axios.get('/api/withdrawals/supported-coins');
-      setSupportedCoins(response.data);
+      const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${url}/withdrawals/supported-coins`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch supported coins');
+      }
+      
+      const data = await response.json();
+      setSupportedCoins(data);
     } catch (error) {
       console.error('Error fetching supported coins:', error);
     }
@@ -71,11 +84,24 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
   const checkWithdrawalAvailability = async () => {
     setIsCheckingAvailability(true);
     try {
-      const response = await axios.post('/api/withdrawals/check-availability', {
-        amount: parseFloat(formData.amount),
-        coinName: formData.coinName,
+      const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
+      const response = await fetch(`${url}/withdrawals/check-availability`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: parseFloat(formData.amount),
+          coinName: formData.coinName,
+        }),
       });
-      setAvailability(response.data);
+      
+      if (!response.ok) {
+        throw new Error('Failed to check availability');
+      }
+      
+      const data = await response.json();
+      setAvailability(data);
     } catch (error) {
       console.error('Error checking availability:', error);
       setAvailability({
@@ -132,17 +158,32 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
       // Get user ID from context or localStorage
       const userId = localStorage.getItem('userId'); // Adjust based on your auth implementation
       
-      const response = await axios.post('/api/withdrawals', {
-        id: userId,
-        amount: amount,
-        convertedAmount: amount, // For now, assume 1:1 conversion
-        coinName: formData.coinName,
-        network: formData.network,
-        address: formData.address,
-        autoWithdraw: formData.autoWithdraw,
+      const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${url}/withdrawals`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({
+          id: userId,
+          amount: amount,
+          convertedAmount: amount, // For now, assume 1:1 conversion
+          coinName: formData.coinName,
+          network: formData.network,
+          address: formData.address,
+          autoWithdraw: formData.autoWithdraw,
+        }),
       });
 
-      setSuccess(response.data.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Withdrawal failed');
+      }
+
+      const data = await response.json();
+      setSuccess(data.message);
       
       // Reset form after successful submission
       setFormData({
@@ -162,7 +203,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
       }, 2000);
 
     } catch (error: any) {
-      setError(error.response?.data?.message || error.message || 'Withdrawal failed');
+      setError(error.message || 'Withdrawal failed');
     } finally {
       setIsLoading(false);
     }

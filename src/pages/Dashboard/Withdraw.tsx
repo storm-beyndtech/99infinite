@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { CheckCircle, AlertCircle, ArrowDownLeft } from "lucide-react";
-import api from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 interface USDTNetwork {
@@ -31,7 +30,7 @@ const Withdraw: React.FC = () => {
 		{ name: "Tron (TRC20)", code: "TRC20", fee: "1", minAmount: "10" },
 		{ name: "Polygon", code: "POLYGON", fee: "0.5", minAmount: "10" },
 		{ name: "Avalanche", code: "AVAX", fee: "0.5", minAmount: "10" },
-		{ name: "Arbitrum", code: "ARBITRUM", fee: "0.5", minAmount: "10" }
+		{ name: "Arbitrum", code: "ARBITRUM", fee: "0.5", minAmount: "10" },
 	];
 
 	const [availability, setAvailability] = useState<WithdrawalAvailability | null>(null);
@@ -42,6 +41,7 @@ const Withdraw: React.FC = () => {
 
 	const { user, fetchUser } = useAuth();
 	const userBalance = (user?.deposit || 0) + (user?.interest || 0);
+	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	// Check withdrawal availability when amount changes
 	useEffect(() => {
@@ -55,11 +55,18 @@ const Withdraw: React.FC = () => {
 	const checkWithdrawalAvailability = async () => {
 		setIsCheckingAvailability(true);
 		try {
-			const response = await api.post("/withdrawals/check-availability", {
-				amount: parseFloat(formData.amount),
-				coinName: "USDT",
+			const response = await fetch(`${url}/withdrawals/check-availability`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					amount: parseFloat(formData.amount),
+					coinName: "USDT",
+				}),
 			});
-			setAvailability(response.data);
+			const data = await response.json();
+			setAvailability(data);
 		} catch (error) {
 			console.error("Error checking availability:", error);
 			setAvailability({
@@ -105,17 +112,31 @@ const Withdraw: React.FC = () => {
 				throw new Error("Insufficient balance");
 			}
 
-			const response = await api.post("/withdrawals", {
-				id: user?.id,
-				amount: amount,
-				convertedAmount: amount, // For now, assume 1:1 conversion
-				coinName: formData.coinName,
-				network: formData.network,
-				address: formData.address,
-				autoWithdraw: true, // Always automatic
+			const token = localStorage.getItem("token");
+			const response = await fetch(`${url}/withdrawals`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					...(token && { Authorization: `Bearer ${token}` }),
+				},
+				body: JSON.stringify({
+					id: user?.id,
+					amount: amount,
+					convertedAmount: amount, // For now, assume 1:1 conversion
+					coinName: formData.coinName,
+					network: formData.network,
+					address: formData.address,
+					autoWithdraw: true, // Always automatic
+				}),
 			});
 
-			setSuccess(response.data.message);
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message || "Withdrawal failed");
+			}
+
+			const data = await response.json();
+			setSuccess(data.message);
 
 			// Silently refresh user data to reflect updated balance
 			if (user?.id && fetchUser) {
@@ -130,7 +151,7 @@ const Withdraw: React.FC = () => {
 				address: "",
 			});
 		} catch (error: any) {
-			setError(error.response?.data?.message || error.message || "Withdrawal failed");
+			setError(error.message || "Withdrawal failed");
 		} finally {
 			setIsLoading(false);
 		}
@@ -144,12 +165,11 @@ const Withdraw: React.FC = () => {
 					<ArrowDownLeft className="w-6 h-6 text-red-600 dark:text-red-400" />
 				</div>
 				<div>
-					<h1 className="text-2xl font-bold text-gray-900 dark:text-white">Withdraw Funds</h1>
-					<div className="text-gray-600 dark:text-gray-400 text-sm">
+					<h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+						Withdraw <span className="text-red-500">Funds</span>
+					</h1>
+					<div className="text-gray-600 dark:text-gray-400 text-sm font-medium">
 						<p>Total Available: ${userBalance.toFixed(2)}</p>
-						<p className="text-xs">
-							Deposit: ${(user?.deposit || 0).toFixed(2)} + Interest: ${(user?.interest || 0).toFixed(2)}
-						</p>
 					</div>
 				</div>
 			</div>
@@ -178,7 +198,7 @@ const Withdraw: React.FC = () => {
 					{/* Availability Check */}
 					{availability && (
 						<div
-							className={`rounded-xl p-4 border ${
+							className={`rounded-xl p-4 border hidden ${
 								availability.available
 									? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800"
 									: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800"
@@ -219,7 +239,7 @@ const Withdraw: React.FC = () => {
 						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 							Cryptocurrency
 						</label>
-						<div className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl bg-gray-50 dark:bg-slate-800/50">
+						<div className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:text-white rounded-xl bg-gray-50 dark:bg-slate-800/50">
 							<div className="flex items-center gap-3">
 								<div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
 									₮
@@ -270,7 +290,7 @@ const Withdraw: React.FC = () => {
 					{error && (
 						<div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl p-4">
 							<div className="flex items-start gap-3">
-								<AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
+								<AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
 								<p className="text-sm text-red-800 dark:text-red-300">{error}</p>
 							</div>
 						</div>
@@ -280,7 +300,7 @@ const Withdraw: React.FC = () => {
 					{success && (
 						<div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
 							<div className="flex items-start gap-3">
-								<CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5" />
+								<CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
 								<p className="text-sm text-emerald-800 dark:text-emerald-300">{success}</p>
 							</div>
 						</div>
