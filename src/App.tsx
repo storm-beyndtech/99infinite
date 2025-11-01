@@ -27,8 +27,8 @@ import AllTransactions from "./pages/Dashboard/AllTransactions";
 import Deposit from "./pages/Dashboard/Deposit";
 import DepositLog from "./pages/Dashboard/DepositLog";
 import Events from "./pages/Dashboard/Events";
-import InvestmentLog from "./pages/Dashboard/InvestmentLog";
-import InvestmentPlan from "./pages/Dashboard/InvestmentPlan";
+import ContractLog from "./pages/Dashboard/ContractLog";
+import ContractPlan from "./pages/Dashboard/ContractPlan";
 import KYC from "./pages/Dashboard/KYC";
 import Profile from "./pages/Dashboard/Profile";
 import Withdraw from "./pages/Dashboard/Withdraw";
@@ -41,9 +41,9 @@ import ActiveUsers from "./pages/Admin/ActiveUsers";
 import ApprovedDeposits from "./pages/Admin/ApprovedDeposits";
 import ApprovedWithdrawals from "./pages/Admin/ApprovedWithdrawals";
 import BannedUsers from "./pages/Admin/BannedUsers";
-import InvestmentHistory from "./pages/Admin/InvestmentHistory";
+import ContractHistory from "./pages/Admin/ContractHistory";
 import KycApproval from "./pages/Admin/KycApproval";
-import ManageInvestments from "./pages/Admin/ManageInvestments";
+import ManageContracts from "./pages/Admin/ManageContracts";
 import ManagePlans from "./pages/Admin/ManagePlans";
 import PendingDeposits from "./pages/Admin/PendingDeposits";
 import PendingWithdrawals from "./pages/Admin/PendingWithdrawals";
@@ -156,8 +156,8 @@ const AppRoutes = () => {
 				<Route path="deposit-log" element={<DepositLog />} />
 				<Route path="events" element={<Events />} />
 				<Route path="wallet" element={<Wallet />} />
-				<Route path="investments" element={<InvestmentLog />} />
-				<Route path="investment-plans" element={<InvestmentPlan />} />
+				<Route path="contracts" element={<ContractLog />} />
+				<Route path="contract-plans" element={<ContractPlan />} />
 				<Route path="kyc" element={<KYC />} />
 				<Route path="profile" element={<Profile />} />
 				<Route path="settings" element={<Profile />} />
@@ -180,9 +180,9 @@ const AppRoutes = () => {
 				<Route path="deposits/approved" element={<ApprovedDeposits />} />
 				<Route path="withdrawals/approved" element={<ApprovedWithdrawals />} />
 				<Route path="users/banned" element={<BannedUsers />} />
-				<Route path="investments/history" element={<InvestmentHistory />} />
+				<Route path="contracts/history" element={<ContractHistory />} />
 				<Route path="kyc" element={<KycApproval />} />
-				<Route path="investments" element={<ManageInvestments />} />
+				<Route path="contracts" element={<ManageContracts />} />
 				<Route path="manage-plans" element={<ManagePlans />} />
 				<Route path="deposits/pending" element={<PendingDeposits />} />
 				<Route path="withdrawals/pending" element={<PendingWithdrawals />} />

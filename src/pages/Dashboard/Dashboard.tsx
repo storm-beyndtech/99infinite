@@ -43,16 +43,16 @@ const Dashboard = () => {
 	};
 
 	const handleShareEmail = () => {
-		const subject = encodeURIComponent("Join 99Infinite - Investment Platform");
+		const subject = encodeURIComponent("Join 99Infinite - Contract Platform");
 		const body = encodeURIComponent(
-			`Hi! I've been using 99Infinite for my investments and thought you might be interested. Use my referral link to get started: ${window.location.origin}/?ref=${user.username}`,
+			`Hi! I've been using 99Infinite for my contracts and thought you might be interested. Use my referral link to get started: ${window.location.origin}/?ref=${user.username}`,
 		);
 		window.open(`mailto:?subject=${subject}&body=${body}`);
 	};
 
 	const handleShareSocial = (platform: "facebook" | "twitter") => {
 		const referralLink = `${window.location.origin}/?ref=${user.username}`;
-		const message = encodeURIComponent("Join me on 99Infinite - Smart Investment Platform");
+		const message = encodeURIComponent("Join me on 99Infinite - Smart Contract Platform");
 
 		if (platform === "facebook") {
 			window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`);
@@ -125,23 +125,50 @@ const Dashboard = () => {
 							</p>
 							<h1 className="text-2xl md:text-4xl font-bold tracking-wide text-gray-900 dark:text-gray-100 mb-3">
 								Welcome back,{" "}
-								<span className="font-medium bg-gradient-to-r from-orange-600 to-orange-800 dark:from-amber-400 dark:to-amber-400 bg-clip-text text-transparent">
+								<span className="font-medium bg-gradient-to-r from-orange-600 to-orange-600 dark:from-amber-400 dark:to-amber-400 bg-clip-text text-transparent">
 									{user.personalInfo?.firstName || user.firstName || "User"}
 								</span>
 							</h1>
 						</div>
 						<Link
-							to="/dashboard/investment-plans"
+							to="/dashboard/contract-plans"
 							className="border-2 border-violet-600 bg-purple-700/10 hover:bg-purple-600/20 dark:text-white text-gray-700 font-semibold px-6 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 shadow-lg"
 						>
 							<Plus className="w-5 h-5" />
-							Purchase
+							Purchase Contract
 						</Link>
 					</div>
 				</div>
 
 				{/* Quick Actions */}
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+					{/* View Plans */}
+					<Link
+						to="/dashboard/investment-plans"
+						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
+					>
+						<div className="flex items-center justify-between mb-4">
+							<div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center shadow-inner">
+								<span className="text-blue-600 dark:text-blue-400 font-medium text-lg">
+									<PiggyBank />
+								</span>
+							</div>
+							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
+						</div>
+						<div>
+							<p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 sm:mb-2 mb-4 tracking-tight">
+								Purchase
+							</p>
+							<p className="flex items-center text-xs uppercase tracking-widest text-sky-500 dark:text-sky-200/70 font-semibold">
+								<span>
+									Purchase <br className="sm:hidden" />
+									Contract
+								</span>{" "}
+								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
+							</p>
+						</div>
+					</Link>
+
 					{/* View Balance */}
 					<Link
 						to="/dashboard/wallet"
@@ -163,33 +190,6 @@ const Dashboard = () => {
 								<span>
 									View <br className="sm:hidden" />
 									Balance
-								</span>{" "}
-								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
-							</p>
-						</div>
-					</Link>
-
-					{/* View Plans */}
-					<Link
-						to="/dashboard/investment-plans"
-						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
-					>
-						<div className="flex items-center justify-between mb-4">
-							<div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-								<span className="text-blue-600 dark:text-blue-400 font-medium text-lg">
-									<PiggyBank />
-								</span>
-							</div>
-							<div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full opacity-80 group-hover:opacity-100 transition-opacity"></div>
-						</div>
-						<div>
-							<p className="text-2xl font-semibold text-gray-900 dark:text-gray-100 sm:mb-2 mb-4 tracking-tight">
-								Purchase
-							</p>
-							<p className="flex items-center text-xs uppercase tracking-widest text-sky-500 dark:text-sky-200/70 font-semibold">
-								<span>
-									Purchase <br className="sm:hidden" />
-									Positions
 								</span>{" "}
 								<MoveRight strokeWidth={1.2} className="inline-block ml-auto max-sm:mt-auto" />
 							</p>
@@ -279,7 +279,7 @@ const Dashboard = () => {
 									</h2>
 									<p className="text-gray-600 dark:text-gray-400 leading-relaxed font-normal tracking-wide">
 										Invite your friends to 99Infinite. When they sign up and invest, you'll earn commission on
-										their investments and they get access to our premium investment platform.
+										their contracts and they get access to our premium contract platform.
 									</p>
 								</div>
 
@@ -294,7 +294,7 @@ const Dashboard = () => {
 												Send Invitation
 											</h3>
 											<p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-normal">
-												Send your referral link to friends and tell them about 99Infinite's investment
+												Send your referral link to friends and tell them about 99Infinite's contract
 												opportunities.
 											</p>
 										</div>
@@ -342,7 +342,7 @@ const Dashboard = () => {
 										Invite your friends
 									</h3>
 									<p className="text-sm text-gray-600 dark:text-gray-400 mb-5 leading-relaxed font-normal">
-										Send them an email invitation to join 99Infinite investment platform.
+										Send them an email invitation to join 99Infinite contract platform.
 									</p>
 									<div className="flex gap-3">
 										<input
@@ -502,10 +502,12 @@ const Dashboard = () => {
 													<td className="py-4 px-4">
 														<span
 															className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-																transaction.status === "approved"
+																transaction.status === "approved" || transaction.status === "completed"
 																	? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300"
-																	: transaction.status === "pending"
+																	: transaction.status === "pending" || transaction.status === "active"
 																	? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300"
+																	: transaction.status === "processing"
+																	? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300"
 																	: "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300"
 															}`}
 														>

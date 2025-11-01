@@ -4,32 +4,34 @@ import report from "../assets/Professional-Discussion.png";
 
 const AtlasFinancialReport = () => {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
+		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50">
 			{/* Hero Section */}
 			<section className="relative pt-12 pb-20">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-3xl overflow-hidden shadow-2xl">
+					<div className="bg-white/40 backdrop-blur-2xl border border-white/30 rounded-3xl overflow-hidden shadow-2xl">
 						{/* Glassmorphism overlay */}
-						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-3xl"></div>
+						<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl"></div>
 
 						<div
-							className="relative text-white py-20 bg-cover bg-center"
+							className="relative text-white py-10 bg-cover bg-center"
 							style={{
 								backgroundImage: `url(${teambanner})`,
 							}}
 						>
 							<div className="relative z-10 max-w-6xl mx-auto px-8 sm:px-12">
-								<div className="flex items-center space-x-4 mb-6">
+								<div className="flex items-center space-x-4">
 									<div>
-										<h1 className="text-4xl sm:text-5xl font-medium text-white">Atlas Energy</h1>
-										<p className="text-lg text-white/80 mt-2">Q3 2025 Financial Performance</p>
+										<h1 className="text-4xl sm:text-5xl font-medium text-white mb-4">
+											Financial Performance Report
+										</h1>
+										<p className="text-sm max-w-[700px] text-slate-300/80 font-light leading-relaxed">
+											<span className="font-medium">A key quote from the passage highlights:</span> “Net
+											income for the third quarter of 2025 was $86.4 million, and Adjusted EBITDA for the
+											third quarter of 2025 was $97.1 million.” This provides a snapshot of our financial
+											performance during that period.
+										</p>
 									</div>
 								</div>
-								<p className="text-lg sm:text-xl text-white/90 mt-6 max-w-4xl font-light leading-relaxed">
-									Comprehensive financial performance report for the third quarter of 2025, highlighting
-									strong operational results with net income of $86.4 million and continued growth across all
-									business segments.
-								</p>
 							</div>
 						</div>
 					</div>
@@ -37,22 +39,8 @@ const AtlasFinancialReport = () => {
 			</section>
 
 			{/* Key Metrics Section */}
-			<section className="py-20">
+			<section className="py-10">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-center mb-16">
-						<div className="flex items-center justify-center space-x-3 mb-6">
-							<div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-								<TrendingUp className="w-6 h-6 text-white" />
-							</div>
-							<h2 className="text-3xl lg:text-4xl font-light text-slate-900 dark:text-white">
-								Financial Highlights
-							</h2>
-						</div>
-						<p className="text-lg text-slate-600 dark:text-slate-400 max-w-4xl mx-auto font-light leading-relaxed">
-							Net income for the third quarter of 2025 was $86.4 million, and Adjusted EBITDA for the third
-							quarter of 2025 was $97.1 million.
-						</p>
-					</div>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 						{[
 							{
@@ -88,26 +76,22 @@ const AtlasFinancialReport = () => {
 							return (
 								<div
 									key={index}
-									className="relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl border border-white/30 dark:border-slate-700/30 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
+									className="relative bg-white/40 backdrop-blur-2xl border border-white/30 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
 								>
 									{/* Glassmorphism overlay */}
-									<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-slate-700/10 rounded-2xl"></div>
+									<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl"></div>
 
 									<div className="relative z-10">
 										<div className="flex items-center justify-between mb-4">
-											<div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/30 rounded-xl flex items-center justify-center shadow-inner">
-												<Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+											<div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center shadow-inner">
+												<Icon className="w-5 h-5 text-blue-600" />
 											</div>
 											<ArrowUpRight className="w-4 h-4 text-emerald-500" />
 										</div>
 										<div>
-											<h3 className="text-3xl font-light text-slate-900 dark:text-white mb-2">
-												{metric.value}
-											</h3>
-											<p className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
-												{metric.label}
-											</p>
-											<p className="text-xs text-emerald-600 dark:text-emerald-400">{metric.change}</p>
+											<h3 className="text-3xl font-light text-slate-900 mb-2">{metric.value}</h3>
+											<p className="text-sm font-medium text-slate-600 mb-2">{metric.label}</p>
+											<p className="text-xs text-emerald-600">{metric.change}</p>
 										</div>
 									</div>
 								</div>
@@ -118,17 +102,11 @@ const AtlasFinancialReport = () => {
 			</section>
 
 			{/* Sales Overview Section */}
-			<section className="py-16 bg-white/50 dark:bg-slate-900/50">
+			<section className="py-16 bg-white/50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Sales Overview</h2>
-						<p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-							Third quarter 2025 sales performance across product and service segments
-						</p>
-					</div>
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 						{/* Image Card */}
-						<div className="relative rounded-2xl overflow-hidden shadow-xl h-96">
+						<div className="rounded-2xl overflow-hidden shadow-xl h-[500px] sticky">
 							<img
 								src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=80"
 								alt="Business Growth"
@@ -143,21 +121,28 @@ const AtlasFinancialReport = () => {
 
 						{/* Total Sales Card */}
 						<div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 shadow-xl text-white">
-							<h3 className="text-2xl font-semibold mb-6">Total Sales Growth</h3>
-							<p className="text-white/90 mb-6 leading-relaxed">
-								In the third quarter of 2025, Atlas Energy saw total sales increase by $9.6 million, or 5.6%,
-								compared to the second quarter, reaching $170.6 million.
+							<h3 className="text-3xl font-medium mb-6">Sales Overview</h3>
+							<p className="text-white/90 mb-4 text-sm leading-relaxed">
+								In the third quarter of 2025, 99Infinite saw total sales increase by $9.6 million, or 5.6%,
+								compared to the second quarter, reaching $170.6 million. Product sales rose by $10.4 million,
+								or 9.3%, to $120.8 million, driven by a consistent increase in sales prices.
+							</p>
+							<p className="text-white/90 mb-4 text-sm leading-relaxed">
+								Despite our optimistic outlook, the sequential price decline was attributed to higher-priced,
+								shorter-duration contracts rolling off and being replaced by new contracts at lower rates,
+								along with quarterly pricing resets on certain contracts. Service sales also increased by $4.3
+								million, or 13.1%, compared to the second quarter of 2025.
 							</p>
 							<div className="space-y-3">
-								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg p-4">
+								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
 									<span className="text-white/80">Q3 2025 Total Sales</span>
 									<span className="text-2xl font-bold">$170.6M</span>
 								</div>
-								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg p-4">
+								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
 									<span className="text-white/80">Growth from Q2</span>
 									<span className="text-2xl font-bold text-green-300">+$9.6M</span>
 								</div>
-								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg p-4">
+								<div className="flex justify-between items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
 									<span className="text-white/80">Percentage Increase</span>
 									<span className="text-2xl font-bold text-green-300">+5.6%</span>
 								</div>
@@ -168,66 +153,66 @@ const AtlasFinancialReport = () => {
 					{/* Product and Service Sales */}
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 						{/* Product Sales */}
-						<div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+						<div className="bg-white rounded-2xl p-8 shadow-lg">
 							<div className="flex items-center space-x-3 mb-6">
-								<div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center">
-									<Package className="w-6 h-6 text-green-600 dark:text-green-400" />
+								<div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+									<Package className="w-6 h-6 text-green-600" />
 								</div>
-								<h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Product Sales</h3>
+								<h3 className="text-2xl font-semibold text-gray-900">Product Sales</h3>
 							</div>
-							<p className="text-gray-600 dark:text-gray-400 mb-6">
+							<p className="text-gray-600 mb-6">
 								Product sales rose by $10.4 million, or 9.3%, to $120.8 million, driven by a consistent
 								increase in sales prices.
 							</p>
 							<div className="space-y-4">
-								<div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+								<div className="bg-green-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Q3 2025 Product Sales</span>
-										<span className="text-xl font-bold text-gray-900 dark:text-white">$120.8M</span>
+										<span className="text-gray-700">Q3 2025 Product Sales</span>
+										<span className="text-xl font-bold text-gray-900">$120.8M</span>
 									</div>
 								</div>
-								<div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+								<div className="bg-green-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Growth Rate</span>
-										<span className="text-xl font-bold text-green-600 dark:text-green-400">+9.3%</span>
+										<span className="text-gray-700">Growth Rate</span>
+										<span className="text-xl font-bold text-green-600">+9.3%</span>
 									</div>
 								</div>
-								<div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+								<div className="bg-green-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Increase from Q2</span>
-										<span className="text-xl font-bold text-green-600 dark:text-green-400">+$10.4M</span>
+										<span className="text-gray-700">Increase from Q2</span>
+										<span className="text-xl font-bold text-green-600">+$10.4M</span>
 									</div>
 								</div>
 							</div>
 						</div>
 
 						{/* Service Sales */}
-						<div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+						<div className="bg-white rounded-2xl p-8 shadow-lg">
 							<div className="flex items-center space-x-3 mb-6">
-								<div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
-									<Truck className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+								<div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+									<Truck className="w-6 h-6 text-purple-600" />
 								</div>
-								<h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Service Sales</h3>
+								<h3 className="text-2xl font-semibold text-gray-900">Service Sales</h3>
 							</div>
-							<p className="text-gray-600 dark:text-gray-400 mb-6">
+							<p className="text-gray-600 mb-6">
 								Service sales increased by $4.3 million, or 13.1%, compared to the second quarter of 2025,
 								resulting from an increase in active jobs, facilitated by a larger fleet of trucks.
 							</p>
 							<div className="space-y-4">
-								<div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+								<div className="bg-purple-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Service Sales Growth</span>
-										<span className="text-xl font-bold text-purple-600 dark:text-purple-400">+13.1%</span>
+										<span className="text-gray-700">Service Sales Growth</span>
+										<span className="text-xl font-bold text-purple-600">+13.1%</span>
 									</div>
 								</div>
-								<div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+								<div className="bg-purple-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Increase Amount</span>
-										<span className="text-xl font-bold text-purple-600 dark:text-purple-400">+$4.3M</span>
+										<span className="text-gray-700">Increase Amount</span>
+										<span className="text-xl font-bold text-purple-600">+$4.3M</span>
 									</div>
 								</div>
-								<div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
-									<p className="text-sm text-gray-700 dark:text-gray-300">
+								<div className="bg-purple-50 rounded-lg p-4">
+									<p className="text-sm text-gray-700">
 										Growth driven by expanded fleet and customer adoption of single and multi-trailer
 										logistics offerings
 									</p>
@@ -237,62 +222,59 @@ const AtlasFinancialReport = () => {
 					</div>
 
 					{/* Market Dynamics Note */}
-					<div className="mt-8 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 rounded-lg p-6">
-						<h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Market Dynamics</h4>
-						<p className="text-gray-700 dark:text-gray-300 mb-3">
-							Despite our optimistic outlook, the sequential price decline was attributed to higher-priced,
-							shorter-duration contracts rolling off and being replaced by new contracts at lower rates, along
-							with quarterly pricing resets on certain contracts.
-						</p>
-						<p className="text-gray-700 dark:text-gray-300">
-							Service growth was partially offset by shorter haul distances, as customer activity was
-							concentrated closer to our mines during the quarter.
+					<div className="mt-8 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg p-6">
+						<h4 className="text-lg font-semibold text-gray-900 mb-3">Market Dynamics</h4>
+						<p className="text-gray-700 mb-3">
+							This rise in service sales resulted from an increase in active jobs, facilitated by a larger
+							fleet of trucks and ongoing customer adoption of our single- and multi-trailer logistics
+							offerings. However, this growth was partially offset by shorter haul distances, as customer
+							activity was concentrated closer to our mines during the quarter.
 						</p>
 					</div>
 				</div>
 			</section>
 
 			{/* Cost Analysis Section */}
-			<section className="py-16 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+			<section className="py-16 bg-gradient-to-br from-slate-50 to-slate-100">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Cost Analysis</h2>
-						<p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+						<h2 className="text-3xl font-bold text-gray-900 mb-4">Cost Analysis</h2>
+						<p className="text-lg text-gray-600 max-w-3xl mx-auto">
 							Detailed breakdown of operational costs and expenses for Q3 2025
 						</p>
 					</div>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 						{/* Cost of Sales */}
-						<div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
-							<h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Cost of Sales</h3>
-							<p className="text-gray-600 dark:text-gray-400 mb-6">
+						<div className="bg-white rounded-2xl shadow-xl p-8">
+							<h3 className="text-2xl font-semibold text-gray-900 mb-6">Cost of Sales</h3>
+							<p className="text-gray-600 mb-6">
 								In the third quarter of 2025, the cost of sales (excluding depreciation, depletion, and
 								accretion expense) increased by $7.3 million, or 7.3%, compared to the second quarter of 2025,
 								totaling $77.8 million.
 							</p>
 							<div className="space-y-4 mb-6">
-								<div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+								<div className="bg-red-50 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-700 dark:text-gray-300">Q3 2025 Cost of Sales</span>
-										<span className="text-2xl font-bold text-gray-900 dark:text-white">$77.8M</span>
+										<span className="text-gray-700">Q3 2025 Cost of Sales</span>
+										<span className="text-2xl font-bold text-gray-900">$77.8M</span>
 									</div>
 								</div>
-								<div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+								<div className="bg-red-50 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-700 dark:text-gray-300">Increase from Q2</span>
-										<span className="text-xl font-semibold text-red-600 dark:text-red-400">+$7.3M</span>
+										<span className="text-gray-700">Increase from Q2</span>
+										<span className="text-xl font-semibold text-red-600">+$7.3M</span>
 									</div>
 								</div>
-								<div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+								<div className="bg-red-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Percentage Increase</span>
-										<span className="text-xl font-semibold text-red-600 dark:text-red-400">+7.3%</span>
+										<span className="text-gray-700">Percentage Increase</span>
+										<span className="text-xl font-semibold text-red-600">+7.3%</span>
 									</div>
 								</div>
 							</div>
-							<div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-								<p className="text-sm text-gray-700 dark:text-gray-300">
+							<div className="bg-blue-50 rounded-lg p-4">
+								<p className="text-sm text-gray-700">
 									<span className="font-semibold">Primary Driver:</span> This increase was primarily driven by
 									higher trucking and last-mile logistics costs, resulting from the expansion of our fleet.
 								</p>
@@ -300,34 +282,34 @@ const AtlasFinancialReport = () => {
 						</div>
 
 						{/* SG&A Expenses */}
-						<div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
-							<h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">SG&A Expenses</h3>
-							<p className="text-gray-600 dark:text-gray-400 mb-6">
+						<div className="bg-white rounded-2xl shadow-xl p-8">
+							<h3 className="text-2xl font-semibold text-gray-900 mb-6">SG&A Expenses</h3>
+							<p className="text-gray-600 mb-6">
 								Selling, general, and administrative expenses (SG&A) for the third quarter of 2025 rose by
 								$3.1 million, or 17.4%, compared to the second quarter of 2025, amounting to $14.3 million.
 							</p>
 							<div className="space-y-4 mb-6">
-								<div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
+								<div className="bg-orange-50 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-700 dark:text-gray-300">Q3 2025 SG&A</span>
-										<span className="text-2xl font-bold text-gray-900 dark:text-white">$14.3M</span>
+										<span className="text-gray-700">Q3 2025 SG&A</span>
+										<span className="text-2xl font-bold text-gray-900">$14.3M</span>
 									</div>
 								</div>
-								<div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
+								<div className="bg-orange-50 rounded-lg p-4">
 									<div className="flex justify-between items-center mb-2">
-										<span className="text-gray-700 dark:text-gray-300">Increase from Q2</span>
-										<span className="text-xl font-semibold text-orange-600 dark:text-orange-400">+$3.1M</span>
+										<span className="text-gray-700">Increase from Q2</span>
+										<span className="text-xl font-semibold text-orange-600">+$3.1M</span>
 									</div>
 								</div>
-								<div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
+								<div className="bg-orange-50 rounded-lg p-4">
 									<div className="flex justify-between items-center">
-										<span className="text-gray-700 dark:text-gray-300">Percentage Increase</span>
-										<span className="text-xl font-semibold text-orange-600 dark:text-orange-400">+17.4%</span>
+										<span className="text-gray-700">Percentage Increase</span>
+										<span className="text-xl font-semibold text-orange-600">+17.4%</span>
 									</div>
 								</div>
 							</div>
-							<div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-								<p className="text-sm text-gray-700 dark:text-gray-300">
+							<div className="bg-blue-50 rounded-lg p-4">
+								<p className="text-sm text-gray-700">
 									<span className="font-semibold">Primary Driver:</span> This increase was largely due to $3.7
 									million in non-recurring transaction costs related to the Up-C Simplification and the
 									refinancing of the 2024 Term Loan Credit Facility.
@@ -376,11 +358,11 @@ const AtlasFinancialReport = () => {
 			</section>
 
 			{/* Financial Summary */}
-			<section className="py-16 bg-white dark:bg-slate-900">
+			<section className="py-16 bg-white">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Financial Summary</h2>
-						<p className="text-lg text-gray-600 dark:text-gray-400">Q3 2025 Performance Overview</p>
+						<h2 className="text-3xl font-bold text-gray-900 mb-4">Financial Summary</h2>
+						<p className="text-lg text-gray-600">Q3 2025 Performance Overview</p>
 					</div>
 
 					<div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl p-8 md:p-12 text-white">

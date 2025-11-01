@@ -100,13 +100,13 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 					</ul>
 
 					<ul className="mb-10 flex flex-col gap-1.5">
-						{/* Investment Dropdown Menu */}
+						{/* Contract Dropdown Menu */}
 						<SidebarDropdown
-							title="Investments"
+							title="Contracts"
 							icon={<BarChart2 strokeWidth={1.5} className="text-blue-500 text-xl" />}
 							links={[
-								{ label: "Manage Investments", href: "investments" },
-								{ label: "Investment  History", href: "investments/history" },
+								{ label: "Manage Contracts", href: "contracts" },
+								{ label: "Contract History", href: "contracts/history" },
 							]}
 						/>
 

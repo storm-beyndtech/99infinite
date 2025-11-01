@@ -60,7 +60,7 @@ const ManageInvestmentModal: React.FC<ManageInvestmentModalProps> = ({ toggleMod
 		setCompletedLoading(true);
 
 		try {
-			const res = await fetch(`${url}/plans/investment/${investment?._id}`, {
+			const res = await fetch(`${url}/plans/contract/${investment?._id}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({

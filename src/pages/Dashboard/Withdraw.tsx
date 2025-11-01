@@ -3,16 +3,11 @@ import { CheckCircle, AlertCircle, ArrowDownLeft } from "lucide-react";
 import api from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 
-interface SupportedCoin {
-	coin: string;
-	chains: Array<{
-		chain: string;
-		chainType: string;
-		withdrawFee: string;
-		withdrawMin: string;
-		withdrawMax?: string;
-		chainWithdraw: string;
-	}>;
+interface USDTNetwork {
+	name: string;
+	code: string;
+	fee: string;
+	minAmount: string;
 }
 
 interface WithdrawalAvailability {
@@ -29,7 +24,16 @@ const Withdraw: React.FC = () => {
 		address: "",
 	});
 
-	const [supportedCoins, setSupportedCoins] = useState<SupportedCoin[]>([]);
+	// Predefined USDT networks
+	const usdtNetworks: USDTNetwork[] = [
+		{ name: "Ethereum (ERC20)", code: "ERC20", fee: "5", minAmount: "10" },
+		{ name: "Binance Smart Chain (BEP20)", code: "BEP20", fee: "1", minAmount: "10" },
+		{ name: "Tron (TRC20)", code: "TRC20", fee: "1", minAmount: "10" },
+		{ name: "Polygon", code: "POLYGON", fee: "0.5", minAmount: "10" },
+		{ name: "Avalanche", code: "AVAX", fee: "0.5", minAmount: "10" },
+		{ name: "Arbitrum", code: "ARBITRUM", fee: "0.5", minAmount: "10" }
+	];
+
 	const [availability, setAvailability] = useState<WithdrawalAvailability | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
@@ -39,36 +43,21 @@ const Withdraw: React.FC = () => {
 	const { user, fetchUser } = useAuth();
 	const userBalance = (user?.deposit || 0) + (user?.interest || 0);
 
-	// Fetch supported coins on component mount
-	useEffect(() => {
-		fetchSupportedCoins();
-	}, []);
-
-	// Check withdrawal availability when amount or coin changes
+	// Check withdrawal availability when amount changes
 	useEffect(() => {
 		if (formData.amount && parseFloat(formData.amount) > 0) {
 			checkWithdrawalAvailability();
 		} else {
 			setAvailability(null);
 		}
-	}, [formData.amount, formData.coinName]);
-
-	const fetchSupportedCoins = async () => {
-		try {
-			const response = await api.get("/withdrawals/supported-coins");
-			setSupportedCoins(Array.isArray(response.data) ? response.data : []);
-		} catch (error) {
-			console.error("Error fetching supported coins:", error);
-			setSupportedCoins([]);
-		}
-	};
+	}, [formData.amount]);
 
 	const checkWithdrawalAvailability = async () => {
 		setIsCheckingAvailability(true);
 		try {
 			const response = await api.post("/withdrawals/check-availability", {
 				amount: parseFloat(formData.amount),
-				coinName: formData.coinName,
+				coinName: "USDT",
 			});
 			setAvailability(response.data);
 		} catch (error) {
@@ -146,9 +135,6 @@ const Withdraw: React.FC = () => {
 			setIsLoading(false);
 		}
 	};
-
-	const selectedCoin = supportedCoins.find((coin) => coin.coin === formData.coinName);
-	const availableChains = selectedCoin?.chains.filter((chain) => chain.chainWithdraw === "1") || [];
 
 	return (
 		<div className="max-w-lg mx-auto space-y-6">
@@ -228,24 +214,22 @@ const Withdraw: React.FC = () => {
 						</div>
 					)}
 
-					{/* Coin Selection */}
+					{/* Cryptocurrency (Fixed to USDT) */}
 					<div>
 						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 							Cryptocurrency
 						</label>
-						<select
-							name="coinName"
-							value={formData.coinName}
-							onChange={handleInputChange}
-							className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
-							required
-						>
-							{supportedCoins.map((coin) => (
-								<option key={coin.coin} value={coin.coin}>
-									{coin.coin}
-								</option>
-							))}
-						</select>
+						<div className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl bg-gray-50 dark:bg-slate-800/50">
+							<div className="flex items-center gap-3">
+								<div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+									₮
+								</div>
+								<div>
+									<p className="font-medium">USDT</p>
+									<p className="text-xs text-gray-500 dark:text-gray-400">Tether USD</p>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					{/* Network Selection */}
@@ -258,9 +242,9 @@ const Withdraw: React.FC = () => {
 							className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
 							required
 						>
-							{availableChains.map((chain) => (
-								<option key={chain.chain} value={chain.chain}>
-									{chain.chain} (Fee: {chain.withdrawFee} {formData.coinName})
+							{usdtNetworks.map((network) => (
+								<option key={network.code} value={network.code}>
+									{network.name} (Fee: {network.fee} USDT)
 								</option>
 							))}
 						</select>

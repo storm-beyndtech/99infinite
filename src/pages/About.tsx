@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TrendingUp, MapPin, Users, Award, Building, Globe2 } from "lucide-react";
 import teambanner from "../assets/teambanner.png";
 import ExpertiseSection from "../components/home/ExpertiseSection";
+import CertificateSection from "@/components/Cert";
 
 const About: React.FC = () => {
 	const [activeTimelineItem, setActiveTimelineItem] = useState(0);
@@ -62,7 +63,7 @@ const About: React.FC = () => {
 					>
 						<div className="max-w-7xl mx-auto px-5 sm:px-10">
 							<h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-left">About 99Infinite</h1>
-							<p className="text-base sm:text-lg text-white/60 mt-4 max-w-[800px] text-left">
+							<p className="text-base text-white/60 mt-4 max-w-[600px] text-left">
 								More Than Advisors, We're Your Partners in Building Sustainable Wealth and Strategic
 								Investment Solutions Across Global Markets.
 							</p>
@@ -108,6 +109,8 @@ const About: React.FC = () => {
 					</div>
 				</div>
 			</section>
+
+			<CertificateSection />
 
 			{/* Interactive Journey Timeline Section */}
 			<section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50/30 to-cyan-50/20 overflow-hidden">

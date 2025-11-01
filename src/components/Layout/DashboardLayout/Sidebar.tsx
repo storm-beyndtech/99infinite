@@ -47,10 +47,10 @@ const Sidebar: React.FC<SidebarProps> = ({
 			],
 		},
 		{
-			title: "INVESTMENTS",
+			title: "CONTRACTS",
 			items: [
-				{ icon: PiggyBank, label: "Investment Plans", to: "/dashboard/investment-plans" },
-				{ icon: PiggyBank, label: "My Investments", to: "/dashboard/investments" },
+				{ icon: PiggyBank, label: "Contract Plans", to: "/dashboard/contract-plans" },
+				{ icon: PiggyBank, label: "My Contracts", to: "/dashboard/contracts" },
 			],
 		},
 		{
