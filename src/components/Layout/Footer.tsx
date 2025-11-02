@@ -75,7 +75,7 @@ const Footer: React.FC = () => {
 							<div className="flex items-start">
 								<MapPin className="h-4 w-4 mr-3 text-gsp-teal mt-1 flex-shrink-0" />
 								<div className="text-sm text-gray-300">
-									<div>GOLDEN BEACH QLD 4551</div>
+									<div>Helensvale Qld 4212</div>
 									<div>Australia</div>
 								</div>
 							</div>

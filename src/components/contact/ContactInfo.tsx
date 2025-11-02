@@ -27,7 +27,7 @@ const ContactInfo: React.FC = () => {
 						<div>
 							<div className="font-semibold text-gray-900">Address</div>
 							<div className="text-gray-600">
-								<div>GOLDEN BEACH QLD 4551</div>
+								<div>Helensvale Qld 4212</div>
 								<div>Australia</div>
 							</div>
 						</div>
