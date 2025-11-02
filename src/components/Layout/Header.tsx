@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import logo from "../../assets/logo-2-dark.png";
+import logo2 from "../../assets/logo-2.png";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Header: React.FC = () => {
@@ -204,7 +205,7 @@ const Header: React.FC = () => {
 							<div className="flex items-center justify-between p-6 border-b border-slate-700">
 								{/* Logo */}
 								<Link to="/">
-									<img src={logo} alt="logo" className="h-9" />
+									<img src={logo2} alt="logo" className="h-9" />
 								</Link>
 
 								<button
