@@ -1,5 +1,5 @@
 import { contextData } from "@/contexts/AuthContext";
-import { CheckSquare, Check, Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function UserReferrals() {
