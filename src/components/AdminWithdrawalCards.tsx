@@ -33,7 +33,7 @@ export default function AdminWithdrawalCards() {
         .reduce((sum: number, transaction: any) => sum + transaction.amount, 0);
 
       const pendingSum = withdrawalsTransactions.filter(
-        (transaction: any) => transaction.status === 'pending',
+        (transaction: any) => transaction.status === 'pending' || transaction.status === 'requires_manual',
       ).length;
 
       const failedSum = withdrawalsTransactions.filter(

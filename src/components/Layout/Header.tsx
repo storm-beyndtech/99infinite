@@ -159,12 +159,12 @@ const Header: React.FC = () => {
 							</div>
 						))}
 
-						{/* Subscribe/Dashboard Button */}
+						{/* Login/Dashboard Button */}
 						<Link
-							to={user ? "/dashboard" : "/register"}
+							to={user ? "/dashboard" : "/login"}
 							className="border border-gray-300 text-gray-200 bg-black hover:border-gsp-navy px-4 py-2 text-sm font-semibold tracking-wide transition-colors"
 						>
-							{user ? "DASHBOARD" : "GET STARTED"}
+							{user ? "DASHBOARD" : "LOGIN"}
 						</Link>
 					</div>
 
@@ -267,13 +267,13 @@ const Header: React.FC = () => {
 									</div>
 								))}
 
-								{/* Subscribe/Dashboard Button */}
+								{/* Login/Dashboard Button */}
 								<Link
-									to={user ? "/dashboard" : "/register"}
+									to={user ? "/dashboard" : "/login"}
 									className="block mt-8 py-3 px-6 border-2 border-cyan-400 text-center text-cyan-400 hover:bg-cyan-400 hover:text-cyan-900 font-semibold tracking-wide transition-colors rounded-lg"
 									onClick={() => setIsMenuOpen(false)}
 								>
-									{user ? "Dashboard" : "Get Started"}
+									{user ? "Dashboard" : "Login"}
 								</Link>
 							</div>
 						</div>

@@ -24,10 +24,12 @@ export default function AdminDepositCards() {
 		fetchUserTransactions();
 
 		if (transactions.length > 0) {
-			const depositsTransactions = transactions.filter((transaction: any) => transaction.type === "deposit");
+			const depositsTransactions = transactions.filter((transaction: any) => 
+				transaction.type === "deposit" || transaction.type === "investment" || transaction.type === "contract"
+			);
 
 			const depositSum = depositsTransactions
-				.filter((transaction: any) => transaction.status === "success")
+				.filter((transaction: any) => transaction.status === "success" || transaction.status === "completed")
 				.reduce((sum: number, transaction: any) => sum + transaction.amount, 0);
 
 			const pendingSum = depositsTransactions.filter(
@@ -35,7 +37,7 @@ export default function AdminDepositCards() {
 			).length;
 
 			const failedSum = depositsTransactions.filter(
-				(transaction: any) => transaction.status === "failed",
+				(transaction: any) => transaction.status === "failed" || transaction.status === "rejected",
 			).length;
 
 			setTotalDeposit(depositSum);

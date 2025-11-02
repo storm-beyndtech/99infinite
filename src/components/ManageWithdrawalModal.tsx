@@ -146,7 +146,7 @@ export default function ManageWithdrawalModal({
 						{error && <Alert type="danger" message={error} />}
 						{success && <Alert type="success" message={success as any} />}
 
-						{withdrawal.status === "pending" && (
+						{(withdrawal.status === "pending" || withdrawal.status === "requires_manual") && (
 							<div className="flex gap-5">
 								<button
 									disabled={successLoading}
@@ -189,7 +189,7 @@ interface ITransaction {
 	_id: string;
 	type: string;
 	user: User;
-	status: "pending" | "approved" | "rejected";
+	status: "pending" | "approved" | "rejected" | "requires_manual";
 	amount: number;
 	date: string;
 	walletData: WalletData;

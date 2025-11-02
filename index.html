@@ -4,22 +4,18 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite + React + TS</title>
-		<script>
-			// Prevent flash of unstyled content
-			(function () {
-				try {
-					const theme = localStorage.getItem("color-theme");
-					if (theme) {
-						const colorMode = JSON.parse(theme);
-						if (colorMode === "dark") {
-							document.documentElement.classList.add("dark");
-						}
-					}
-				} catch (e) {
-					console.log("Error loading theme:", e);
-				}
-			})();
+		<title>99Infinite Club</title>
+
+		<!-- Smartsupp Live Chat script -->
+		<script type="text/javascript">
+			var _smartsupp = _smartsupp || {};
+			_smartsupp.key = '081fc10696ae2d5d89dcfdbc671b27734e77fdbc';
+			window.smartsupp||(function(d) {
+			  var s,c,o=smartsupp=function(){ o._=o._||[]; o._.push(arguments)};o._=[];
+			  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+			  c.type='text/javascript';c.charset='utf-8';c.async=true;
+			  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+			})(document);
 		</script>
 	</head>
 	<body>

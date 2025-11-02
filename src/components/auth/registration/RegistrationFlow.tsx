@@ -20,9 +20,13 @@ const RegistrationSteps: React.FC = () => {
   return <>{renderStep()}</>;
 };
 
-const RegistrationFlow: React.FC = () => {
+interface RegistrationFlowProps {
+  referralCode?: string | null;
+}
+
+const RegistrationFlow: React.FC<RegistrationFlowProps> = ({ referralCode }) => {
   return (
-    <RegistrationProvider>
+    <RegistrationProvider referralCode={referralCode}>
       <RegistrationSteps />
     </RegistrationProvider>
   );

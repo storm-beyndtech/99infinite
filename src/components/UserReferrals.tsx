@@ -1,19 +1,21 @@
 import { contextData } from "@/contexts/AuthContext";
-import { CheckSquare } from "lucide-react";
+import { CheckSquare, Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function UserReferrals() {
 	const { user } = contextData();
 	const [referrals, setReferrals] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [copied, setCopied] = useState(false);
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	const handleCopy = async () => {
 		try {
-			await navigator.clipboard.writeText(`${window.location.origin}/?ref=${user?.username || user?._id}`);
-			alert("Text copied to clipboard");
+			await navigator.clipboard.writeText(`${window.location.origin}/signup?ref=${user?.username || user?._id}`);
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
 		} catch (err) {
-			console.log("Failed to copy text: ", err);
+			console.error("Failed to copy referral code:", err);
 		}
 	};
 
@@ -48,12 +50,22 @@ export default function UserReferrals() {
 				<div className="flex items-center gap-2">
 					<input
 						type="text"
-						value={`${window.location.origin}/?ref=${user?.username || user?._id}`}
+						value={`${window.location.origin}/signup?ref=${user?.username || user?._id}`}
 						readOnly
 						className="flex-1 p-3 dark:bg-gray-700 bg-gray-50 border dark:border-gray-600 border-gray-300 rounded-md dark:text-white text-gray-900"
 					/>
-					<button onClick={() => handleCopy()} className="bg-blue-500 hover:bg-blue-600 p-3 rounded-md">
-						<CheckSquare size={20} />
+					<button onClick={() => handleCopy()} className="bg-blue-500 hover:bg-blue-600 p-3 rounded-md transition-all duration-200 flex items-center gap-2">
+						{copied ? (
+							<>
+								<Check size={20} />
+								<span className="text-sm font-medium">Copied!</span>
+							</>
+						) : (
+							<>
+								<Copy size={20} />
+								<span className="text-sm font-medium">Copy</span>
+							</>
+						)}
 					</button>
 				</div>
 			</div>

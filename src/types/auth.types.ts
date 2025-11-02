@@ -30,6 +30,7 @@ export interface RegistrationFormState {
 		step1: boolean;
 		step2: boolean;
 	};
+	referralCode: string | null;
 	errors: any;
 }
 

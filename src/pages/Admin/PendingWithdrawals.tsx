@@ -21,10 +21,12 @@ export default function PendingWithdrawals() {
   
   const fetchWithdrawals = async () => {
     try {
-      const res = await fetch(`${url}/transactions/withdrawals`);
+      const res = await fetch(`${url}/withdrawals`);
       const data = await res.json();
 
-      if (res.ok) setWithdrawals(data.filter((wth:any) => wth.status === "pending"))
+      if (res.ok) setWithdrawals(data.withdrawals.filter((wth:any) => 
+        wth.type === "withdrawal" && (wth.status === "pending" || wth.status === "requires_manual")
+      ))
       else throw new Error(data.message);
     } catch (error) {
       console.log(error);
@@ -127,7 +129,7 @@ interface ITransaction {
   _id: string;
   type: string;
   user: User;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'requires_manual';
   amount: number;
   date: string; 
   walletData: WalletData;

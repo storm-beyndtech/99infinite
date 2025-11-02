@@ -33,7 +33,7 @@ const Dashboard = () => {
 
 	const handleCopyReferralCode = async () => {
 		try {
-			const referralLink = `${window.location.origin}/?ref=${user.username}`;
+			const referralLink = `${window.location.origin}/signup?ref=${user.username}`;
 			await navigator.clipboard.writeText(referralLink);
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
@@ -45,13 +45,13 @@ const Dashboard = () => {
 	const handleShareEmail = () => {
 		const subject = encodeURIComponent("Join 99Infinite - Contract Platform");
 		const body = encodeURIComponent(
-			`Hi! I've been using 99Infinite for my contracts and thought you might be interested. Use my referral link to get started: ${window.location.origin}/?ref=${user.username}`,
+			`Hi! I've been using 99Infinite for my contracts and thought you might be interested. Use my referral link to get started: ${window.location.origin}/signup?ref=${user.username}`,
 		);
 		window.open(`mailto:?subject=${subject}&body=${body}`);
 	};
 
 	const handleShareSocial = (platform: "facebook" | "twitter") => {
-		const referralLink = `${window.location.origin}/?ref=${user.username}`;
+		const referralLink = `${window.location.origin}/signup?ref=${user.username}`;
 		const message = encodeURIComponent("Join me on 99Infinite - Smart Contract Platform");
 
 		if (platform === "facebook") {
@@ -371,7 +371,7 @@ const Dashboard = () => {
 									<div className="flex gap-3 mb-6">
 										<div className="flex-1 px-5 py-4 bg-gray-50/80 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-2xl backdrop-blur-sm overflow-hidden">
 											<code className="text-xs text-gray-700 dark:text-gray-400 font-mono tracking-wide block truncate">
-												{`${window.location.origin}/?ref=${user.username}`}
+												{`${window.location.origin}/signup?ref=${user.username}`}
 											</code>
 										</div>
 										<button

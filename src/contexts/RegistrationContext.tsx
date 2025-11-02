@@ -8,12 +8,13 @@ type RegistrationAction =
   | { type: 'UPDATE_PASSWORD'; payload: { password?: string; confirmPassword?: string } }
   | { type: 'UPDATE_PRIVACY'; payload: Partial<PrivacySettings> }
   | { type: 'SET_STEP_VALIDITY'; payload: { step: keyof RegistrationFormState['isValid']; isValid: boolean } }
+  | { type: 'SET_REFERRAL_CODE'; payload: string | null }
   | { type: 'RESET_FORM' }
   | { type: 'SET_ERRORS'; payload: ValidationErrors }
   | { type: 'CLEAR_ERRORS' };
 
 // Initial State
-const initialState: RegistrationFormState = {
+const createInitialState = (referralCode?: string | null): RegistrationFormState => ({
   step: 1,
   personalInfo: {
     username: '',
@@ -46,8 +47,9 @@ const initialState: RegistrationFormState = {
     step1: false,
     step2: false,
   },
+  referralCode: referralCode || null,
   errors: null
-};
+});
 
 // Registration Reducer
 function registrationReducer(state: RegistrationFormState, action: RegistrationAction): RegistrationFormState {
@@ -79,6 +81,11 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
           ...action.payload,
         },
       };
+    case 'SET_REFERRAL_CODE':
+      return {
+        ...state,
+        referralCode: action.payload,
+      };
     case 'SET_STEP_VALIDITY':
       return {
         ...state,
@@ -88,7 +95,7 @@ function registrationReducer(state: RegistrationFormState, action: RegistrationA
         },
       };
     case 'RESET_FORM':
-      return initialState;
+      return createInitialState(state.referralCode);
     case 'SET_ERRORS':
       return {
         ...state,
@@ -112,6 +119,7 @@ interface RegistrationContextType {
   updatePassword: (password?: string, confirmPassword?: string) => void;
   updatePrivacy: (data: Partial<PrivacySettings>) => void;
   setStepValidity: (step: keyof RegistrationFormState['isValid'], isValid: boolean) => void;
+  setReferralCode: (code: string | null) => void;
   resetForm: () => void;
   setErrors: (errors: ValidationErrors) => void;
   clearErrors: () => void;
@@ -127,10 +135,11 @@ const RegistrationContext = createContext<RegistrationContextType | undefined>(u
 // Registration Provider Component
 interface RegistrationProviderProps {
   children: ReactNode;
+  referralCode?: string | null;
 }
 
-export function RegistrationProvider({ children }: RegistrationProviderProps) {
-  const [state, dispatch] = useReducer(registrationReducer, initialState);
+export function RegistrationProvider({ children, referralCode }: RegistrationProviderProps) {
+  const [state, dispatch] = useReducer(registrationReducer, createInitialState(referralCode));
 
   // Action creators with useCallback to prevent infinite loops
   const setStep = useCallback((step: number) => {
@@ -152,6 +161,10 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
 
   const setStepValidity = useCallback((step: keyof RegistrationFormState['isValid'], isValid: boolean) => {
     dispatch({ type: 'SET_STEP_VALIDITY', payload: { step, isValid } });
+  }, []);
+
+  const setReferralCode = useCallback((code: string | null) => {
+    dispatch({ type: 'SET_REFERRAL_CODE', payload: code });
   }, []);
 
   const resetForm = useCallback(() => {
@@ -197,8 +210,9 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
       personalInfo: state.personalInfo,
       password: state.password,
       confirmPassword: state.confirmPassword,
+      referralCode: state.referralCode,
     };
-  }, [state.personalInfo, state.password, state.confirmPassword]);
+  }, [state.personalInfo, state.password, state.confirmPassword, state.referralCode]);
 
   const contextValue: RegistrationContextType = {
     state,
@@ -207,6 +221,7 @@ export function RegistrationProvider({ children }: RegistrationProviderProps) {
     updatePassword,
     updatePrivacy,
     setStepValidity,
+    setReferralCode,
     resetForm,
     setErrors,
     clearErrors,

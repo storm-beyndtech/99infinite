@@ -19,6 +19,7 @@ import Retirement from "./pages/projects/Retirement";
 
 // Auth pages
 import Register from "./pages/auth/Register";
+import ReferralRegister from "./pages/auth/ReferralRegister";
 import Login from "./pages/auth/Login";
 
 // Dashboard pages
@@ -200,6 +201,7 @@ const AppRoutes = () => {
 					</AuthRoute>
 				}
 			/>
+
 			<Route
 				path="auth/login"
 				element={
@@ -207,7 +209,8 @@ const AppRoutes = () => {
 						<Login />
 					</AuthRoute>
 				}
-			/>
+      />
+      
 			<Route
 				path="register"
 				element={
@@ -215,12 +218,13 @@ const AppRoutes = () => {
 						<Register />
 					</AuthRoute>
 				}
-			/>
+      />
+      
 			<Route
-				path="auth/register"
+				path="signup"
 				element={
 					<AuthRoute>
-						<Register />
+						<ReferralRegister />
 					</AuthRoute>
 				}
 			/>
