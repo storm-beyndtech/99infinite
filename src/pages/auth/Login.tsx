@@ -178,9 +178,9 @@ const LoginForm: React.FC = () => {
 					{/* Links */}
 					<div className="mt-6 text-center space-y-2">
 						<p className="text-sm">
-							<a href="#" className="text-blue-600 hover:text-blue-500">
+							<Link to="/forgot-password" className="text-blue-600 hover:text-blue-500">
 								Forgot your password?
-							</a>
+							</Link>
 						</p>
 					</div>
 				</div>

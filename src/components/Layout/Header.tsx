@@ -202,14 +202,11 @@ const Header: React.FC = () => {
 						>
 							{/* Menu Header */}
 							<div className="flex items-center justify-between p-6 border-b border-slate-700">
-								<div className="text-white">
-									<div className="text-2xl font-bold tracking-tight">
-										<span className="text-3xl">9</span>9
-									</div>
-									<div className="text-xs text-slate-300 leading-tight">
-										INFINITE <br /> CAPITAL
-									</div>
-								</div>
+								{/* Logo */}
+								<Link to="/">
+									<img src={logo} alt="logo" className="h-9" />
+								</Link>
+
 								<button
 									onClick={() => setIsMenuOpen(false)}
 									className="text-white hover:text-cyan-400 p-2 rounded-lg hover:bg-white/10 transition-colors"

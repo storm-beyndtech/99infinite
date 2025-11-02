@@ -21,6 +21,7 @@ import Retirement from "./pages/projects/Retirement";
 import Register from "./pages/auth/Register";
 import ReferralRegister from "./pages/auth/ReferralRegister";
 import Login from "./pages/auth/Login";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 // Dashboard pages
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -225,6 +226,15 @@ const AppRoutes = () => {
 				element={
 					<AuthRoute>
 						<ReferralRegister />
+					</AuthRoute>
+				}
+			/>
+
+			<Route
+				path="forgot-password"
+				element={
+					<AuthRoute>
+						<ForgotPassword />
 					</AuthRoute>
 				}
 			/>
