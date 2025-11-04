@@ -38,7 +38,7 @@ const Gold: React.FC = () => {
 								excellence with innovative refining technologies.
 							</p>
 							<p className="text-lg text-gray-600 mb-6">
-								Incorporated in 2019, represents a prestigious player in Ghana's gold sector, fueled by
+								Incorporated in 2016, represents a prestigious player in Ghana's gold sector, fueled by
 								unwavering dedication to bolster the economic and communal prosperity of the region.
 							</p>
 							<div className="grid grid-cols-2 gap-6 mt-8">

@@ -12,7 +12,7 @@ const GoldSection: React.FC = () => {
 
 					<div>
 						<h2 className="max-sm:text-base max-w-[800px] text-2xl mb-9 text-cyan-100/80 leading-relaxed">
-							99Infinite is a prestigious player in the country's gold sector, incorporated in 2019. Fueled by
+							99Infinite is a prestigious player in the country's gold sector, incorporated in 2016. Fueled by
 							the unwavering dedication it persues a noble mission to bolster the economic and communal
 							prosperity of the region.
 						</h2>

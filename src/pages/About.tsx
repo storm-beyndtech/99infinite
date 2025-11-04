@@ -3,6 +3,7 @@ import { TrendingUp, MapPin, Users, Award, Building, Globe2 } from "lucide-react
 import teambanner from "../assets/teambanner.png";
 import ExpertiseSection from "../components/home/ExpertiseSection";
 import CertificateSection from "@/components/Cert";
+import { Link } from "react-router-dom";
 
 const About: React.FC = () => {
 	const [activeTimelineItem, setActiveTimelineItem] = useState(0);
@@ -227,11 +228,11 @@ const About: React.FC = () => {
 					<h2 className="text-3xl font-bold text-gsp-navy text-left lg:text-center mb-12">
 						Nationwide Presence
 					</h2>
-					{/* GSP Nationwide Presence Map */}
+					{/* 99Infinite Nationwide Presence Map */}
 					<div className="rounded-lg overflow-hidden">
 						<img
 							src="https://www.gspartners.com/wp-content/uploads/2025/03/gsp-map-1536x743.png"
-							alt="GSP Nationwide Presence Map showing office locations across the United States"
+							alt="99Infinite Nationwide Presence Map showing office locations across the United States"
 							className="w-full h-auto"
 						/>
 					</div>
@@ -343,12 +344,18 @@ const About: React.FC = () => {
 								sustainable wealth creation.
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4 lg:justify-center">
-								<button className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+								<Link
+									to="/contact"
+									className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+								>
 									Start Your Journey
-								</button>
-								<button className="border border-cyan-400 text-cyan-400 px-8 py-3 rounded-lg font-semibold hover:bg-cyan-400 hover:text-gray-900 transition-all duration-300">
+								</Link>
+								<Link
+									to="/contact"
+									className="border border-cyan-400 text-cyan-400 px-8 py-3 rounded-lg font-semibold hover:bg-cyan-400 hover:text-gray-900 transition-all duration-300"
+								>
 									Learn More
-								</button>
+								</Link>
 							</div>
 						</div>
 					</div>

@@ -70,7 +70,10 @@ export default function SendMailModal({ emails, onClose }: any) {
 								<textarea
 									value={message}
 									onChange={(e) => setMessage(e.target.value)}
-									className="editUserInput"
+									className="editUserInput resize-none"
+									rows={6}
+									style={{ padding: "12px 16px", lineHeight: "1.5" }}
+									placeholder="Type your custom email message here. You can format text with line breaks and spacing for better readability..."
 									required
 								/>
 							</div>

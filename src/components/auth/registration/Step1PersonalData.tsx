@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRegistration } from "../../../contexts/RegistrationContext";
-import { Link } from "react-router-dom";
-import { ChevronRight, Mail, MapPin, Phone, Calendar } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { ChevronRight, Mail, MapPin, Phone, Calendar, Gift } from "lucide-react";
 import logo2 from "../../../assets/logo-2.png";
 
 const Step1PersonalData: React.FC = () => {
-	const { state, updatePersonalInfo, nextStep, setStepValidity } = useRegistration();
+	const { state, updatePersonalInfo, nextStep, setStepValidity, setReferralCode } = useRegistration();
+	const [searchParams] = useSearchParams();
 	const [errors, setErrors] = useState<Record<string, string>>({
 		username: "Username is required",
 		firstName: "First name is required",
@@ -85,6 +86,14 @@ const Step1PersonalData: React.FC = () => {
 		setStepValidity("step1", isValid);
 		return isValid;
 	};
+
+	// Extract sponsor code from URL on component mount
+	useEffect(() => {
+		const sponsorCode = searchParams.get('ref') || searchParams.get('sponsor') || searchParams.get('code');
+		if (sponsorCode && !state.referralCode) {
+			setReferralCode(sponsorCode);
+		}
+	}, [searchParams, setReferralCode, state.referralCode]);
 
 	useEffect(() => {
 		validateForm();
@@ -170,7 +179,7 @@ const Step1PersonalData: React.FC = () => {
 				<div className="p-4 md:p-8">
 					<div className="grid md:grid-cols-2 gap-4 md:gap-6">
 						{/* Username */}
-						<div className="md:col-span-2">
+						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
 							<input
 								type="text"
@@ -182,6 +191,24 @@ const Step1PersonalData: React.FC = () => {
 								placeholder="Enter unique username"
 							/>
 							{errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+						</div>
+
+						{/* Sponsor/Referral Code */}
+						<div>
+							<label className="block text-sm font-medium text-gray-700 mb-2">
+								<Gift className="w-4 h-4 inline mr-1" />
+								Sponsor Code (Optional)
+							</label>
+							<input
+								type="text"
+								value={state.referralCode || ""}
+								onChange={(e) => setReferralCode(e.target.value || null)}
+								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+								placeholder="Enter sponsor/referral code"
+							/>
+							<p className="text-xs text-gray-500 mt-1">
+								{state.referralCode ? "Sponsor code applied!" : "Enter a sponsor code to get special benefits"}
+							</p>
 						</div>
 
 						{/* Title */}

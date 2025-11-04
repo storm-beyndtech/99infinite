@@ -13,7 +13,7 @@ const ExpertiseSection: React.FC = () => {
 			iconBg: "bg-slate-600",
 			textColor: "text-slate-900",
 			linkColor: "text-slate-600 hover:text-slate-700",
-			route: "/projects/mining"
+			route: "/mining"
 		},
 		{
 			icon: <Wheat className="w-6 h-6 text-white" />,
@@ -23,7 +23,7 @@ const ExpertiseSection: React.FC = () => {
 			iconBg: "bg-green-600",
 			textColor: "text-green-900",
 			linkColor: "text-green-600 hover:text-green-700",
-			route: "/projects/agriculture"
+			route: "/agriculture"
 		},
 		{
 			icon: <Fuel className="w-6 h-6 text-white" />,
@@ -33,7 +33,7 @@ const ExpertiseSection: React.FC = () => {
 			iconBg: "bg-blue-600",
 			textColor: "text-blue-900",
 			linkColor: "text-blue-600 hover:text-blue-700",
-			route: "/projects/oil-and-gas"
+			route: "/oil-and-gas"
 		},
 		{
 			icon: <Coins className="w-6 h-6 text-white" />,
@@ -63,7 +63,7 @@ const ExpertiseSection: React.FC = () => {
 			iconBg: "bg-emerald-600",
 			textColor: "text-emerald-900",
 			linkColor: "text-emerald-600 hover:text-emerald-700",
-			route: "/projects/philanthropy"
+			route: "/philanthropy"
 		},
 	];
 

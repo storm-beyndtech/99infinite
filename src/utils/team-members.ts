@@ -19,10 +19,10 @@ interface TeamMember {
 export const boardOfDirectors: TeamMember[] = [
 	{
 		id: 1,
-		title: "Mr. David Roberts",
+		title: "Mr. Thomas Pickelmann",
 		content:
 			"Mr. Thomas Pickelmann was appointed Chief Executive Officer of 99infinite in 2023, bringing his over two decades of international mining experience to lead one of the industry's most respected mining and exploration industries. A distinguished leader known for driving operational excellence and strategic growth, Mr. Thomas is dedicated to integrating safe and responsible gold and mining practices with innovative technology to create sustainable value for all partners and stakeholders of 99infinite. As CEO, Mr. Thomas champions a people-first safety culture, prioritizes consistent shareholder returns, and fosters strong, collaborative relationships with host communities. He serves on the board of the World Gold Council and is a Fellow of the Institute of Corporate Directors.",
-		slug: "mr-david-roberts",
+		slug: "mr-thomas-pickelmann",
 		image: team1,
 		location: "New York",
 		department: "Chief Executive Officer",
