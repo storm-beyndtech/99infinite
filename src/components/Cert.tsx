@@ -34,8 +34,8 @@ const CertificateSection = () => {
 								<Calendar className="w-4 h-4 text-blue-600" strokeWidth={1.5} />
 							</div>
 							<div>
-								<h3 className="font-semibold text-gray-900 mb-1">Registered Since 2020</h3>
-								<p className="text-gray-600 text-sm">Established registration since 2020</p>
+								<h3 className="font-semibold text-gray-900 mb-1">Registered Since 2016</h3>
+								<p className="text-gray-600 text-sm">Established registration since 2016</p>
 							</div>
 						</div>
 
@@ -44,8 +44,8 @@ const CertificateSection = () => {
 								<MapPin className="w-4 h-4 text-blue-600" strokeWidth={1.5} />
 							</div>
 							<div>
-								<h3 className="font-semibold text-gray-900 mb-1">Melbourne Based</h3>
-								<p className="text-gray-600 text-sm">Located in Melbourne, Victoria, Australia</p>
+								<h3 className="font-semibold text-gray-900 mb-1">Helensvale Based</h3>
+								<p className="text-gray-600 text-sm">Located in Helensvale Qld 4212, Australia</p>
 							</div>
 						</div>
 					</div>

@@ -10,7 +10,7 @@ const About: React.FC = () => {
 
 	const timelineData = [
 		{
-			year: "1992",
+			year: "2016",
 			title: "Foundation",
 			description:
 				"99Infinite Capital was founded with a vision to revolutionize investment strategies across global markets.",
@@ -18,7 +18,7 @@ const About: React.FC = () => {
 			color: "from-blue-500 to-cyan-500",
 		},
 		{
-			year: "2000",
+			year: "2018",
 			title: "Global Expansion",
 			description:
 				"Expanded operations internationally, establishing key partnerships in mining and agriculture sectors.",
@@ -26,7 +26,7 @@ const About: React.FC = () => {
 			color: "from-green-500 to-emerald-500",
 		},
 		{
-			year: "2010",
+			year: "2019",
 			title: "Portfolio Diversification",
 			description:
 				"Diversified into oil & gas, becoming Australia's second largest beef producer with 340,000+ herd capacity.",
@@ -34,7 +34,7 @@ const About: React.FC = () => {
 			color: "from-yellow-500 to-orange-500",
 		},
 		{
-			year: "2019",
+			year: "2022",
 			title: "Gold Refining Leadership",
 			description:
 				"Strategic partnership in West Africa's largest gold-producing region, pioneering LBMA certification pursuit.",
@@ -84,7 +84,7 @@ const About: React.FC = () => {
 							<div className="text-sm">
 								Capitalizations Since
 								<br />
-								Our Inception in 1992
+								Our Inception in 2016
 							</div>
 						</div>
 						<div className="bg-cyan-600 text-white p-8 rounded-lg">

@@ -144,7 +144,7 @@ const Dashboard = () => {
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 					{/* View Plans */}
 					<Link
-						to="/dashboard/investment-plans"
+						to="/dashboard/contract-plans"
 						className="cursor-pointer bg-gray-300/10 dark:bg-gray-500/5 dark:hover:bg-gray-100/5 hover:bg-gray-500/10 backdrop-blur-lg border border-blue-500/40 dark:border-blue-400/20 rounded-3xl p-6 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 dark:hover:shadow-emerald-400/5 transition-all duration-300 group"
 					>
 						<div className="flex items-center justify-between mb-4">
