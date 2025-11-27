@@ -84,7 +84,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	};
 
 	const loginAsUser = () => {
-		login(userData.email, userData.password);
+		login(userData);
 		navigate("/dashboard");
 	};
 

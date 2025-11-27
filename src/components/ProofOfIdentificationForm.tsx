@@ -1,5 +1,5 @@
 import { useState, useRef, type JSX, type ChangeEvent, type FormEvent } from "react";
-import { Calendar, Camera, Upload } from "lucide-react";
+import { Calendar, Camera, Upload, LogOut } from "lucide-react";
 import Alert from "./UI/Alert";
 import { contextData } from "@/contexts/AuthContext";
 
@@ -44,7 +44,7 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 
 	const frontImageRef = useRef<HTMLInputElement | null>(null);
 	const backImageRef = useRef<HTMLInputElement | null>(null);
-	const { user } = contextData();
+	const { user, logout } = contextData();
 
 	const handleDocumentTypeChange = (type: DocumentType): void => {
 		setFormData({
@@ -348,13 +348,21 @@ export default function ProofOfIdentificationForm({ onSubmit }: { onSubmit: () =
 				{alert && <Alert type={alert.type} message={alert.message} />}
 
 				{/* Submit Button */}
-				<div className="flex justify-center">
+				<div className="flex flex-col sm:flex-row gap-4 justify-center">
 					<button
 						type="submit"
 						disabled={loading}
 						className="dark:bg-blue-600 dark:hover:bg-blue-700 bg-blue-500 hover:bg-blue-600 text-white py-2 font-semibold px-6 rounded-md transition-all disabled:opacity-60 disabled:cursor-not-allowed w-full md:w-auto md:min-w-64"
 					>
 						{loading ? "Submitting..." : "Submit Proof of Identification"}
+					</button>
+					<button
+						type="button"
+						onClick={logout}
+						className="flex items-center justify-center gap-2 dark:bg-gray-600 dark:hover:bg-gray-700 bg-gray-500 hover:bg-gray-600 text-white py-2 font-semibold px-6 rounded-md transition-all w-full sm:w-auto"
+					>
+						<LogOut className="w-4 h-4" />
+						Logout
 					</button>
 				</div>
 			</form>

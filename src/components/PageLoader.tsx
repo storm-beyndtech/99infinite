@@ -21,22 +21,6 @@ const PageLoader: React.FC = () => {
 						<div className="absolute inset-0 rounded-full border-2 border-cyan-200 dark:border-cyan-800/30 animate-pulse"></div>
 					</div>
 				</div>
-
-				{/* Loading Text */}
-				<div className="space-y-2">
-					<p className="text-lg font-semibold text-slate-800 dark:text-slate-200">Loading...</p>
-					<div className="flex justify-center space-x-1">
-						<div className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce"></div>
-						<div
-							className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce"
-							style={{ animationDelay: "0.1s" }}
-						></div>
-						<div
-							className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce"
-							style={{ animationDelay: "0.2s" }}
-						></div>
-					</div>
-				</div>
 			</div>
 		</div>
 	);
