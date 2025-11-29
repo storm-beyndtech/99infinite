@@ -4,8 +4,6 @@ import { contextData } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { TfiSearch } from "react-icons/tfi";
 
-const tableTitles = ["User", "Phone", "Country", "Balance", "Action"]
-
 export default function ActiveUsers() {
   const { user:admin } = contextData()
   const [users, setUsers] = useState<any>(null)
