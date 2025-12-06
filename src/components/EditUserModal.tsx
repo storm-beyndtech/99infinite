@@ -91,7 +91,7 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	const deleteUser = async () => {
 		try {
 			setLoading(true);
-			const res = await fetch(`${url}/api/users/${userData.email}`, {
+			const res = await fetch(`${url}/users/${userData.email}`, {
 				method: "DELETE",
 			});
 			const data = await res.json();
