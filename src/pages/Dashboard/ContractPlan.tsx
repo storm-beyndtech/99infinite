@@ -197,7 +197,7 @@ const ContractPlan: React.FC = () => {
 										</div>
 
 										{/* Description */}
-										<p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-sm line-clamp-2">
+										<p className="hidden text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-sm line-clamp-2">
 											{plan.description}
 										</p>
 
