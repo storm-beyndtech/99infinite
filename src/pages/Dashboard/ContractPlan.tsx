@@ -179,7 +179,7 @@ const ContractPlan: React.FC = () => {
 
 										{/* ROI Highlight */}
 										<div
-											className="mb-6 p-4 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-600/10 dark:to-teal-600/10 
+											className="hidden mb-6 p-4 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-600/10 dark:to-teal-600/10 
                         rounded-2xl border border-emerald-300/30 dark:border-emerald-700/30 backdrop-blur-sm"
 										>
 											<div className="text-4xl font-bold text-emerald-700 dark:text-emerald-300">
