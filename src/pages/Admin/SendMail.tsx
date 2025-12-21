@@ -28,7 +28,7 @@ export default function SendMail() {
 
 	const fetchUsers = async () => {
 		try {
-			const res = await fetch(`${url}/api/users?limit=1000`);
+			const res = await fetch(`${url}/users?limit=1000`);
 			const data = await res.json();
 
 			if (res.ok) {
