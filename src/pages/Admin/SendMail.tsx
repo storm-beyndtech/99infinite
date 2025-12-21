@@ -28,11 +28,11 @@ export default function SendMail() {
 
 	const fetchUsers = async () => {
 		try {
-			const res = await fetch(`${url}/api/users`);
+			const res = await fetch(`${url}/api/users?limit=1000`);
 			const data = await res.json();
 
 			if (res.ok) {
-				const filteredData = data.filter((user: User) => user._id !== admin?._id);
+				const filteredData = data.users.filter((user: User) => user._id !== admin?._id);
 				setUsers(filteredData);
 				setFilteredUsers(filteredData);
 			} else {
@@ -217,7 +217,7 @@ export default function SendMail() {
 						onClick={() => handleMailData(selectedUsers)}
 						className="px-4 py-2 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700"
 					>
-						text-white Send Mail to Selected ({selectedUsers.length})
+						Send Mail to Selected ({selectedUsers.length})
 					</button>
 				</div>
 			)}
