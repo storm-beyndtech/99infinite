@@ -26,16 +26,46 @@ interface WithdrawalAvailability {
   message?: string;
 }
 
+const DEFAULT_COINS: SupportedCoin[] = [
+  { coin: 'BTC', chains: [] },
+  { coin: 'ETH', chains: [] },
+  { coin: 'USDT', chains: [] },
+  { coin: 'SOL', chains: [] },
+];
+
+const mergeSupportedCoins = (coins: SupportedCoin[] = []) => {
+  const coinMap = new Map<string, SupportedCoin>();
+
+  const addCoin = (coin: SupportedCoin) => {
+    const key = coin.coin.toUpperCase();
+    const existing = coinMap.get(key);
+    const mergedChains = [
+      ...(existing?.chains || []),
+      ...(coin.chains || []),
+    ].filter((chain, index, self) => 
+      self.findIndex(c => c.chain === chain.chain) === index
+    );
+
+    coinMap.set(key, {
+      coin: coin.coin || existing?.coin || key,
+      chains: mergedChains,
+    });
+  };
+
+  [...DEFAULT_COINS, ...coins].forEach(addCoin);
+  return Array.from(coinMap.values());
+};
+
 const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBalance, onSuccess }) => {
   const [formData, setFormData] = useState({
     amount: '',
     coinName: 'USDT',
-    network: 'ERC20',
+    network: '',
     address: '',
-    autoWithdraw: true,
+    autoWithdraw: false,
   });
   
-  const [supportedCoins, setSupportedCoins] = useState<SupportedCoin[]>([]);
+  const [supportedCoins, setSupportedCoins] = useState<SupportedCoin[]>(mergeSupportedCoins());
   const [availability, setAvailability] = useState<WithdrawalAvailability | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
@@ -75,9 +105,11 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
       }
       
       const data = await response.json();
-      setSupportedCoins(data);
+      const coins = Array.isArray(data) ? data : (Array.isArray(data?.coins) ? data.coins : []);
+      setSupportedCoins(mergeSupportedCoins(coins));
     } catch (error) {
       console.error('Error fetching supported coins:', error);
+      setSupportedCoins(mergeSupportedCoins());
     }
   };
 
@@ -189,9 +221,9 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
       setFormData({
         amount: '',
         coinName: 'USDT',
-        network: 'ERC20',
+        network: '',
         address: '',
-        autoWithdraw: true,
+        autoWithdraw: false,
       });
       
       onSuccess();
@@ -332,19 +364,20 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ isOpen, onClose, userBa
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Network
               </label>
-              <select
+              <input
+                type="text"
                 name="network"
                 value={formData.network}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-transparent transition-all duration-200"
+                placeholder="Enter network (e.g., ERC20, TRC20)"
                 required
-              >
-                {availableChains.map(chain => (
-                  <option key={chain.chain} value={chain.chain}>
-                    {chain.chain} (Fee: {chain.withdrawFee} {formData.coinName})
-                  </option>
-                ))}
-              </select>
+              />
+              {availableChains.length > 0 && (
+                <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                  Suggested networks: {availableChains.map(chain => chain.chain).join(', ')}
+                </p>
+              )}
             </div>
 
             {/* Wallet Address */}

@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import { CheckCircle, AlertCircle, ArrowDownLeft } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
-interface USDTNetwork {
-	name: string;
-	code: string;
-	fee: string;
-	minAmount: string;
+interface SupportedCoin {
+	coin: string;
+	chains: Array<{
+		chain: string;
+		chainType: string;
+		withdrawFee: string;
+		withdrawMin: string;
+		withdrawMax?: string;
+		chainWithdraw: string;
+	}>;
 }
 
 interface WithdrawalAvailability {
@@ -15,24 +20,44 @@ interface WithdrawalAvailability {
 	message?: string;
 }
 
+const DEFAULT_COINS: SupportedCoin[] = [
+	{ coin: "BTC", chains: [] },
+	{ coin: "ETH", chains: [] },
+	{ coin: "USDT", chains: [] },
+	{ coin: "SOL", chains: [] },
+];
+
+const mergeSupportedCoins = (coins: SupportedCoin[] = []) => {
+	const coinMap = new Map<string, SupportedCoin>();
+
+	const addCoin = (coin: SupportedCoin) => {
+		const key = coin.coin.toUpperCase();
+		const existing = coinMap.get(key);
+		const mergedChains = [
+			...(existing?.chains || []),
+			...(coin.chains || []),
+		].filter((chain, index, self) => self.findIndex((c) => c.chain === chain.chain) === index);
+
+		coinMap.set(key, {
+			coin: existing?.coin || coin.coin || key,
+			chains: mergedChains,
+		});
+	};
+
+	[...DEFAULT_COINS, ...coins].forEach(addCoin);
+	return Array.from(coinMap.values());
+};
+
 const Withdraw: React.FC = () => {
 	const [formData, setFormData] = useState({
 		amount: "",
 		coinName: "USDT",
-		network: "ERC20",
+		network: "",
 		address: "",
+		autoWithdraw: false,
 	});
 
-	// Predefined USDT networks
-	const usdtNetworks: USDTNetwork[] = [
-		{ name: "Ethereum (ERC20)", code: "ERC20", fee: "5", minAmount: "10" },
-		{ name: "Binance Smart Chain (BEP20)", code: "BEP20", fee: "1", minAmount: "10" },
-		{ name: "Tron (TRC20)", code: "TRC20", fee: "1", minAmount: "10" },
-		{ name: "Polygon", code: "POLYGON", fee: "0.5", minAmount: "10" },
-		{ name: "Avalanche", code: "AVAX", fee: "0.5", minAmount: "10" },
-		{ name: "Arbitrum", code: "ARBITRUM", fee: "0.5", minAmount: "10" },
-	];
-
+	const [supportedCoins, setSupportedCoins] = useState<SupportedCoin[]>(mergeSupportedCoins());
 	const [availability, setAvailability] = useState<WithdrawalAvailability | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
@@ -43,6 +68,10 @@ const Withdraw: React.FC = () => {
 	const userBalance = (user?.deposit || 0) + (user?.interest || 0);
 	const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
+	useEffect(() => {
+		fetchSupportedCoins();
+	}, []);
+
 	// Check withdrawal availability when amount changes
 	useEffect(() => {
 		if (formData.amount && parseFloat(formData.amount) > 0) {
@@ -50,7 +79,31 @@ const Withdraw: React.FC = () => {
 		} else {
 			setAvailability(null);
 		}
-	}, [formData.amount]);
+	}, [formData.amount, formData.coinName]);
+
+	const fetchSupportedCoins = async () => {
+		try {
+			const token = localStorage.getItem("token");
+			const response = await fetch(`${url}/withdrawals/supported-coins`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					...(token && { Authorization: `Bearer ${token}` }),
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to fetch supported coins");
+			}
+
+			const data = await response.json();
+			const coins = Array.isArray(data) ? data : Array.isArray(data?.coins) ? data.coins : [];
+			setSupportedCoins(mergeSupportedCoins(coins));
+		} catch (error) {
+			console.error("Error fetching supported coins:", error);
+			setSupportedCoins(mergeSupportedCoins());
+		}
+	};
 
 	const checkWithdrawalAvailability = async () => {
 		setIsCheckingAvailability(true);
@@ -62,7 +115,7 @@ const Withdraw: React.FC = () => {
 				},
 				body: JSON.stringify({
 					amount: parseFloat(formData.amount),
-					coinName: "USDT",
+					coinName: formData.coinName,
 				}),
 			});
 			const data = await response.json();
@@ -80,12 +133,20 @@ const Withdraw: React.FC = () => {
 	};
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-		const { name, value } = e.target;
+		const { name, value, type } = e.target;
 
-		setFormData((prev) => ({
-			...prev,
-			[name]: value,
-		}));
+		if (type === "checkbox") {
+			const checkbox = e.target as HTMLInputElement;
+			setFormData((prev) => ({
+				...prev,
+				[name]: checkbox.checked,
+			}));
+		} else {
+			setFormData((prev) => ({
+				...prev,
+				[name]: value,
+			}));
+		}
 
 		setError("");
 		setSuccess("");
@@ -126,7 +187,7 @@ const Withdraw: React.FC = () => {
 					coinName: formData.coinName,
 					network: formData.network,
 					address: formData.address,
-					autoWithdraw: true, // Always automatic
+					autoWithdraw: formData.autoWithdraw,
 				}),
 			});
 
@@ -147,8 +208,9 @@ const Withdraw: React.FC = () => {
 			setFormData({
 				amount: "",
 				coinName: "USDT",
-				network: "ERC20",
+				network: "",
 				address: "",
+				autoWithdraw: false,
 			});
 		} catch (error: any) {
 			setError(error.message || "Withdrawal failed");
@@ -156,6 +218,9 @@ const Withdraw: React.FC = () => {
 			setIsLoading(false);
 		}
 	};
+
+	const selectedCoin = supportedCoins.find((coin) => coin.coin === formData.coinName);
+	const availableChains = selectedCoin?.chains.filter((chain) => chain.chainWithdraw === "1") || [];
 
 	return (
 		<div className="max-w-lg mx-auto space-y-6">
@@ -234,40 +299,55 @@ const Withdraw: React.FC = () => {
 						</div>
 					)}
 
-					{/* Cryptocurrency (Fixed to USDT) */}
+					{/* Cryptocurrency Selection */}
 					<div>
 						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 							Cryptocurrency
 						</label>
-						<div className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:text-white rounded-xl bg-gray-50 dark:bg-slate-800/50">
-							<div className="flex items-center gap-3">
-								<div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
-									₮
-								</div>
-								<div>
-									<p className="font-medium">USDT</p>
-									<p className="text-xs text-gray-500 dark:text-gray-400">Tether USD</p>
-								</div>
-							</div>
-						</div>
+						<select
+							name="coinName"
+							value={formData.coinName}
+							onChange={handleInputChange}
+							className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
+							required
+						>
+							{supportedCoins.map((coin) => (
+								<option key={coin.coin} value={coin.coin}>
+									{coin.coin}
+								</option>
+							))}
+						</select>
+					</div>
+
+					{/* Auto-withdrawal Toggle */}
+					<div className="items-center gap-3 hidden">
+						<input
+							type="checkbox"
+							name="autoWithdraw"
+							checked={formData.autoWithdraw}
+							onChange={handleInputChange}
+							className="w-5 h-5 text-red-600 border-gray-300 rounded focus:ring-red-500"
+						/>
+						<label className="text-sm text-gray-700 dark:text-gray-300">Enable auto-withdrawal (faster when available)</label>
 					</div>
 
 					{/* Network Selection */}
 					<div>
 						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Network</label>
-						<select
+						<input
+							type="text"
 							name="network"
 							value={formData.network}
 							onChange={handleInputChange}
 							className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-slate-700/50 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent transition-all duration-200"
+							placeholder="Enter network (e.g., ERC20, TRC20)"
 							required
-						>
-							{usdtNetworks.map((network) => (
-								<option key={network.code} value={network.code}>
-									{network.name} (Fee: {network.fee} USDT)
-								</option>
-							))}
-						</select>
+						/>
+						{availableChains.length > 0 && (
+							<p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+								Suggested networks: {availableChains.map((chain) => chain.chain).join(", ")}
+							</p>
+						)}
 					</div>
 
 					{/* Wallet Address */}
