@@ -17,8 +17,8 @@ const ContactInfo: React.FC = () => {
 						<Mail className="h-5 w-5 text-blue-600 mr-3" />
 						<div>
 							<div className="font-semibold text-gray-900">Email</div>
-							<a href="mailto:support@99infinite.club" className="text-blue-600 hover:underline">
-								support@99infinite.club
+							<a href="mailto:support@99infinites.club" className="text-blue-600 hover:underline">
+								support@99infinites.club
 							</a>
 						</div>
 					</div>
@@ -52,3 +52,4 @@ const ContactInfo: React.FC = () => {
 };
 
 export default ContactInfo;
+

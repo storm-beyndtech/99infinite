@@ -82,10 +82,10 @@ const Footer: React.FC = () => {
 							<div className="flex items-center">
 								<Mail className="h-4 w-4 mr-2 text-gsp-teal" />
 								<a
-									href="mailto:support@99infinite.club"
+									href="mailto:support@99infinites.club"
 									className="text-sm text-gray-300 hover:text-white transition-colors"
 								>
-									support@99infinite.club
+									support@99infinites.club
 								</a>
 							</div>
 						</div>
@@ -104,3 +104,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+

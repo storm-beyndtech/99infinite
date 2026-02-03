@@ -25,8 +25,8 @@ const OfficeLocations: React.FC = () => {
 							</div>
 							<div className="flex items-center">
 								<Mail className="h-5 w-5 text-gray-400 mr-3" />
-								<a href="mailto:support@99infinite.club" className="text-blue-600 hover:underline">
-									support@99infinite.club
+								<a href="mailto:support@99infinites.club" className="text-blue-600 hover:underline">
+									support@99infinites.club
 								</a>
 							</div>
 							<div className="flex items-start">
@@ -42,3 +42,4 @@ const OfficeLocations: React.FC = () => {
 };
 
 export default OfficeLocations;
+
