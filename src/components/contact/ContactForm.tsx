@@ -4,11 +4,9 @@ import { Send, CheckCircle } from "lucide-react";
 interface FormData {
 	name: string;
 	email: string;
-	company: string;
 	phone: string;
-	financingType: string;
-	propertyType: string;
-	loanAmount: string;
+	address: string;
+	requestPurpose: string;
 	message: string;
 }
 
@@ -16,11 +14,9 @@ const ContactForm: React.FC = () => {
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
 		email: "",
-		company: "",
 		phone: "",
-		financingType: "",
-		propertyType: "",
-		loanAmount: "",
+		address: "",
+		requestPurpose: "debit card",
 		message: "",
 	});
 
@@ -46,43 +42,15 @@ const ContactForm: React.FC = () => {
 			setFormData({
 				name: "",
 				email: "",
-				company: "",
 				phone: "",
-				financingType: "",
-				propertyType: "",
-				loanAmount: "",
+				address: "",
+				requestPurpose: "debit card",
 				message: "",
 			});
 		}, 3000);
 	};
 
-	const financingTypes = [
-		"Bridge Financing",
-		"Construction Financing",
-		"Permanent Financing",
-		"Acquisition Financing",
-		"Refinancing",
-		"Mezzanine Debt",
-		"Joint Venture Equity",
-		"Preferred Equity",
-		"Portfolio Financing",
-		"Other",
-	];
-
-	const propertyTypes = [
-		"Multifamily",
-		"Office",
-		"Retail",
-		"Industrial",
-		"Mixed-Use",
-		"Land",
-		"Hotel",
-		"Self Storage",
-		"Medical",
-		"Other",
-	];
-
-	const loanAmounts = ["Under $5M", "$5M - $10M", "$10M - $25M", "$25M - $50M", "$50M - $100M", "Over $100M"];
+	const requestPurposes = ["debit card", "physical gold", "general purpose"];
 
 	return (
 		<div>
@@ -96,7 +64,7 @@ const ContactForm: React.FC = () => {
 					<CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
 					<h3 className="text-xl font-bold text-green-900 mb-2">Thank You!</h3>
 					<p className="text-green-700">
-						Your financing request has been submitted successfully. Our team will review your information and
+						Your request has been submitted successfully. Our team will review your information and
 						contact you within 24 hours.
 					</p>
 				</div>
@@ -137,20 +105,6 @@ const ContactForm: React.FC = () => {
 
 					<div className="grid md:grid-cols-2 gap-6">
 						<div>
-							<label htmlFor="company" className="block text-sm font-semibold text-gray-700 mb-2">
-								Company
-							</label>
-							<input
-								type="text"
-								id="company"
-								name="company"
-								value={formData.company}
-								onChange={handleInputChange}
-								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-								placeholder="ABC Development"
-							/>
-						</div>
-						<div>
 							<label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
 								Phone Number
 							</label>
@@ -164,74 +118,46 @@ const ContactForm: React.FC = () => {
 								placeholder="(555) 123-4567"
 							/>
 						</div>
-					</div>
-
-					<div className="grid md:grid-cols-3 gap-6">
 						<div>
-							<label htmlFor="financingType" className="block text-sm font-semibold text-gray-700 mb-2">
-								Financing Type *
+							<label htmlFor="address" className="block text-sm font-semibold text-gray-700 mb-2">
+								Home Address *
 							</label>
-							<select
-								id="financingType"
-								name="financingType"
+							<input
+								type="text"
+								id="address"
+								name="address"
 								required
-								value={formData.financingType}
+								value={formData.address}
 								onChange={handleInputChange}
 								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-							>
-								<option value="">Select Type</option>
-								{financingTypes.map((type) => (
-									<option key={type} value={type}>
-										{type}
-									</option>
-								))}
-							</select>
-						</div>
-						<div>
-							<label htmlFor="propertyType" className="block text-sm font-semibold text-gray-700 mb-2">
-								Property Type *
-							</label>
-							<select
-								id="propertyType"
-								name="propertyType"
-								required
-								value={formData.propertyType}
-								onChange={handleInputChange}
-								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-							>
-								<option value="">Select Property</option>
-								{propertyTypes.map((type) => (
-									<option key={type} value={type}>
-										{type}
-									</option>
-								))}
-							</select>
-						</div>
-						<div>
-							<label htmlFor="loanAmount" className="block text-sm font-semibold text-gray-700 mb-2">
-								Loan Amount *
-							</label>
-							<select
-								id="loanAmount"
-								name="loanAmount"
-								required
-								value={formData.loanAmount}
-								onChange={handleInputChange}
-								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-							>
-								<option value="">Select Amount</option>
-								{loanAmounts.map((amount) => (
-									<option key={amount} value={amount}>
-										{amount}
-									</option>
-								))}
-							</select>
+								placeholder="123 Main Street, City, State"
+							/>
 						</div>
 					</div>
 
 					<div>
+						<label htmlFor="requestPurpose" className="block text-sm font-semibold text-gray-700 mb-2">
+							Request Purpose *
+						</label>
+						<select
+							id="requestPurpose"
+							name="requestPurpose"
+							required
+							value={formData.requestPurpose}
+							onChange={handleInputChange}
+							className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+						>
+							{requestPurposes.map((purpose) => (
+								<option key={purpose} value={purpose}>
+									{purpose}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div>
 						<label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
-							Project Details
+							Additional Information
 						</label>
 						<textarea
 							id="message"
@@ -240,7 +166,7 @@ const ContactForm: React.FC = () => {
 							value={formData.message}
 							onChange={handleInputChange}
 							className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-							placeholder="Please provide details about your project, timeline, and any specific requirements..."
+							placeholder="Please provide any additional details about your request or specific requirements..."
 						/>
 					</div>
 
