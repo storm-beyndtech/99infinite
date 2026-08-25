@@ -15,6 +15,7 @@ import {
 	ArrowUpFromLine,
 	ArrowDownFromLine,
 	PiggyBank,
+	Gift,
 } from "lucide-react";
 import { contextData } from "@/contexts/AuthContext";
 import DarkModeSwitcher from "@/components/UI/DarkModeSwitcher";
@@ -177,6 +178,18 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 							>
 								<PiggyBank strokeWidth={1.5} className="text-blue-500 text-xl" />
 								Manage Plans
+							</NavLink>
+						</li>
+
+						<li>
+							<NavLink
+								to="/admin/referrals"
+								className={`text-xs group relative flex items-center gap-2.5 rounded-sm py-2.5 px-3 text-gray-300 font-montserrat duration-300 ease-in-out hover:bg-black dark:hover:bg-black ${
+									pathname.includes("referrals") && "bg-black"
+								}`}
+							>
+								<Gift strokeWidth={1.5} className="text-blue-500 text-xl" />
+								Referrals
 							</NavLink>
 						</li>
 

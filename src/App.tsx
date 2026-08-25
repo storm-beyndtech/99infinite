@@ -47,6 +47,7 @@ import ContractHistory from "./pages/Admin/ContractHistory";
 import KycApproval from "./pages/Admin/KycApproval";
 import ManageContracts from "./pages/Admin/ManageContracts";
 import ManagePlans from "./pages/Admin/ManagePlans";
+import ReferralSettings from "./pages/Admin/ReferralSettings";
 import PendingDeposits from "./pages/Admin/PendingDeposits";
 import PendingWithdrawals from "./pages/Admin/PendingWithdrawals";
 import RejectedDeposits from "./pages/Admin/RejectedDeposits";
@@ -186,6 +187,7 @@ const AppRoutes = () => {
 				<Route path="kyc" element={<KycApproval />} />
 				<Route path="contracts" element={<ManageContracts />} />
 				<Route path="manage-plans" element={<ManagePlans />} />
+				<Route path="referrals" element={<ReferralSettings />} />
 				<Route path="deposits/pending" element={<PendingDeposits />} />
 				<Route path="withdrawals/pending" element={<PendingWithdrawals />} />
 				<Route path="deposits/rejected" element={<RejectedDeposits />} />

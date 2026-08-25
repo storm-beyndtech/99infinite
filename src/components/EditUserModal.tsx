@@ -18,6 +18,13 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 	const [interest, setInterest] = useState(0);
 	const [trade, setTrade] = useState(0);
 	const [bonus, setBonus] = useState(0);
+	// Referral overrides: "" means inherit the global programme setting
+	const [referralEnabled, setReferralEnabled] = useState<string>("inherit");
+	const [referralDepositPct, setReferralDepositPct] = useState<string>("");
+	const [referralActivityPct, setReferralActivityPct] = useState<string>("");
+	const [referralSignupBonus, setReferralSignupBonus] = useState<string>("");
+	const [referralEffective, setReferralEffective] = useState<any>(null);
+	const [savingReferral, setSavingReferral] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState<string | null>(null);
@@ -39,7 +46,45 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 		setInterest(userData.interest || 0);
 		setTrade(userData.trade || 0);
 		setBonus(userData.bonus || 0);
+
+		const program = userData.referralProgram || {};
+		setReferralEnabled(program.enabled === null || program.enabled === undefined ? "inherit" : String(program.enabled));
+		setReferralDepositPct(program.depositPercentage ?? "");
+		setReferralActivityPct(program.activityPercentage ?? "");
+		setReferralSignupBonus(program.signupBonus ?? "");
 	}, []);
+
+	const saveReferralSettings = async () => {
+		setError(null);
+
+		try {
+			setSavingReferral(true);
+			const token = localStorage.getItem("token");
+			const res = await fetch(`${url}/referrals/users/${userData._id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify({
+					enabled: referralEnabled === "inherit" ? null : referralEnabled === "true",
+					depositPercentage: referralDepositPct === "" ? null : Number(referralDepositPct),
+					activityPercentage: referralActivityPct === "" ? null : Number(referralActivityPct),
+					signupBonus: referralSignupBonus === "" ? null : Number(referralSignupBonus),
+				}),
+			});
+			const data = await res.json();
+
+			if (!res.ok) throw new Error(data.message);
+
+			setReferralEffective(data.effective);
+			setSuccess(data.message || "Referral settings updated");
+		} catch (err: any) {
+			setError(err.message);
+		} finally {
+			setSavingReferral(false);
+		}
+	};
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
@@ -326,6 +371,108 @@ export default function EditUserModal({ userData, handleUserData }: any) {
 								/>
 							</div>
 						</div>
+
+						{/* Referral programme override for this user */}
+						<div className="pt-4 border-t dark:border-gray-900">
+							<div className="flex items-center justify-between mb-3">
+								<h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+									Referral Programme
+								</h4>
+								<button
+									type="button"
+									onClick={saveReferralSettings}
+									disabled={savingReferral}
+									className="text-xs font-medium text-blue-600 dark:text-blue-500 hover:underline disabled:opacity-50"
+								>
+									{savingReferral ? "Saving..." : "Save referral settings"}
+								</button>
+							</div>
+
+							<p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+								Leave a field blank to inherit the global programme defaults.
+							</p>
+
+							<div className="grid grid-cols-6 gap-6">
+								<div className="col-span-6 sm:col-span-3">
+									<label htmlFor="referral-enabled" className="editUserLabel">
+										Availability
+									</label>
+									<select
+										id="referral-enabled"
+										value={referralEnabled}
+										onChange={(e) => setReferralEnabled(e.target.value)}
+										className="editUserInput"
+									>
+										<option value="inherit">Inherit global setting</option>
+										<option value="true">Enabled for this user</option>
+										<option value="false">Disabled for this user</option>
+									</select>
+								</div>
+
+								<div className="col-span-3 sm:col-span-1">
+									<label htmlFor="referral-deposit-pct" className="editUserLabel">
+										Deposit %
+									</label>
+									<input
+										id="referral-deposit-pct"
+										type="number"
+										min={0}
+										max={100}
+										step="0.1"
+										value={referralDepositPct}
+										onChange={(e) => setReferralDepositPct(e.target.value)}
+										className="editUserInput"
+										placeholder="inherit"
+									/>
+								</div>
+
+								<div className="col-span-3 sm:col-span-1">
+									<label htmlFor="referral-activity-pct" className="editUserLabel">
+										Activity %
+									</label>
+									<input
+										id="referral-activity-pct"
+										type="number"
+										min={0}
+										max={100}
+										step="0.1"
+										value={referralActivityPct}
+										onChange={(e) => setReferralActivityPct(e.target.value)}
+										className="editUserInput"
+										placeholder="inherit"
+									/>
+								</div>
+
+								<div className="col-span-3 sm:col-span-1">
+									<label htmlFor="referral-signup-bonus" className="editUserLabel">
+										Signup $
+									</label>
+									<input
+										id="referral-signup-bonus"
+										type="number"
+										min={0}
+										step="0.01"
+										value={referralSignupBonus}
+										onChange={(e) => setReferralSignupBonus(e.target.value)}
+										className="editUserInput"
+										placeholder="inherit"
+									/>
+								</div>
+							</div>
+
+							{referralEffective && (
+								<p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+									Now applying:{" "}
+									<strong className="text-gray-900 dark:text-white">
+										{referralEffective.enabled ? "enabled" : "disabled"}
+									</strong>{" "}
+									· {referralEffective.depositPercentage}% deposit ·{" "}
+									{referralEffective.activityPercentage}% activity · $
+									{referralEffective.signupBonus} signup
+								</p>
+							)}
+						</div>
+
 						{error && <Alert type="danger" message={error} />}
 						{success && <Alert type="success" message={success} />}
 					</div>
